@@ -4,7 +4,7 @@ package Learn.A;
  * @Classname Learn011
  * @Date 2020/2/21 22:47
  * @Created by Falling Stars
- * @Description
+ * @Description final关键字
  */
 public class Learn11 {
 
@@ -19,7 +19,13 @@ public class Learn11 {
     }
 
     public static void main(String[] args) {
+        sum(1, 2);
+    }
 
+    // final修饰的方法形参，不能在方法中再次被赋值
+    public static void sum(int x, final int y) {
+        x = 0;
+        //y = 0;//y不能重新被赋值
     }
 
 
