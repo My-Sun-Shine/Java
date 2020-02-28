@@ -1,5 +1,7 @@
 package Learn.B;
 
+import java.util.Objects;
+
 /**
  * @Classname Learn07
  * @Date 2020/2/25 20:59
@@ -76,6 +78,53 @@ class Person {
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
                 '}';
+    }
+
+    //自动生成
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age &&
+                Objects.equals(name, person.name) &&
+                Objects.equals(gender, person.gender);
+    }
+
+    /* 手写
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (obj == this)
+            return true;
+        if (getClass() != obj.getClass())
+            return false;
+        Person person = (Person) obj;
+        if (person.getAge() != this.age)
+            return false;
+
+        if (this.name == null) {
+            if (person.getName() != null)
+                return false;
+        } else {
+            if (!this.name.equals(person.getName()))
+                return false;
+        }
+
+        if (this.gender == null) {
+            if (person.getGender() != null)
+                return false;
+        } else {
+            if (!this.gender.equals(person.getGender()))
+                return false;
+        }
+        return true;
+    }*/
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, gender);
     }
 }
 
