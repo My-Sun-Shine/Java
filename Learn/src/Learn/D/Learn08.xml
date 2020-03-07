@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    在一个XML文档中；必须存在一个根目录标签（祖宗）
+    在这个文档其它的标签，只能是根目录标签的直接或则间接子标签
+
+    根目录标签（祖宗）：无父无兄弟
+
+    XML编程语言：可扩展标记语言
+    【可扩展】开发人员根据自己需要定位标签
+    XML本身没有预定义标签
+
+    HTML就是XML演化
+-->
+<School name="XXXX大学" address="大兴">
+    <Class name='软工一班'>
+        <Student name="mike" age="23"></Student>
+        <Student name="allen" age="26"></Student>
+    </Class>
+    <Class name="软工二班">
+        <Student name="tom" age="27"></Student>
+    </Class>
+
+</School>

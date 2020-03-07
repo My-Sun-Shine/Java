@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE web-app SYSTEM "web-app_2_3.dtd">
+<!-- 使用web-app_2_3.dtd进行约束 -->
+<web-app version="1.0">
+    <servlet>
+        <servlet-name>(标签名):这个标签必须在父标签出现，只能出现一次</servlet-name>
+        <servlet-class>(标签名1|标签名2):这两个标签，只有一个标签可以出现在父标签</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>(标签名):这个标签必须在父标签出现，只能出现一次</servlet-name>
+        <description>(标签名?): 子标签在父标签只能出现0或1次</description>
+        <jsp-file>(标签名1|标签名2):这两个标签，只有一个标签可以出现在父标签</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>hello</servlet-name>
+        <url-pattern>one</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>world</servlet-name>
+        <url-pattern>two</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>(标签名+): 子标签在父标签中至少出现一次</welcome-file>
+        <welcome-file>(标签名+): 子标签在父标签中至少出现一次</welcome-file>
+        <welcome-file>(标签名+): 子标签在父标签中至少出现一次</welcome-file>
+    </welcome-file-list>
+</web-app>

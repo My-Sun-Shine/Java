@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	使用DTD文档前，必须将以下代码导入到目标文件：
+	<!DOCTYPE web-app SYSTEM "web-app_2_3.dtd">
+	
+	1.ELEMENT:定义在当前xml文档允许出现的标签
+
+	2.ATTLIST：定义某一个标签允许出现属性
+
+	3.() : 定义当前父标签下允许出现的子标签
+	       定义子标签出现顺序
+	              
+	4.(#PCDATA):当前标签没有子标签
+	            在这个标签可以填写文字内容
+	                          
+	5.(标签名?): 子标签在父标签可以出现也可以不出现
+	            子标签如果在父标签中出现，只能出现一次
+	            只能出现0或1次
+	                         
+	6.(标签名*): 子标签在父标签可以出现也可以不出现。
+	            子标签如果在父标签中出现,可以出现多次
+	            可以出现任意次
+	
+	7.(标签名+): 子标签在父标签中至少出现一次
+	            至少出现1次
+	
+	8.(标签名1|标签名2):这两个标签，只有一个标签可以出现在父标签
+	
+	9.(标签名):这个标签必须在父标签出现，只能出现一次
+-->
+<!ELEMENT web-app (servlet*,servlet-mapping* , welcome-file-list?) >
+<!ELEMENT servlet (servlet-name,description?,(servlet-class|jsp-file))>
+<!ELEMENT servlet-mapping (servlet-name,url-pattern) >
+<!ELEMENT servlet-name (#PCDATA)>
+<!ELEMENT servlet-class (#PCDATA)>
+<!ELEMENT url-pattern (#PCDATA)>
+
+<!ELEMENT welcome-file-list (welcome-file+)>
+<!ELEMENT welcome-file (#PCDATA)>
+
+<!ATTLIST web-app version CDATA #IMPLIED>
+
+
+
+
+
+
+
