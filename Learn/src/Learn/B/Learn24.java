@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
  * @Classname Learn24
  * @Date 2020/2/28 14:57
  * @Created by Falling Stars
- * @Description Properties集合操作
+ * @Description Properties集合操作，配置文件读取
  */
 public class Learn24 {
     public static void main(String[] args) throws IOException {
