@@ -3,6 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    <listener>
+        <listener-class>C.Listener01</listener-class>
+    </listener>
+    <listener>
+        <listener-class>C.Listener02</listener-class>
+    </listener>
     <servlet>
         <servlet-name>AServlet01</servlet-name>
         <servlet-class>A.Servlet01</servlet-class>
