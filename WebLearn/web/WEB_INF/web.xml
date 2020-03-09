@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+         version="4.0">
+    <servlet>
+        <servlet-name>AServlet01</servlet-name>
+        <servlet-class>A.Servlet01</servlet-class>
+        <load-on-startup>500</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AServlet01</servlet-name>
+        <url-pattern>/A/Servlet01</url-pattern>
+        <!--<url-pattern>/abc/*</url-pattern>-->
+        <!--<url-pattern>*.do</url-pattern>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    </servlet-mapping>
+    <!--
+      http://localhost:8080/A/Servlet01
+
+      Tomcat到web.xml定位/A/Servlet01
+            通过<servlet-mapping>了解[/A/Servlet01]是[AServlet01]
+            通过<servlet>了解到[AServlet01]是[A.Servlet01]
+
+      Tomcat就会根据浏览器发送的请求方式，调用Servlet01中doGet/doPost提供服务
+
+      四种Servlet实现类的请求路径写法
+
+      1.具体请求路径
+      <url-pattern>/A/Servlet01</url-pattern>
+      使用http://localhost:8080/A/Servlet01
+
+      2.前置条件路径
+      <url-pattern>/abc/*</url-pattern>
+      如果请求是以/abc/为开始的，就是http://localhost:8080/abc/后面可以加任意字符，或者不加
+
+      3.后置条件路径
+      <url-pattern>*.do</url-pattern>
+      使用.do结尾的路径，是http://localhost:8080/abc.do或者http://localhost:8080/abc.do?a=00
+
+      4.通配符路径
+      <url-pattern>/*</url-pattern>
+      对于当前网站中所有资源文件的请求，都要交给当前Servlet来处理，路径可以是任意路径
+
+      Servlet实现类的4中请求路径优先级 ==> 对于同一个URL路径的匹配规则的优先级
+      [具体请求路径] > [前置条件请求路径] > [通配符请求路径] > [后置条件请求路径]
+   -->
+    <servlet>
+        <servlet-name>AServlet02</servlet-name>
+        <servlet-class>A.Servlet02</servlet-class>
+        <load-on-startup>50</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AServlet02</servlet-name>
+        <url-pattern>/A/Servlet02</url-pattern>
+    </servlet-mapping>
+
+    <!--Tomcat当前网站的默认路径，设置配置文件-->
+    <welcome-file-list>
+        <welcome-file>Web01.html</welcome-file>
+    </welcome-file-list>
+    <!--
+    如果不去设置<welcome-file-list>，只需要将某一个文件名字变为【index.html,index.jsp,index.htm】
+
+    原理：Tomcat接收到默认请求时，
+        首先到当前工程中web.xml寻找默认配置表标签<welcome-file-list>
+        如果在当前工程中web.xml没有找到这个标签
+        此时Tomcat就会到自己conf文件下找自己的web.xml
+        寻找默认资源信息
+
+    默认欢迎资源选择：理论来说，只要这个资源可以将一个页面推送到用户浏览器上
+    那么这个资源就可以作为【默认欢迎资源】-->
+
+</web-app>
