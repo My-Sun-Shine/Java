@@ -97,4 +97,18 @@
         <!--数字以分钟为单位，必须是整数-->
         <session-timeout>1</session-timeout>
     </session-config>
+
+    <!--同时通知Tomcat这个过滤器Filter对何种请求进行【拦截检查】-->
+    <filter>
+        <filter-name>BFilter01</filter-name>
+        <filter-class>B.Filter01</filter-class>
+    </filter>
+    <!--让Filter可以保护多种资源文件
+    Filter既可以保护html,又可以保护图片-->
+    <filter-mapping>
+        <filter-name>BFilter01</filter-name>
+        <url-pattern>/Web06.html</url-pattern>
+        <url-pattern>*.png</url-pattern>
+    </filter-mapping>
+
 </web-app>
