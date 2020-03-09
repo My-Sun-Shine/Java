@@ -71,4 +71,24 @@
     默认欢迎资源选择：理论来说，只要这个资源可以将一个页面推送到用户浏览器上
     那么这个资源就可以作为【默认欢迎资源】-->
 
+    <!--在项目运行之前，可以将当前网站中所有Servlet需要的【共享数据】注册web.xml
+    ServletContext application =  request.getServletContext();
+	共享数据=application.getInitParameter("mysqlDriver");
+    -->
+    <context-param>
+        <param-name>mysqlDriver</param-name>
+        <param-value>com.mysql.jdbc.Driver</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysqlurl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/bjpow</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysqlusername</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysqlpassword</param-name>
+        <param-value>123456</param-value>
+    </context-param>
 </web-app>

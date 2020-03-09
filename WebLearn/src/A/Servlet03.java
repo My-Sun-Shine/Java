@@ -1,5 +1,6 @@
 package A;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,6 +22,10 @@ import java.util.Map;
  */
 @WebServlet(urlPatterns = "/A/Servlet03")
 public class Servlet03 extends HttpServlet {
+    private static String driver;
+    private static String url;
+    private static String username;
+    private static String password;
 
     /**
      * 1）HttpServletResponse接口继承于ServletResponse接口
@@ -38,6 +43,12 @@ public class Servlet03 extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletContext application = req.getServletContext();
+        driver = application.getInitParameter("mysqlDriver");
+        url = application.getInitParameter("mysqlurl");
+        username = application.getInitParameter("mysqlusername");
+        password = application.getInitParameter("mysqlpassword");
+
         //super.doGet(req, resp);
         System.out.println("doGet.........Servlet03");
 
@@ -87,8 +98,8 @@ public class Servlet03 extends HttpServlet {
         ResultSet rs = null;
         List<Map<String, String>> list = new ArrayList();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bjpow", "root", "123456");
+            Class.forName(driver);
+            conn = DriverManager.getConnection(url, username, password);
             String sql = "select * from dept";
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();

@@ -1,5 +1,6 @@
 package A;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +19,23 @@ import java.util.regex.Pattern;
  */
 @WebServlet(urlPatterns = "/A/Learn05")
 public class Servlet05 extends HttpServlet {
+    private static String driver;
+    private static String url;
+    private static String username;
+    private static String password;
+
+    public Servlet05(){
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ServletContext application = req.getServletContext();
+        driver = application.getInitParameter("mysqlDriver");
+        url = application.getInitParameter("mysqlurl");
+        username = application.getInitParameter("mysqlusername");
+        password = application.getInitParameter("mysqlpassword");
+
+
         //super.doGet(req, resp);
         String deptno = req.getParameter("deptNo");
         String dname = req.getParameter("dname");
@@ -42,8 +58,8 @@ public class Servlet05 extends HttpServlet {
         Connection conn = null;
         PreparedStatement ps = null;
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bjpow", "root", "123456");
+            Class.forName(driver);
+            conn = DriverManager.getConnection(url, username, password);
             String sql = "INSERT INTO dept(deptno,dname,loc) VALUES (?,?,?)";
             ps = conn.prepareStatement(sql);
             ps.setInt(1, Integer.valueOf(deptno));
