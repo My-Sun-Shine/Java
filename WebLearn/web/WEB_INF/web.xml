@@ -91,4 +91,10 @@
         <param-name>mysqlpassword</param-name>
         <param-value>123456</param-value>
     </context-param>
+
+    <!--方法一：为当前网站中所有的HttpSession对象设置一个默认的【最大空闲时间】-->
+    <session-config>
+        <!--数字以分钟为单位，必须是整数-->
+        <session-timeout>1</session-timeout>
+    </session-config>
 </web-app>

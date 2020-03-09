@@ -20,12 +20,15 @@ public class Servlet10 extends HttpServlet {
      * Cookie只能保存String类型数据
      * HTTPSession可以保存高级类型数据
      * <p>
+     * <p>
      * 【会话管理对象】将消耗服务端的内存
      * Tomcat考虑内存消耗问题，因此不会主动为当前用户创建【会话管理对象】
      * 只有用户访问的Servlet的向Tomcat索要当前用户的【会话管理对象】时，Tomcat才会为当前用户创建【会话管理对象】
      * <p>
+     * <p>
      * Tomcat在创建Session时，自动为这个Session创建一个【唯一编号】【sessionId】;
      * Tomcat偷偷将这个编号通过Cookie推送到用户的浏览器上
+     * <p>
      * <p>
      * 3)HttpSession销毁时机：
      * 在用户关闭浏览器时，此时只是切断用户与session的联系，但是Tomcat没法监控客户端的浏览器何时关闭
@@ -34,6 +37,9 @@ public class Servlet10 extends HttpServlet {
      * Tomcat会为每一个HttpSession设置一个【最大空闲时间】。
      * 如果发现当前HttpSession的空闲时间达到设置的上限，Tomcat认为当前用户已经放弃了HttpSession
      * 此时Tomcat才会销毁掉HttpSession.
+     * <p>
+     * <p>
+     * 网站中既有所有session默认的空闲时间(web.xml)，又有具体的session空闲时间(setMaxInactiveInterval)，此时以时间小为主
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -89,6 +95,10 @@ public class Servlet10 extends HttpServlet {
 
             //获取session
             HttpSession session = req.getSession();
+
+            //可以根据需求，为不同用户的HttpSession指定具体的【最大空闲时间】
+            session.setMaxInactiveInterval(100);
+
             System.out.println(session);
             //获取参数name
             String name = req.getParameter("name");
