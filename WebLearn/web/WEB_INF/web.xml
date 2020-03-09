@@ -111,7 +111,7 @@
         <url-pattern>*.png</url-pattern>
     </filter-mapping>
 
-    
+
     <filter>
         <filter-name>BFilter03</filter-name>
         <filter-class>B.Filter03</filter-class>
@@ -127,5 +127,14 @@
     <filter-mapping>
         <filter-name>BFilter02</filter-name>
         <url-pattern>/A/Servlet13</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>BFilter04</filter-name>
+        <filter-class>B.Filter04</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>BFilter04</filter-name>
+        <url-pattern>/A/Servlet14</url-pattern>
     </filter-mapping>
 </web-app>
