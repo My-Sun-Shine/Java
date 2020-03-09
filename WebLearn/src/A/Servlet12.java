@@ -20,11 +20,12 @@ public class Servlet12 extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.doGet(req, resp);
         HttpSession session = req.getSession();
-        System.out.println(session.getAttribute("key"));
+        System.out.println("Servlet11通过session传来的数据 " + session.getAttribute("key"));
 
         System.out.println("Servlet12的请求对象内存地址  " + req);
         System.out.println("Servlet12的到请求参数内容 " + req.getParameter("param"));
-
+        //接收request传过来的数据
+        System.out.println("Servlet11通过request传来的数据 " + req.getAttribute("request"));
         System.out.println("Servlet12 doGet");
     }
 

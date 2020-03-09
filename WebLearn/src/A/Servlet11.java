@@ -69,6 +69,9 @@ public class Servlet11 extends HttpServlet {
         System.out.println("Servlet11的请求对象内存地址  " + req);
         System.out.println("Servlet11的到请求参数内容 " + req.getParameter("param"));
 
+        //使用request进行共享数据，设置数据
+        req.setAttribute("request","request传来的数据");
+
         //请求转发
         req.getRequestDispatcher("/A/Servlet12").forward(req, resp);
     }
