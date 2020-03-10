@@ -63,7 +63,7 @@
 
     <!--Tomcat当前网站的默认路径，设置配置文件-->
     <welcome-file-list>
-        <welcome-file>Web01.html</welcome-file>
+        <welcome-file>/HTML/Web01.html</welcome-file>
     </welcome-file-list>
     <!--
     如果不去设置<welcome-file-list>，只需要将某一个文件名字变为【index.html,index.jsp,index.htm】
@@ -113,7 +113,7 @@
     Filter既可以保护html,又可以保护图片-->
     <filter-mapping>
         <filter-name>BFilter01</filter-name>
-        <url-pattern>/Web06.html</url-pattern>
+        <url-pattern>/HTML/Web06.html</url-pattern>
         <url-pattern>*.png</url-pattern>
     </filter-mapping>
 

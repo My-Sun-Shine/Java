@@ -88,7 +88,7 @@ public class Servlet10 extends HttpServlet {
                 }
             } else {
                 //重定向
-                resp.sendRedirect("/Web04.html");
+                resp.sendRedirect("/HTML/Web04.html");
             }
 
         } else {
@@ -113,7 +113,7 @@ public class Servlet10 extends HttpServlet {
             } else {
                 session.setAttribute(name, (int) num + 1);
             }
-            resp.sendRedirect("/Web04.html");
+            resp.sendRedirect("/HTML/Web04.html");
         }
 
 
