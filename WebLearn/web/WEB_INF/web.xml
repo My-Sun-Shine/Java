@@ -143,4 +143,10 @@
         <filter-name>BFilter04</filter-name>
         <url-pattern>/A/Servlet14</url-pattern>
     </filter-mapping>
+
+    <!--共享数据-->
+    <context-param>
+        <param-name>JSP08</param-name>
+        <param-value>共享数据</param-value>
+    </context-param>
 </web-app>
