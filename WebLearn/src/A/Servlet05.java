@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
  * @Created by Falling Stars
  * @Description HttpServletRequest接口的练习
  */
-@WebServlet(urlPatterns = "/A/Learn05")
+@WebServlet(urlPatterns = "/A/Servlet05")
 public class Servlet05 extends HttpServlet {
     private static String driver;
     private static String url;

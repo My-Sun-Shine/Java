@@ -1,17 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<script type="text/javascript">
+        function fun1() {
+            //创建异步请求对象 readyState=0
+            var xmlHttp = new XMLHttpRequest();
+
+            //为异步请求对象设置一个监听器，监控它的工作状态
+            xmlHttp.onreadystatechange = function (ev) {
+                //判断异步请求对象的工作状态十分是我们希望的工作状态
+                //readyState=3 :【异步请求对象】已经得到服务端返回的响应数据，【异步请求对象】正在对接收的数据进行转译（Java---JavaScript）
+                if (xmlHttp.readyState == 4) {
+                    //readyState=4 数据转换完毕
+                    //得到服务端返回的数据
+                    var data = xmlHttp.responseText;
+                    //将得到的数据更新到
+                    document.getElementById("myFont").innerText = data;
+                }
+            }
+
+            //初始异步请求对象
+            var param = document.getElementById("deptName").value;
+            //readyState=1
+	        //第一个参数是请求方式，第二个参数是URL
+	        //第三个参数为true，则是异步；为false，则是同步
+            xmlHttp.open("get", "/A/Servlet16?dname=" + param, false);
+
+            //通知异步请求对象，向服务端发送请求 readyState=2
+            xmlHttp.send();
+
+            //异步的时候，会直接执行下面语句
+	        //同步的时候，直到获取数据之后，才会执行
+            window.alert("数据请求中。。。。。。");
+        }
+	</script>
 </head>
 <body>
-<center>
-    <form action="/A/Learn05">
-        部门编号:<input type="text" name="deptNo"><br/>
-        部门名称:<input type="text" name="dname"><br/>
-        部门位置:<input type="text" name="loc"><br/>
-        <input type="submit" value="注册部门"/>
-    </form>
-</center>
+	<center>
+		<form action="/A/Servlet05">
+			部门编号:<input type="text" name="deptNo"><br/>
+			<!--onblur失去光标-->
+			部门名称:<input type="text" name="dname" id="deptName" onblur="fun1()">
+			<font color="red" id="myFont">*</font>
+			<br/>
+			部门位置:<input type="text" name="loc"><br/>
+			<input type="submit" value="注册部门"/>
+		</form>
+	</center>
 </body>
 </html>
