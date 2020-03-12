@@ -18,7 +18,7 @@ import java.util.List;
  * @Created by Falling Stars
  * @Description 查询所有dept
  */
-@WebServlet(urlPatterns = "/D/Servlet01")
+@WebServlet(urlPatterns = "/E/Servlet01")
 public class Servlet01 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

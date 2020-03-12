@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * @Created by Falling Stars
  * @Description 删除某一个dept
  */
-@WebServlet(urlPatterns = "/D/Servlet02")
+@WebServlet(urlPatterns = "/E/Servlet02")
 public class Servlet02 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -56,7 +56,7 @@ public class Servlet02 extends HttpServlet {
             resp.getWriter().write("delete failed");
         }
 
-        resp.sendRedirect("/D/Servlet01");
+        resp.sendRedirect("/E/Servlet01");
 
     }
 }

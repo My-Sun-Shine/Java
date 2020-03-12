@@ -20,7 +20,7 @@
         Dept dept = (Dept) request.getAttribute("dept");
     %>
     <center>
-        <form action="D/Servlet04">
+        <form action="E/Servlet04">
             <table border="2">
                 <!--
                      readOnly与disabled
@@ -48,7 +48,38 @@
 
             </table>
         </form>
+        <br/>
+        <hr/>
+        使用JSTL
+        <br/>
+        <form action="E/Servlet04">
+            <table border="2">
+                <!--
+                     readOnly与disabled
+                     1.readOnley修饰表单域标签，可以作为请求参数。可以获得光标
+                     2.disabled修饰表单域标签，没有机会作为请求参数，无法获得光标
+                 -->
+                <tr>
+                    <td>部门编号</td>
+                    <td><input type="text" name="deptno" value="${requestScope.dept.deptNo}" readOnly></td>
+                </tr>
+                <tr>
+                    <td>部门名称</td>
+                    <td><input type="text" name="dname" value="${requestScope.dept.dname}"></td>
+                </tr>
 
+                <tr>
+                    <td>部门位置</td>
+                    <td><input type="text" name="loc" value="${requestScope.dept.loc}"></td>
+                </tr>
+
+                <tr>
+                    <td><input type="submit" value="更新"/></td>
+                    <td><input type="reset"></td>
+                </tr>
+
+            </table>
+        </form>
     </center>
 </body>
 </html>

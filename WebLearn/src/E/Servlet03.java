@@ -16,7 +16,7 @@ import java.sql.*;
  * @Created by Falling Stars
  * @Description 查询某一个dept
  */
-@WebServlet(urlPatterns = "/D/Servlet03")
+@WebServlet(urlPatterns = "/E/Servlet03")
 public class Servlet03 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

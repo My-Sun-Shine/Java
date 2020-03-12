@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * @Created by Falling Stars
  * @Description 更新某一个dept
  */
-@WebServlet(urlPatterns = "/D/Servlet04")
+@WebServlet(urlPatterns = "/E/Servlet04")
 public class Servlet04 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -60,6 +60,6 @@ public class Servlet04 extends HttpServlet {
             resp.getWriter().write("Update failed");
         }
 
-        resp.sendRedirect("/D/Servlet01");
+        resp.sendRedirect("/E/Servlet01");
     }
 }
