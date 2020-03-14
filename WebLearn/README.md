@@ -1,0 +1,20 @@
+# Java Web
+<ul>
+<li>src文件夹下
+<ul>
+<li>A：Servlet文件夹，用于HTML文件请求</li>
+<li>B：Filter文件夹，用于过滤器</li>
+<li>C：Listener文件夹，用于监听器</li>
+<li>D：Class文件夹，用于类对象实现</li>
+<li>E：Servlet文件夹，用于JSP文件请求</li>
+</ul>
+</li>
+<li>web文件夹下
+<ul>
+<li>HTML：HTML文件夹</li>
+<li>JS：JavaScript文件夹</li>
+<li>JSP：JSP文件夹</li>
+<li>WEB_INF：配置文件夹，其中包含配置文件web.xml</li>
+</ul>
+</li>
+</ul>
