@@ -1,0 +1,20 @@
+# Java Web
+<ul>
+<li>src文件夹下
+<ul>
+<li>Models：Class文件夹</li>
+<li>Sevletr：Sevletr文件夹
+<ul>
+<li>JSP：用于JSP文件的请求</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>web文件夹下
+<ul>
+<li>JS：JavaScript文件夹</li>
+<li>JSP：JSP文件夹</li>
+<li>WEB_INF：配置文件夹，其中包含配置文件web.xml</li>
+</ul>
+</li>
+</ul>
