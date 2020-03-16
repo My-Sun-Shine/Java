@@ -1,7 +1,11 @@
 package com.Util;
 
 import java.sql.*;
+import java.util.Properties;
 import java.util.ResourceBundle;
+
+import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.pool.DruidDataSourceFactory;
 
 /**
  * @Classname DBUtil
@@ -12,6 +16,25 @@ import java.util.ResourceBundle;
 public class DBUtil {
     private DBUtil() {
 
+    }
+
+    private static Properties prop = new Properties();
+
+    //DataSource:数据源（数据库连接池）
+    //dds：数据源对象（数据库连接池对象）
+    //将来使用conn，直接从dds中取得即可
+    private static DruidDataSource dds = null;
+
+    static {
+        try {
+            //加载配置
+            prop.load(Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream("com/Util/config.properties"));
+            //通过连接池工厂创建连接池
+            dds = (DruidDataSource) DruidDataSourceFactory.createDataSource(prop);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static String Driver;
@@ -29,24 +52,24 @@ public class DBUtil {
      */
     private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
 
-    static {
+    /*static {
         try {
-            /*
-             * 驱动如何加载
-             * Class.forName("com.mysql.jdbc.Driver")
-             *
-             * 驱动加载几次?
-             * 服务器启动期间，加载一次即可
-             *
-             * 何时加载?
-             * 是在所有jdbc代码执行前，加载
-             */
+            *//*
+     * 驱动如何加载
+     * Class.forName("com.mysql.jdbc.Driver")
+     *
+     * 驱动加载几次?
+     * 服务器启动期间，加载一次即可
+     *
+     * 何时加载?
+     * 是在所有jdbc代码执行前，加载
+     *//*
             getConfig();
             Class.forName(Driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
 
     /**
@@ -59,8 +82,9 @@ public class DBUtil {
     public static Connection getConn() throws SQLException {
         Connection conn = threadLocal.get();
         if (conn == null) {
-            getConfig();
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            //getConfig();
+            //conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            conn = dds.getConnection();//获取连接池的连接
             threadLocal.set(conn);
         }
         return conn;
