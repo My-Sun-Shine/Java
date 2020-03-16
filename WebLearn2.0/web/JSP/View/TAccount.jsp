@@ -42,13 +42,12 @@
                     } else {
                         alert("转账失败");
                     }
-
-                    $(":text").val("");
                 },
                 error: function () {
                     alert("异常")
                 }
-            })
+            });
+            $(":text").val("");
         }
     </script>
 </head>

@@ -18,18 +18,18 @@ public class TAccountDaoImpl implements TAccountDao {
 
     /**
      * 查询账号是否存在
+     *
      * @param account
      * @return
      */
     @Override
-    public boolean checkAccount(String account) {
-        Connection conn = null;
+    public boolean checkAccount(String account, Connection conn) {
+        System.out.println("checkAccount：" + conn);
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select count(*) from t_account where account=?";
         boolean flag = true;
         try {
-            conn = DBUtil.getConn();
             ps = conn.prepareStatement(sql);
             ps.setString(1, account);
             rs = ps.executeQuery();
@@ -43,60 +43,60 @@ public class TAccountDaoImpl implements TAccountDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            DBUtil.close(conn, ps, rs);
+            DBUtil.close(null, ps, rs);
         }
         return flag;
     }
 
     /**
      * 根据账号取余额
+     *
      * @param account
      * @return
      */
     @Override
-    public int getBalanceByAccount(String account) {
-        Connection conn = null;
+    public int getBalanceByAccount(String account, Connection conn) {
+        System.out.println("getBalanceByAccount：" + conn);
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select balance from t_account where account=?";
         int balance = 0;
 
-        try{
-            conn = DBUtil.getConn();
+        try {
             ps = conn.prepareStatement(sql);
-            ps.setString(1,account);
+            ps.setString(1, account);
             rs = ps.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 balance = rs.getInt(1);
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
-            DBUtil.close(conn, ps, rs);
+        } finally {
+            DBUtil.close(null, ps, rs);
         }
         return balance;
     }
 
     /**
      * 根据账号更余额
+     *
      * @param account
      * @param balance
      */
     @Override
-    public void updateBalanceByAccount(String account, int balance) {
-        Connection conn = null;
+    public void updateBalanceByAccount(String account, int balance, Connection conn) {
+        System.out.println("updateBalanceByAccount：" + conn);
         PreparedStatement ps = null;
         String sql = "update t_account set balance=? where account=?";
-        try{
-            conn = DBUtil.getConn();
+        try {
             ps = conn.prepareStatement(sql);
-            ps.setInt(1,balance);
+            ps.setInt(1, balance);
             ps.setString(2, account);
             ps.executeUpdate();
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
-            DBUtil.close(conn, ps, null);
+        } finally {
+            DBUtil.close(null, ps, null);
         }
     }
 }
