@@ -11,25 +11,25 @@ import java.sql.Connection;
 public interface TAccountDao {
     /**
      * 查询账号是否存在
+     *
      * @param account
-     * @poram conn
      * @return
      */
-    boolean checkAccount(String account, Connection conn);
+    boolean checkAccount(String account);
 
     /**
      * 根据账号取余额
+     *
      * @param account
-     * @poram conn
      * @return
      */
-    int getBalanceByAccount(String account, Connection conn);
+    int getBalanceByAccount(String account);
 
     /**
      * 根据账号更余额
+     *
      * @param account
      * @param balance
-     * @poram conn
      */
-    void updateBalanceByAccount(String account, int balance, Connection conn);
+    void updateBalanceByAccount(String account, int balance);
 }

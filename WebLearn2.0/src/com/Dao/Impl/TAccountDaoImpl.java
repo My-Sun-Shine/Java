@@ -23,13 +23,15 @@ public class TAccountDaoImpl implements TAccountDao {
      * @return
      */
     @Override
-    public boolean checkAccount(String account, Connection conn) {
-        System.out.println("checkAccount：" + conn);
+    public boolean checkAccount(String account) {
+        Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select count(*) from t_account where account=?";
         boolean flag = true;
         try {
+            conn = DBUtil.getConn();
+            System.out.println("checkAccount：" + conn);
             ps = conn.prepareStatement(sql);
             ps.setString(1, account);
             rs = ps.executeQuery();
@@ -55,14 +57,16 @@ public class TAccountDaoImpl implements TAccountDao {
      * @return
      */
     @Override
-    public int getBalanceByAccount(String account, Connection conn) {
-        System.out.println("getBalanceByAccount：" + conn);
+    public int getBalanceByAccount(String account) {
+        Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         String sql = "select balance from t_account where account=?";
         int balance = 0;
 
         try {
+            conn = DBUtil.getConn();
+            System.out.println("getBalanceByAccount：" + conn);
             ps = conn.prepareStatement(sql);
             ps.setString(1, account);
             rs = ps.executeQuery();
@@ -84,11 +88,13 @@ public class TAccountDaoImpl implements TAccountDao {
      * @param balance
      */
     @Override
-    public void updateBalanceByAccount(String account, int balance, Connection conn) {
-        System.out.println("updateBalanceByAccount：" + conn);
+    public void updateBalanceByAccount(String account, int balance) {
+        Connection conn = null;
         PreparedStatement ps = null;
         String sql = "update t_account set balance=? where account=?";
         try {
+            conn = DBUtil.getConn();
+            System.out.println("updateBalanceByAccount：" + conn);
             ps = conn.prepareStatement(sql);
             ps.setInt(1, balance);
             ps.setString(2, account);

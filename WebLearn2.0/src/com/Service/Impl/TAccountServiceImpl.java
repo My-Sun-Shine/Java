@@ -42,23 +42,23 @@ public class TAccountServiceImpl implements TAccountService {
             conn.setAutoCommit(false);
 
             // (1)查询转出账号有没有
-            if (TAccountDao.checkAccount(outAccount, conn)) {
+            if (TAccountDao.checkAccount(outAccount)) {
                 System.out.println("转出账号存在");
                 //(2)查询转入账号有没有
-                if (TAccountDao.checkAccount(intoAccount, conn)) {
+                if (TAccountDao.checkAccount(intoAccount)) {
                     System.out.println("转入账号存在");
                     //(3)根据转出账号取出转出账号余额,看看钱够不够
-                    int zcBalance = TAccountDao.getBalanceByAccount(outAccount, conn);
+                    int zcBalance = TAccountDao.getBalanceByAccount(outAccount);
                     System.out.println("转出账号余额:" + zcBalance);
                     if (zcBalance >= Balance) {
                         //(4)更新转出账号余额(扣钱)
-                        TAccountDao.updateBalanceByAccount(outAccount, zcBalance - Balance, conn);
+                        TAccountDao.updateBalanceByAccount(outAccount, zcBalance - Balance);
                         System.out.println("更新转出账号余额(扣钱)");
                         //(5)根据转入账号取出转入账号余额
-                        int zrBalance = TAccountDao.getBalanceByAccount(intoAccount, conn);
+                        int zrBalance = TAccountDao.getBalanceByAccount(intoAccount);
                         System.out.println("转入账号取出转入账号余额");
                         //(6)更新转入账号余额(加钱)
-                        TAccountDao.updateBalanceByAccount(intoAccount, zrBalance + Balance, conn);
+                        TAccountDao.updateBalanceByAccount(intoAccount, zrBalance + Balance);
                         System.out.println("更新转入账号余额(加钱)");
                         result = true;
                     }

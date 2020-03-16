@@ -19,9 +19,18 @@ public class DBUtil {
     private static String USER;
     private static String PASSWORD;
 
+    /**
+     * ThreadLocal是一种基于当前线程安全的存取机制
+     * 将所需值存放到ThreadLocal对象中之后，只要当前线程还在，那么就可以取得ThreadLocal对象里面保存的内容
+     * <p>
+     * set(值)：存值
+     * get():取值
+     * remove():移除值
+     */
+    private static ThreadLocal<Connection> threadLocal = new ThreadLocal<>();
+
     static {
         try {
-
             /*
              * 驱动如何加载
              * Class.forName("com.mysql.jdbc.Driver")
@@ -41,18 +50,25 @@ public class DBUtil {
 
 
     /**
-     * 取得连接
+     * 当threadLocal中有conn时，直接取出
+     * 当threadLocal没有conn时，创建conn，并保存到threadLocal中
+     *
      * @return
      * @throws SQLException
      */
     public static Connection getConn() throws SQLException {
-        getConfig();
-        Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        Connection conn = threadLocal.get();
+        if (conn == null) {
+            getConfig();
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            threadLocal.set(conn);
+        }
         return conn;
     }
 
     /**
      * 关闭资源
+     *
      * @param conn
      * @param ps
      * @param rs
@@ -80,6 +96,16 @@ public class DBUtil {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
+
+            /*
+             * tomcat以及我们常用web服务器，自带线程池
+             * 线程池中的线程用完不销毁（回到线程池中），里面的值一直在
+             * 所以必须手动remove
+             *
+             * 连接池：conn用完后，回到连接池中，conn也还在
+             *
+             */
+            threadLocal.remove();
         }
     }
 
