@@ -3,6 +3,8 @@ package com.Controller;
 import com.Service.Impl.TAccountServiceImpl;
 import com.Service.Impl.TAccountServiceProxy;
 import com.Service.TAccountService;
+import com.Util.ServiceFactory;
+import com.Util.TransactionInvocationHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,9 +32,34 @@ public class TAccountController extends HttpServlet {
         String intoAccount = request.getParameter("intoAccount");//转入账号
         String BalanceStr = request.getParameter("Balance");//金额
 
-        TAccountServiceImpl accountServiceImpl = new TAccountServiceImpl();
+        //普通代理
+        /*TAccountServiceImpl accountServiceImpl = new TAccountServiceImpl();
         TAccountService accountService=new TAccountServiceProxy(accountServiceImpl);
-        boolean result = accountService.tAccount(outAccount, intoAccount, BalanceStr);
+        boolean result = accountService.tAccount(outAccount, intoAccount, BalanceStr);*/
+
+        /*
+         * 动态代理
+         * 先创建TAccountServiceImpl对象
+         * 然后创建代理对象
+         * 在使用代理对象(执行事务)
+         * */
+        /*TAccountServiceImpl accountServiceImpl = new TAccountServiceImpl();
+        TransactionInvocationHandler handler = new TransactionInvocationHandler(accountServiceImpl);
+        Object proxy = handler.getProxy();//这相当于TAccountServiceProxy，但这是Object类型，需要禁止转换
+        TAccountService accountService = (TAccountService) proxy;
+        boolean result = accountService.tAccount(outAccount, intoAccount, BalanceStr);*/
+
+
+        /*
+        * 使用ServiceFactory
+        * */
+        TAccountServiceImpl accountServiceImpl = new TAccountServiceImpl();
+        //这相当于TAccountServiceProxy，但这是Object类型，需要禁止转换
+        TAccountService proxy = (TAccountService)ServiceFactory.getService(accountServiceImpl);
+        System.out.println(proxy);
+        boolean result = proxy.tAccount(outAccount, intoAccount, BalanceStr);
+
+
         PrintWriter writer = response.getWriter();
         writer.print(result);
         writer.close();
