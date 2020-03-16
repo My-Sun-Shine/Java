@@ -1,8 +1,7 @@
 package com.Controller;
 
-import com.Dao.Impl.TAccountDaoImpl;
-import com.Dao.TAccountDao;
 import com.Service.Impl.TAccountServiceImpl;
+import com.Service.Impl.TAccountServiceProxy;
 import com.Service.TAccountService;
 
 import javax.servlet.ServletException;
@@ -31,8 +30,8 @@ public class TAccountController extends HttpServlet {
         String intoAccount = request.getParameter("intoAccount");//转入账号
         String BalanceStr = request.getParameter("Balance");//金额
 
-        TAccountService accountService = new TAccountServiceImpl();
-
+        TAccountServiceImpl accountServiceImpl = new TAccountServiceImpl();
+        TAccountService accountService=new TAccountServiceProxy(accountServiceImpl);
         boolean result = accountService.tAccount(outAccount, intoAccount, BalanceStr);
         PrintWriter writer = response.getWriter();
         writer.print(result);
