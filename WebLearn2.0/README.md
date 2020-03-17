@@ -18,3 +18,19 @@
 </ul>
 </li>
 </ul>
+
+# 转账项目
+<ul>
+<li>src文件夹
+<ul>
+<li>com.Controller：控制器</li>
+<li>com.Dao：数据库交互</li>
+<li>com.Service：业务层</li>
+<li>com.Util：数据库连接，动态代理</li>
+</ul>
+<li>web文件夹下
+<ul>
+<li>View：视图</li>
+</ul>
+</li>
+</ul>
