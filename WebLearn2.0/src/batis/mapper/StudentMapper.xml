@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    namespace命名空间，是用来区分不同的映射文件
+    不同的mapper映射文件中，namespace是不能重名的，但是SQL的id可以重名
+-->
+<mapper namespace="batis.student">
+    <!--
+        parameterType：参数类型
+        resultType：返回值类型
+    -->
+    <select id="getById" parameterType="java.lang.String" resultType="batis.domain.Student">
+        SELECT * FROM tbl_student WHERE id=#{id}
+    </select>
+</mapper>
