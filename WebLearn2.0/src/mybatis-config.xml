@@ -3,21 +3,86 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <!--3.properties：加载数据库的属性文件，在四个参数上直接使用${}传递参数-->
+    <properties resource="db.properties"/>
+
+    <!--settings
+    设置程序与数据库关联的基本信息，这种设置主要是为了提高程序访问数据库的效率
+    比如一级缓存，二级缓存，加载策略等等等等。。。
+    但是，在实际项目开发中，对于该属性，根本就不用
+
+    如果对于settings进行设置，有可能会导致程序与数据库的交互的效率（整体效率会降低）
+
+    我们为什么不用settings
+    如果数据库表中的数据量较大，程序的业务逻辑比较复杂（对于较大型的项目），你设置settings也没用（效果可以忽略不计）
+    如果数据库表中的数据量较小，程序的业务逻辑比较简单（对于小型项目），就没有必要设计settings
+    -->
+    <!--
+    <settings>
+        <setting name="" value=""/>
+    </settings>
+    -->
+
+    <!--
+    5.typeAliases：为mapper映射文件中的domain，起别名（因为使用全限定名比较长比较负责）
+        注意：未来如果用，就用批量起别名
+    -->
+    <typeAliases>
+        <!--
+        单独起别名的方式
+        type:起别名的类
+        alias：起的别名-->
+        <!--<typeAlias type="batis02.domain.Student" alias="stu"/>-->
+        <!--
+        批量起别名的方式
+            name：配置需要批量起别名的包结构，在指定的包下，所有的domain都自动起了别名，别名为domain的名字/domain的名字首字母小写
+        -->
+        <package name="batis02.domain"/>
+    </typeAliases>
+
     <!--连接数据库环境设置-->
+    <!--1.environments：连接数据库环境设置(加载驱动，连接信息)-->
     <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/bjpow"/>
-                <property name="username" value="root"/>
-                <property name="password" value="123456"/>
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
             </dataSource>
         </environment>
     </environments>
+    <!--2.mappers：mapper映射文件的注册中心，注意：未来使用批量注册的形式-->
     <mappers>
         <!--mapper映射文件的注册中心-->
         <mapper resource="batis/mapper/StudentMapper.xml"/>
-        <mapper resource="batis02/mapper/StudentMapper.xml"/>
+        <!--<mapper resource="batis02/mapper/StudentMapper.xml"/>-->
+
+        <!--
+        下列操作必须使用dao层的动态代理的开发规则
+        注意mapper.xml文件名称必须和接口名称一样，否则会报错，且必须与StudentDao在同一个包下
+        -->
+        <!--class形式进行注册-->
+        <!--<mapper class="batis02.dao.StudentDao"/>-->
+
+        <!--批量注册mapper映射文件：指定的包下的所有的mapper映射文件自动注册进入到主配置文件中-->
+        <package name="batis02.dao" />
     </mappers>
+
+
 </configuration>
+        <!--
+            引入配置文件（xml），属性文件（properties）等，用/，后缀名不能省略（.xml和.properties不能省略）
+            引入java类，用.，后缀名一定要省略（.java）
+        -->
+
+        <!--
+            如果数据库表中的数据量较大，程序的业务逻辑比较复杂（对于较大型的项目）
+            如何去提高查询效率呢？
+            (1) 基础技术：sql语句的调优(加入索引)
+            (2) 主流技术：缓存数据库（nosql）：redis
+            (3) 高级技术：使用专业的搜索引擎（专门应对电商项目）
+                        solr、apache、elasticsearch
+                        从查询效率上看，elasticsearch全方位秒杀solr
+        -->
