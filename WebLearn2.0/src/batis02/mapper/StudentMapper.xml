@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    namespace命名空间，是用来区分不同的映射文件
+    不同的mapper映射文件中，namespace是不能重名的，但是SQL的id可以重名
+-->
+<!--
+    1. 在Mapper.xml中将namespace设置为StudentDao.java接口的全限定名
+    2. 将Mapper.xml中statement的id和StudentDao.java接口的方法名保持一致
+    3. 将Mapper.xml中statement的parameterType和StudentDao.java接口的方法输入参数类型保持一致
+    4. 将Mapper.xml中statement的resultType和StudentDao.java接口的方法输出结果类型保持一致
+    5. 注意结合业务层动态代理提交事务
+    -->
+<mapper namespace="batis02.dao.StudentDao">
+    <!--
+        parameterType：参数类型
+        resultType：返回值类型
+    -->
+    <select id="getById" parameterType="java.lang.String" resultType="batis02.domain.Student">
+        SELECT * FROM tbl_student WHERE id=#{id}
+    </select>
+
+    <!--如果返回的是多条，返回值类型需要写List的泛型-->
+    <select id="getList" resultType="batis02.domain.Student">
+        SELECT * FROM tbl_student
+    </select>
+
+    <!--添加修改删除，填写id即可-->
+    <insert id="insert">
+        INSERT INTO  tbl_student(id,name,age) VALUES (#{id},#{name},#{age})
+    </insert>
+    <update id="update">
+        UPDATE tbl_student SET name=#{name},age=#{age} WHERE id=#{id}
+    </update>
+    <update id="delete">
+        DELETE FROM tbl_student  WHERE id=#{id}
+    </update>
+</mapper>

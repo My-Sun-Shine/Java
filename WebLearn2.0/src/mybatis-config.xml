@@ -18,5 +18,6 @@
     <mappers>
         <!--mapper映射文件的注册中心-->
         <mapper resource="batis/mapper/StudentMapper.xml"/>
+        <mapper resource="batis02/mapper/StudentMapper.xml"/>
     </mappers>
 </configuration>
