@@ -3,6 +3,7 @@ package batis02.dao;
 import batis02.domain.Student;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Classname TStudentDao
@@ -53,4 +54,30 @@ public interface StudentDao {
      * @return
      */
     List<Student> getList();
+
+    Student select1(String s);
+
+    List<Student> select2(int i);
+
+    Student select3(Student s);
+
+    Student select4(Map<String, Object> map);
+
+    Student select5(String s);
+
+    List<Student> select6(String a);
+
+    List<Student> select7(String a);
+
+    List<Student> select8(String s);
+
+    int select9();
+
+    Student select10(String a);
+
+    List<Map<String,Object>> select11();
+
+    List<Student> select12();
+
+    List<Student> select13();
 }

@@ -21,10 +21,10 @@
     -->
     <!--方法3：批量起别名的方式 <package name="batis02.domain"/> -->
     <select id="getById" parameterType="java.lang.String" resultType="Student">
-    <!--方法2：单独起别名的方式 <typeAlias type="batis02.domain.Student" alias="stu"/> -->
-    <!--<select id="getById" parameterType="java.lang.String" resultType="stu">-->
-    <!--方法1：不使用别名-->
-    <!--<select id="getById" parameterType="java.lang.String" resultType="batis02.domain.Student">-->
+        <!--方法2：单独起别名的方式 <typeAlias type="batis02.domain.Student" alias="stu"/> -->
+        <!--<select id="getById" parameterType="java.lang.String" resultType="stu">-->
+        <!--方法1：不使用别名-->
+        <!--<select id="getById" parameterType="java.lang.String" resultType="batis02.domain.Student">-->
         SELECT * FROM tbl_student WHERE id=#{id}
     </select>
 
@@ -43,4 +43,110 @@
     <update id="delete">
         DELETE FROM tbl_student  WHERE id=#{id}
     </update>
+
+    <!-- 基本数据类型以及常用的引用类型，MyBatis已经自动的为我们起好了别名-->
+    <select id="select1" parameterType="String" resultType="Student">
+        select * from tbl_student where id=#{id}
+    </select>
+
+    <!--返回多条记录，resultType设置为集合的泛型-->
+    <select id="select2" parameterType="int" resultType="Student">
+        SELECT * FROM tbl_student WHERE age=#{age}
+    </select>
+
+    <!--参数为Student引用数据类型，#{}中的标识符必须是引用类型的属性名（不能随便写）-->
+    <select id="select3" parameterType="Student" resultType="Student">
+        select * from tbl_student where id=#{id}
+    </select>
+
+    <!--使用map类型为参数，#{}中的标识符必须是map中的key（通过key取真正的value参数值）-->
+    <select id="select4" parameterType="map" resultType="Student">
+        select * from tbl_student where name=#{name123} and age=#{age1}
+    </select>
+
+    <!--使用${}接收基本数据类型的参数，里面的标识符必须是value，注意加引号-->
+    <select id="select5" parameterType="string" resultType="Student">
+        select * from tbl_student where id='${value}'
+    </select>
+
+    <!--使用${}和#{} 执行like模糊查询-->
+    <select id="select6" parameterType="string" resultType="Student">
+        select * from tbl_student where name LIKE '%${value}%'
+    </select>
+
+    <select id="select7" parameterType="string" resultType="Student">
+        select * from tbl_student where name LIKE #{value}
+    </select>
+
+    <!--注意带有空格-->
+    <select id="select8" parameterType="string" resultType="Student">
+        select * from tbl_student where name LIKE '%' #{value} '%'
+    </select>
+
+    <select id="select9" resultType="int">
+        SELECT COUNT(*) FROM tbl_student
+    </select>
+
+    <select id="select10" parameterType="string" resultType="Student">
+        SELECT * FROM tbl_student WHERE id=#{id}
+    </select>
+
+    <!--
+    返回map：
+    查询的字段信息为map中的key，查询的值为map中的value
+    查询第1条记录  A0001，大娃，10
+    mybatis自动为我们创建一个map1，map1来存储 A0001，大娃，10
+        map1.put("id","A0001")
+  	    map1.put("name","大娃")
+  	    map1.put("age",10)
+
+    查询第2条记录  A0002，二娃，20
+    mybatis自动为我们创建一个map2，map2来存储 A0001，二娃，20
+        map2.put("id","A0002")
+  	    map2.put("name","lh")
+  		map2.put("age",24)
+  	...n
+
+  		list.add(map1)
+  		list.add(map2)
+
+  	对于该sql语句需要使用map
+  	select count(*),name from tbl_student group by name
+    -->
+    <select id="select11" resultType="map">
+        SELECT id,name,age FROM tbl_student
+    </select>
+
+    <!--为字段取得别名就是类中的属性名，就可以接收到值-->
+    <select id="select12" resultType="Student">
+        SELECT id,fullname AS name,age FROM tbl_student1
+    </select>
+    <!--
+    resultMap标签的作用，是为了对数据库表字段与类属性的命名一一匹配
+       id:为resultMap做唯一标识
+       type：我们要匹配的类，要求全限定名
+       -->
+    <resultMap id="stuMap" type="Student">
+        <!--
+        column:表字段
+        property:类属性
+        -->
+        <!-- id是用来对主键进行匹配的 -->
+        <id column="id" property="id"/>
+        <!-- result是用来对普通字段进行匹配的 -->
+        <result column="fullname" property="name"/>
+        <result column="age" property="age"/>
+    </resultMap>
+    <select id="select13" resultMap="stuMap">
+        SELECT * FROM tbl_student1
+    </select>
+
 </mapper>
+        <!--
+        使用select标签
+            parameterType可以省略不写
+            resultType绝对不能省略
+        使用insert、update、delete
+            parameterType可以省略不写
+            resultType没有这个属性，就更不用写了
+        -->
