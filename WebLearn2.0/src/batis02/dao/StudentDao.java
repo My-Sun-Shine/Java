@@ -1,6 +1,7 @@
 package batis02.dao;
 
 import batis02.domain.Student;
+import batis02.vo.StudentClassroomVo;
 
 import java.util.List;
 import java.util.Map;
@@ -80,4 +81,16 @@ public interface StudentDao {
     List<Student> select12();
 
     List<Student> select13();
+
+    List<Student> select14(Student s);
+
+    List<Student> select15(String[] strArr);
+
+    List<Student> select16(String s);
+
+    List<Map<String,Object>> select17();
+
+    List<StudentClassroomVo> select18();
+
+    List<StudentClassroomVo> select19(String z);
 }

@@ -141,6 +141,81 @@
         SELECT * FROM tbl_student1
     </select>
 
+
+    <!--动态SQL语句-->
+    <select id="select14" resultType="Student">
+        SELECT * FROM tbl_student
+        <!--如果经过以下if判断，有查询条件，那么显示where关键字
+        否则不显示
+
+        where如果使用，则会自动的屏蔽掉第一个查询条件前面的and/or-->
+        <where>
+            <!--
+  			if判断条件中的name就是类中的属性名，与#{}中的用法是一致的
+  				"同时" 注意我们使用的不是&& ，而是and
+  				在判断不等于空串的时候，由于我们的判断条件是在双引号中，所以说我们判断不等于空串使用的是单引号
+  		    -->
+            <if test="name!=null and name!=''">
+                AND name LIKE '%' #{name} '%'
+            </if>
+
+            <if test="id!=null and id!=''">
+                AND id LIKE '%' #{id} '%'
+            </if>
+        </where>
+    </select>
+
+    <!--
+    查询出数组中的所有的id，对应的学生信息
+    SELECT * FROM tbl_student where id IN ('A0001','A0002','A0003')
+    -->
+    <select id="select15" resultType="Student">
+        <!--使用foreach动态sql，可以接收数组或者集合类型的数据
+               collection:
+                   如果是数组：设置为array
+                   如果是集合：设置为list
+               item:每一次遍历出来的元素，在sql体应用的时候，需要套用在#{}中
+               open:拼接的开始字符
+               close：拼接的结尾字符
+               separator：拼接的元素之间的分隔符-->
+
+        SELECT * FROM tbl_student WHERE id IN
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <!--
+    sql片段：
+    使用sql片段可以简化sql语句，使用到子查询中
+    -->
+    <sql id="sql1">
+        SELECT * FROM tbl_student
+    </sql>
+    <select id="select16" resultType="Student">
+        <!--等同于 SELECT * FROM tbl_student WHERE id=#{id} -->
+        <include refid="sql1"/> WHERE id=#{id}
+    </select>
+
+    <!--多表连接-->
+    <select id="select17" resultType="map">
+        SELECT s.name AS studentName,c.name AS className
+        FROM tbl_student s
+        LEFT JOIN tbl_classroom c ON s.classroomid = c.id
+    </select>
+
+    <select id="select18" resultType="batis02.vo.StudentClassroomVo">
+        SELECT s.id AS sid,s.name AS sname,s.age AS sage,c.id AS cid,c.name AS cname
+        FROM tbl_student s
+        LEFT JOIN tbl_classroom c ON s.classroomid = c.id
+    </select>
+
+    <select id="select19" resultType="batis02.vo.StudentClassroomVo">
+        SELECT s.id AS sid,s.name AS sname,s.age AS sage,c.id AS cid,c.name AS cname
+        FROM tbl_student s
+        LEFT JOIN tbl_classroom c ON s.classroomid = c.id
+        WHERE s.name LIKE '%' #{name} '%'
+    </select>
 </mapper>
         <!--
         使用select标签

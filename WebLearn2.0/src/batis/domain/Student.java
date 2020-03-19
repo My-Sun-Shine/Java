@@ -11,6 +11,7 @@ public class Student {
     private String id;
     private String name;
     private int age;
+    private String classroomid;
 
     public Student() {
     }
@@ -45,12 +46,21 @@ public class Student {
         this.age = age;
     }
 
+    public String getClassroomid() {
+        return classroomid;
+    }
+
+    public void setClassroomid(String classroomid) {
+        this.classroomid = classroomid;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", classroomid='" + classroomid + '\'' +
                 '}';
     }
 }
