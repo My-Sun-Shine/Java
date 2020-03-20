@@ -3,6 +3,36 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
+    <!--
+    对于关键字的约定：
+
+    add/create：跳转到添加页的操作
+    save：真正的执行添加操作
+    edit：跳转到修改页的操作
+    update：真正的执行修改操作
+    list：查询列表操作（取值）
+    get：取值操作（取值）
+    check：检查操作
+
+    3大组件的配置顺序
+
+    filter
+    listener
+    servlet
+
+    filert
+    servlet
+    listener
+    -->
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.crm.web.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

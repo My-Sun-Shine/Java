@@ -42,7 +42,7 @@ public class DicController extends HttpServlet {
      */
     private void saveDicType(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println("进入添加数据字典类型操作");
-        req.setCharacterEncoding("utf-8");
+        //req.setCharacterEncoding("utf-8");
         String code = req.getParameter("code");
         String name = req.getParameter("name");
         String description = req.getParameter("description");
