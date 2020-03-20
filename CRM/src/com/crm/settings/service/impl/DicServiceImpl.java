@@ -2,6 +2,7 @@ package com.crm.settings.service.impl;
 
 import com.crm.settings.dao.DicTypeDao;
 import com.crm.settings.dao.DicValueDao;
+import com.crm.settings.domain.DicType;
 import com.crm.settings.service.DicService;
 import com.crm.utils.SqlSessionUtil;
 
@@ -19,5 +20,10 @@ public class DicServiceImpl implements DicService {
     public boolean checkCode(String code) {
 
         return dicTypeDao.checkCode(code) == 0;
+    }
+
+    @Override
+    public boolean saveDicType(DicType dicType) {
+        return dicTypeDao.saveDicType(dicType) == 1;
     }
 }

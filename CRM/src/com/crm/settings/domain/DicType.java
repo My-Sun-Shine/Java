@@ -11,6 +11,12 @@ public class DicType {
     private String name;
     private String description;
 
+    public DicType(String code, String name, String description) {
+        this.code = code;
+        this.name = name;
+        this.description = description;
+    }
+
     public String getCode() {
         return code;
     }
@@ -33,5 +39,14 @@ public class DicType {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return "DicType{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
