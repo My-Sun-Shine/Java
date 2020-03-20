@@ -7,4 +7,5 @@ package com.crm.settings.service;
  * @Description 数据字典业务接口
  */
 public interface DicService {
+    boolean checkCode(String code);
 }

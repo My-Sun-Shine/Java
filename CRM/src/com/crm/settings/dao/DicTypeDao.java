@@ -6,5 +6,6 @@ package com.crm.settings.dao;
  * @Created by Falling Stars
  * @Description
  */
-public class DicTypeDao {
+public interface DicTypeDao {
+    int checkCode(String code);
 }

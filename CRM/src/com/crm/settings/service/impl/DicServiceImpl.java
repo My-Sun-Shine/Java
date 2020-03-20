@@ -15,4 +15,9 @@ public class DicServiceImpl implements DicService {
     private DicTypeDao dicTypeDao = SqlSessionUtil.getSqlSession().getMapper(DicTypeDao.class);
     private DicValueDao dicValueDao = SqlSessionUtil.getSqlSession().getMapper(DicValueDao.class);
 
+    @Override
+    public boolean checkCode(String code) {
+
+        return dicTypeDao.checkCode(code) == 0;
+    }
 }

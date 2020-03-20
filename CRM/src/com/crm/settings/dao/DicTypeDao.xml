@@ -4,5 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.crm.settings.dao.DicTypeDao">
-
+    <select id="checkCode" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM tbl_dic_type WHERE code=#{code}
+    </select>
 </mapper>
