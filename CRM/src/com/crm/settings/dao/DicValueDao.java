@@ -6,5 +6,5 @@ package com.crm.settings.dao;
  * @Created by Falling Stars
  * @Description
  */
-public class DicValueDao {
+public interface DicValueDao {
 }

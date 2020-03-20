@@ -55,11 +55,12 @@
                 $("#codeMsg").html("");
             })
 
-            //t提交表单
+            //提交表单
             $("#saveBtn").click(function () {
                 //提交表单前，需要触发失去焦点事件
                 $("#code").blur();
-                var codeMsg = $("#codeMsg").val();
+                //code失去焦点后，决定codeMsg中的内容
+                var codeMsg = $("#codeMsg").html();
                 if (codeMsg === "") {
                     console.log("保存DicType操作")
                     $("#dicTypeForm").submit();
