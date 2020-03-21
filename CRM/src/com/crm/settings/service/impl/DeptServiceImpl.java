@@ -5,6 +5,8 @@ import com.crm.settings.domain.Dept;
 import com.crm.settings.service.DeptService;
 import com.crm.utils.SqlSessionUtil;
 
+import java.util.List;
+
 /**
  * @Classname DeptServiceImpl
  * @Date 2020/3/21 21:26
@@ -17,5 +19,10 @@ public class DeptServiceImpl implements DeptService {
     @Override
     public boolean saveDept(Dept dept) {
         return deptDao.saveDept(dept) == 1;
+    }
+
+    @Override
+    public List<Dept> getDeptList() {
+        return deptDao.getDeptList();
     }
 }

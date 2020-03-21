@@ -8,4 +8,7 @@
         INSERT INTO tbl_dept(no,manager,name,phone,description)
         VALUES(#{no},#{manager},#{name},#{phone},#{description})
     </insert>
+    <select id="getDeptList" resultType="Dept">
+        SELECT * FROM tbl_dept
+    </select>
 </mapper>
