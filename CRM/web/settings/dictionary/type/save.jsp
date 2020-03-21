@@ -39,6 +39,7 @@
                     url: "settings/dictionary/type/checkCode.do",
                     data: {"code": code},
                     type: "get",
+                    async: false,
                     dataType: "json",
                     success: function (data) {
                         //{"success":true/false}
@@ -105,7 +106,8 @@
         <div class="form-group">
             <label for="description" class="col-sm-2 control-label">描述</label>
             <div class="col-sm-10" style="width: 300px;">
-                <textarea class="form-control" rows="3" id="description" style="width: 200%;" name="description"></textarea>
+                <textarea class="form-control" rows="3" id="description" style="width: 200%;"
+                          name="description"></textarea>
             </div>
         </div>
     </form>
