@@ -3,10 +3,7 @@ package com.crm.settings.web.controller;
 import com.crm.settings.domain.User;
 import com.crm.settings.service.UserService;
 import com.crm.settings.service.impl.UserServiceImpl;
-import com.crm.utils.DateTimeUtil;
-import com.crm.utils.PrintJson;
-import com.crm.utils.ServiceFactory;
-import com.crm.utils.UUIDUtil;
+import com.crm.utils.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,6 +34,7 @@ public class UserController extends HttpServlet {
         String loginAct = req.getParameter("loginAct");
         String name = req.getParameter("name");
         String loginPwd = req.getParameter("loginPwd");
+        loginPwd = MD5Util.getMD5(loginPwd);
         String email = req.getParameter("email");
         String expireTime = req.getParameter("expireTime");
         String lockState = req.getParameter("lockState");
