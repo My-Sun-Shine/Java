@@ -1,6 +1,11 @@
 package com.crm.settings.service;
 
-import com.crm.settings.domain.DicType; /**
+import com.crm.settings.domain.DicType;
+import com.crm.settings.domain.DicValue;
+
+import java.util.List;
+
+/**
  * @Classname DicService
  * @Date 2020/3/20 22:10
  * @Created by Falling Stars
@@ -10,4 +15,8 @@ public interface DicService {
     boolean checkCode(String code);
 
     boolean saveDicType(DicType dicType);
+
+    List<DicType> getDicTypeList();
+
+    boolean saveDicValue(DicValue dicValue);
 }

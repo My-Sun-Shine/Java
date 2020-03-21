@@ -10,4 +10,7 @@
     <insert id="saveDicType">
         INSERT INTO tbl_dic_type(code,name,description) VALUES(#{code},#{name},#{description})
     </insert>
+    <select id="getDicTypeList" resultType="DicType">
+        SELECT * FROM tbl_dic_type ORDER BY name
+    </select>
 </mapper>

@@ -3,8 +3,11 @@ package com.crm.settings.service.impl;
 import com.crm.settings.dao.DicTypeDao;
 import com.crm.settings.dao.DicValueDao;
 import com.crm.settings.domain.DicType;
+import com.crm.settings.domain.DicValue;
 import com.crm.settings.service.DicService;
 import com.crm.utils.SqlSessionUtil;
+
+import java.util.List;
 
 /**
  * @Classname DicServiceImpl
@@ -25,5 +28,15 @@ public class DicServiceImpl implements DicService {
     @Override
     public boolean saveDicType(DicType dicType) {
         return dicTypeDao.saveDicType(dicType) == 1;
+    }
+
+    @Override
+    public List<DicType> getDicTypeList() {
+        return dicTypeDao.getDicTypeList();
+    }
+
+    @Override
+    public boolean saveDicValue(DicValue dicValue) {
+        return dicValueDao.saveDicValue(dicValue) == 1;
     }
 }
