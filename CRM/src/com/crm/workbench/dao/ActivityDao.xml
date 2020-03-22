@@ -78,4 +78,11 @@
           ,description=#{description},editTime=#{editTime},editBy=#{editBy}
         WHERE id=#{id}
     </update>
+    <select id="getDetailById" resultType="Activity">
+        SELECT a.id,u.name AS owner,a.name,a.startDate,a.endDate,a.cost
+          ,a.description,a.createTime,(SELECT name from tbl_user where id=a.createBy) AS createBy
+          ,a.editTime,(SELECT name from tbl_user where id=a.editBy) AS editBy
+		FROM tbl_activity a LEFT JOIN tbl_user u ON a.owner=u.id
+		WHERE a.id=#{id}
+    </select>
 </mapper>

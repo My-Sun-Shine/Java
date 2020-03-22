@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @WebServlet(urlPatterns = {"/workbench/activity/saveActivity.do", "/workbench/activity/pageList.do"
         , "/workbench/activity/deleteActivity.do", "/workbench/activity/showEditActivity.do"
-        , "/workbench/activity/updateActivity.do"})
+        , "/workbench/activity/updateActivity.do", "/workbench/activity/detailActivity.do"})
 public class ActivityController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,7 +42,24 @@ public class ActivityController extends HttpServlet {
             showEditActivity(req, resp);
         } else if ("/workbench/activity/updateActivity.do".equals(path)) {
             updateActivity(req, resp);
+        } else if ("/workbench/activity/detailActivity.do".equals(path)) {
+            detailActivity(req, resp);
         }
+    }
+
+    /**
+     * 进入获取市场活动详情页面操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void detailActivity(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("进入获取市场活动详情页面操作");
+        ActivityService service = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        String id = req.getParameter("id");
+        Activity activity = service.detailActivity(id);
+        req.setAttribute("activity", activity);
+        req.getRequestDispatcher("/workbench/activity/detail.jsp").forward(req, resp);
     }
 
     /**

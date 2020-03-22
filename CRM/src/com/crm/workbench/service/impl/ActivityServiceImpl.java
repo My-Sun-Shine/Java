@@ -78,4 +78,10 @@ public class ActivityServiceImpl implements ActivityService {
     public boolean updateActivity(Activity activity) {
         return activityDao.updateActivity(activity) == 1;
     }
+
+    @Override
+    public Activity detailActivity(String id) {
+        Activity activity = activityDao.getDetailById(id);
+        return activity;
+    }
 }

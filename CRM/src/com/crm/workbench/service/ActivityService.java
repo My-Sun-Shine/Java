@@ -21,4 +21,6 @@ public interface ActivityService {
     Map<String,Object> showEditActivity(String id);
 
     boolean updateActivity(Activity activity);
+
+    Activity detailActivity(String id);
 }
