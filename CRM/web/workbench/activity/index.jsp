@@ -139,6 +139,50 @@
                 //当点击列表上的多选框时，如果列表上的所有多选框都被选中，则全选框被选中，反之，如果有一个没有被选中，这全选框取消选中
                 $("#selectAll").prop("checked",
                     $("input[name=checkboxActivity]").length == $("input[name=checkboxActivity]:checked").length);
+            });
+
+
+            $("#deleteBtn").click(function () {
+                //deleteActivity.do?id=A0001&id=A0002&id=A0003
+                //获取选中的复选框
+                var $checkbox = $("input[name=checkboxActivity]:checked");
+                if ($checkbox.length === 0) {
+                    alert("请选择需要删除的记录");
+                } else {
+                    if (!confirm("你确定要删除选中数据！！！")) {
+                        return;
+                    }
+                    var param = "";
+                    for (var i = 0; i < $checkbox.length; i++) {
+                        //param += "id" + $checkbox[i].value;
+
+                        //将dom对象包装为jquery对象 $(dom)
+                        param += "id=" + $($checkbox[i]).val();
+
+                        if (i < $checkbox.length - 1) {
+                            param += "&";
+                        }
+                    }
+                    console.log(param);
+
+                    $.ajax({
+                        url: "workbench/activity/deleteActivity.do",
+                        data: param,
+                        type: "post",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.success) {
+                                alert("删除成功");
+
+                                //$("#activityPage").bs_pagination('getOption', 'rowsPerPage')这句是获取设置的每页多少记录
+                                pageList(1, $("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
+                            } else {
+                                alert("删除失败");
+                            }
+                        }
+
+                    })
+                }
             })
         });
 
@@ -415,7 +459,8 @@
                     <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal">
                         <span class="glyphicon glyphicon-pencil"></span> 修改
                     </button>
-                    <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除
+                    <button type="button" class="btn btn-danger" id="deleteBtn">
+                        <span class="glyphicon glyphicon-minus"></span> 删除
                     </button>
                 </div>
 
