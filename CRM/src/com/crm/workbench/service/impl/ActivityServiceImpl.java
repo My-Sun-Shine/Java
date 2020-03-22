@@ -4,6 +4,7 @@ package com.crm.workbench.service.impl;
 import com.crm.utils.SqlSessionUtil;
 import com.crm.vo.PaginationVO;
 import com.crm.workbench.dao.ActivityDao;
+import com.crm.workbench.dao.ActivityRemarkDao;
 import com.crm.workbench.domain.Activity;
 import com.crm.workbench.service.ActivityService;
 
@@ -18,6 +19,7 @@ import java.util.Map;
  */
 public class ActivityServiceImpl implements ActivityService {
     ActivityDao activityDao = (ActivityDao) SqlSessionUtil.getSqlSession().getMapper(ActivityDao.class);
+    ActivityRemarkDao activityRemarkDao = (ActivityRemarkDao) SqlSessionUtil.getSqlSession().getMapper(ActivityRemarkDao.class);
 
     @Override
     public boolean saveActivity(Activity activity) {
@@ -33,5 +35,28 @@ public class ActivityServiceImpl implements ActivityService {
         paginationVO.setTotal(total);
         paginationVO.setDataList(activityList);
         return paginationVO;
+    }
+
+    @Override
+    public boolean deleteActivity(String[] ids) {
+        boolean flag = true;
+
+        //查询出该市场活动数组对应的所有备注的数量
+        int total = activityRemarkDao.selectById(ids);
+
+        //先删除市场活动备注
+        int count = activityRemarkDao.deleteById(ids);
+
+        if (total != count) {
+            flag = false;
+        }
+
+        //删除市场活动
+        int count2 = activityDao.deleteByAId(ids);
+
+        if (count2 != ids.length) {
+            flag = false;
+        }
+        return flag;
     }
 }

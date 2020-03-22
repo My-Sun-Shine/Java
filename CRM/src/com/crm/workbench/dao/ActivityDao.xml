@@ -45,7 +45,8 @@
         </where>
     </select>
     <select id="getListByCondition" resultType="Activity">
-        SELECT a.id,a.name,u.name AS owner,a.startDate,a.endDate FROM tbl_activity a LEFT JOIN tbl_user u ON a.owner=u.id
+        SELECT a.id,a.name,u.name AS owner,a.startDate,a.endDate FROM tbl_activity a LEFT JOIN tbl_user u ON
+        a.owner=u.id
         <where>
             <if test="name!=null and name!=''">
                 AND a.name LIKE '%' #{name} '%'
@@ -63,4 +64,10 @@
         ORDER BY a.createTime DESC
         LIMIT #{skipCount},#{pageSize}
     </select>
+    <delete id="deleteByAId">
+        DELETE FROM tbl_activity WHERE id IN
+        <foreach collection="array" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

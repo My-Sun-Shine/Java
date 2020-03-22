@@ -25,7 +25,8 @@ import java.util.Map;
  * @Created by Falling Stars
  * @Description 市场活动控制器
  */
-@WebServlet(urlPatterns = {"/workbench/activity/saveActivity.do", "/workbench/activity/pageList.do"})
+@WebServlet(urlPatterns = {"/workbench/activity/saveActivity.do", "/workbench/activity/pageList.do"
+        , "/workbench/activity/deleteActivity.do"})
 public class ActivityController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +35,25 @@ public class ActivityController extends HttpServlet {
             saveActivity(req, resp);
         } else if ("/workbench/activity/pageList.do".equals(path)) {
             pageList(req, resp);
+        } else if ("/workbench/activity/deleteActivity.do".equals(path)) {
+            deleteActivity(req, resp);
         }
+    }
+
+    /**
+     * 进入市场活动删除操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void deleteActivity(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入市场活动删除操作");
+
+        //获取市场活动id数组
+        String[] ids = req.getParameterValues("id");
+        ActivityService service = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        boolean flag=service.deleteActivity(ids);
+        PrintJson.printJsonFlag(resp,flag);
     }
 
     /**
