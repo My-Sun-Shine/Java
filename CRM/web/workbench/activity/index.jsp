@@ -314,7 +314,7 @@
                         html += '<tr class="active">';
                         html += '<td><input name="checkboxActivity" type="checkbox" value="' + item.id + '"/></td>';
                         html += '<td><a style="text-decoration: none; cursor: pointer;"';
-                        html += 'onclick="window.location.href=\'workbench/activity/detail.jsp\';">';
+                        html += 'onclick="window.location.href=\'workbench/activity/detailActivity.do?id=' + item.id + '\';">';
                         html += item.name + '</a></td>';
                         html += '<td>' + item.owner + '</td>';
                         html += '<td>' + item.startDate + '</td>';
