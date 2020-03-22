@@ -1,6 +1,9 @@
 package com.crm.settings.service;
 
-import com.crm.settings.domain.User; /**
+import com.crm.exception.LoginException;
+import com.crm.settings.domain.User;
+
+/**
  * @Classname UserService
  * @Date 2020/3/21 22:20
  * @Created by Falling Stars
@@ -8,4 +11,6 @@ import com.crm.settings.domain.User; /**
  */
 public interface UserService {
     boolean saveUser(User user);
+
+    User login(String loginAct, String loginPwd, String ip) throws LoginException;
 }

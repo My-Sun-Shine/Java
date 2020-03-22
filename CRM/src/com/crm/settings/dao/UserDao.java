@@ -1,6 +1,10 @@
 package com.crm.settings.dao;
 
-import com.crm.settings.domain.User; /**
+import com.crm.settings.domain.User;
+
+import java.util.Map;
+
+/**
  * @Classname UserDao
  * @Date 2020/3/21 22:20
  * @Created by Falling Stars
@@ -9,4 +13,6 @@ import com.crm.settings.domain.User; /**
 public interface UserDao {
 
     int saveUser(User user);
+
+    User login(Map<String, String> map);
 }

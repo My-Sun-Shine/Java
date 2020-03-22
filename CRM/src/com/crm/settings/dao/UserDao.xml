@@ -34,4 +34,7 @@
               #{editTime},
               #{editBy})
     </insert>
+    <select id="login" resultType="User">
+            SELECT * FROM tbl_user WHERE loginAct=#{loginAct} AND loginPwd=#{loginPwd}
+      </select>
 </mapper>
