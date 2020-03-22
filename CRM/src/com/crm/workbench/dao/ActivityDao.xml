@@ -70,4 +70,12 @@
             #{id}
         </foreach>
     </delete>
+    <select id="getById" resultType="Activity">
+        SELECT * FROM tbl_activity WHERE id=#{id}
+    </select>
+    <update id="updateActivity">
+        UPDATE tbl_activity SET owner= #{owner},name=#{name},startDate= #{startDate},endDate=#{endDate},cost=#{cost}
+          ,description=#{description},editTime=#{editTime},editBy=#{editBy}
+        WHERE id=#{id}
+    </update>
 </mapper>

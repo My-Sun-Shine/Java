@@ -17,4 +17,8 @@ public interface ActivityService {
     PaginationVO<Activity> pageList(Map<String, Object> map);
 
     boolean deleteActivity(String[] ids);
+
+    Map<String,Object> showEditActivity(String id);
+
+    boolean updateActivity(Activity activity);
 }
