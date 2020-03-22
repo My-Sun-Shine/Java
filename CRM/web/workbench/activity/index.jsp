@@ -117,6 +117,28 @@
                 $("#hidden-startDate").val($("#search-startDate").val());
                 $("#hidden-endDate").val($("#search-endDate").val());
                 pageList(1, PAGESIZE)
+            });
+
+            //全选操作1
+            /*$("#selectAll").click(function () {
+                //所有name为checkboxActivity的checkbox
+                var $checkbox = $("input[name=checkboxActivity]");
+
+                for (var i = 0; i < $checkbox.length; i++) {
+                    $checkbox[i].checked = $("#selectAll")[0].checked
+                }
+            });*/
+            $("#selectAll").click(function () {
+                $("input[name=checkboxActivity]").prop("checked", this.checked)
+            });
+            /*js动态生成的元素是不能够以传统的形式来绑定事件的
+            直接绑click事件 直接绑change事件等等都不好使了*/
+            /*js动态生成的元素以  on 的形式来绑事件
+            $(需要绑定元素的有效的外层元素).on(绑定事件的方式，绑定的元素，回调函数)*/
+            $("#activityBody").on("click", $("input[name=checkboxActivity]"), function () {
+                //当点击列表上的多选框时，如果列表上的所有多选框都被选中，则全选框被选中，反之，如果有一个没有被选中，这全选框取消选中
+                $("#selectAll").prop("checked",
+                    $("input[name=checkboxActivity]").length == $("input[name=checkboxActivity]:checked").length);
             })
         });
 
@@ -129,6 +151,9 @@
 		endDate
         */
         function pageList(pageNo, pageSize) {
+            //换页的时候取消选中
+            $("#selectAll")[0].checked = false;
+
             //普通换页的时候(不是点击查询按钮)，获取隐藏域的值赋值到搜索框中
             $("#search-name").val($("#hidden-name").val());
             $("#search-owner").val($("#hidden-owner").val());
@@ -159,7 +184,7 @@
                     var html = "";
                     $.each(data.dataList, function (i, item) {
                         html += '<tr class="active">';
-                        html += '<td><input type="checkbox" value="' + item.id + '"/></td>';
+                        html += '<td><input name="checkboxActivity" type="checkbox" value="' + item.id + '"/></td>';
                         html += '<td><a style="text-decoration: none; cursor: pointer;"';
                         html += 'onclick="window.location.href=\'workbench/activity/detail.jsp\';">';
                         html += item.name + '</a></td>';
@@ -399,7 +424,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr style="color: #B3B3B3;">
-                            <td><input type="checkbox"/></td>
+                            <td><input type="checkbox" id="selectAll"/></td>
                             <td>名称</td>
                             <td>所有者</td>
                             <td>开始日期</td>
