@@ -19,6 +19,14 @@ public class Activity {
     private String editTime;
     private String editBy;
 
+    public Activity(String id, String owner, String name, String startDate, String endDate) {
+        this.id = id;
+        this.owner = owner;
+        this.name = name;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     public Activity(String id, String owner, String name, String startDate, String endDate, String cost
             , String description, String createTime, String createBy, String editTime, String editBy) {
         this.id = id;

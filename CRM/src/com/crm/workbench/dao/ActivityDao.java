@@ -2,6 +2,9 @@ package com.crm.workbench.dao;
 
 import com.crm.workbench.domain.Activity;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @Classname ActivityDao
  * @Date 2020/3/22 16:13
@@ -10,4 +13,8 @@ import com.crm.workbench.domain.Activity;
  */
 public interface ActivityDao {
     int saveActivity(Activity activity);
+
+    int getTotalByCondition(Map<String, Object> map);
+
+    List<Activity> getListByCondition(Map<String, Object> map);
 }

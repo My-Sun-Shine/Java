@@ -27,4 +27,40 @@
               #{createBy}
     )
     </insert>
+    <select id="getTotalByCondition" resultType="int">
+        SELECT COUNT(*) FROM tbl_activity a
+        <where>
+            <if test="name!=null and name!=''">
+                AND a.name LIKE '%' #{name} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                AND owner IN (SELECT id FROM tbl_user u WHERE u.name LIKE '%' #{name} '%')
+            </if>
+            <if test="startDate!=null and startDate!=''">
+                AND a.startDate &lt; #{startDate}
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                AND a.endDate &gt; #{endDate}
+            </if>
+        </where>
+    </select>
+    <select id="getListByCondition" resultType="Activity">
+        SELECT a.id,a.name,u.name AS owner,a.startDate,a.endDate FROM tbl_activity a LEFT JOIN tbl_user u ON a.owner=u.id
+        <where>
+            <if test="name!=null and name!=''">
+                AND a.name LIKE '%' #{name} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                AND u.name LIKE '%' #{owner} '%'
+            </if>
+            <if test="startDate!=null and startDate!=''">
+                AND a.startDate &lt; #{startDate}
+            </if>
+            <if test="endDate!=null and endDate!=''">
+                AND a.endDate &gt; #{endDate}
+            </if>
+        </where>
+        ORDER BY a.createTime DESC
+        LIMIT #{skipCount},#{pageSize}
+    </select>
 </mapper>
