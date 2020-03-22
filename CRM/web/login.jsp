@@ -47,7 +47,7 @@
                 dataType: "json",
                 success: function (data) {
                     if (data.success) {
-                        window.location.href = "workbench/index.html";
+                        window.location.href = "workbench/index.jsp";
                     } else {
                         $("#msg").html(data.msg);
                     }
