@@ -59,7 +59,7 @@
                         "email": $.trim($("#create-email").val()),
                         "expireTime": $.trim($("#create-expireTime").val()),
                         "lockState": $.trim($("#create-lockState").val()),
-                        "deptno": $.trim($("#create-deptno").val()),
+                        "dept": $.trim($("#create-dept").val()),
                         "allowIps": $.trim($("#create-allowIps").val())
                     },
                     type: "post",
@@ -99,14 +99,14 @@
                     <form class="form-horizontal" role="form" id="create-user">
 
                         <div class="form-group">
-                            <label for="create-loginActNo" class="col-sm-2 control-label">登录帐号<span
+                            <label for="create-loginAct" class="col-sm-2 control-label">登录帐号<span
                                     style="font-size: 15px; color: red;">*</span></label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="create-loginActNo">
+                                <input type="text" class="form-control" id="create-loginAct">
                             </div>
-                            <label for="create-username" class="col-sm-2 control-label">用户姓名</label>
+                            <label for="create-name" class="col-sm-2 control-label">用户姓名</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="create-username">
+                                <input type="text" class="form-control" id="create-name">
                             </div>
                         </div>
                         <div class="form-group">
