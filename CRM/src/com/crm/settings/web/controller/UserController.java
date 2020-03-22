@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +21,7 @@ import java.util.Map;
  * @Created by Falling Stars
  * @Description 用户控制器
  */
-@WebServlet(urlPatterns = {"/settings/qx/user/saveUser.do", "/settings/user/login.do"})
+@WebServlet(urlPatterns = {"/settings/qx/user/saveUser.do", "/settings/user/login.do", "/settings/user/getUserList.do"})
 public class UserController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +30,23 @@ public class UserController extends HttpServlet {
             saveUser(req, resp);
         } else if ("/settings/user/login.do".equals(path)) {
             login(req, resp);
+        } else if ("/settings/user/getUserList.do".equals(path)) {
+            getUserList(req, resp);
         }
+    }
+
+
+    /**
+     * 进入获取所有用户操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void getUserList(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入获取所有用户操作");
+        UserService service = (UserService) ServiceFactory.getService(new UserServiceImpl());
+        List<User> userList = service.getUserList();
+        PrintJson.printJsonObj(resp, userList);
     }
 
     /**

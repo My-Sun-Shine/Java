@@ -36,5 +36,21 @@
     </insert>
     <select id="login" resultType="User">
             SELECT * FROM tbl_user WHERE loginAct=#{loginAct} AND loginPwd=#{loginPwd}
-      </select>
+    </select>
+    <select id="getUserList" resultType="User">
+        SELECT id,
+              loginAct,
+              name,
+              "" AS loginPwd,
+              email,
+              expireTime,
+              lockState,
+              deptno,
+              allowIps,
+              createTime,
+              createBy,
+              editTime,
+              editBy
+        FROM tbl_user
+    </select>
 </mapper>
