@@ -7,6 +7,7 @@ import com.crm.utils.ServiceFactory;
 import com.crm.utils.UUIDUtil;
 import com.crm.vo.PaginationVO;
 import com.crm.workbench.domain.Activity;
+import com.crm.workbench.domain.ActivityRemark;
 import com.crm.workbench.service.ActivityService;
 import com.crm.workbench.service.impl.ActivityServiceImpl;
 
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,7 +29,8 @@ import java.util.Map;
  */
 @WebServlet(urlPatterns = {"/workbench/activity/saveActivity.do", "/workbench/activity/pageList.do"
         , "/workbench/activity/deleteActivity.do", "/workbench/activity/showEditActivity.do"
-        , "/workbench/activity/updateActivity.do", "/workbench/activity/detailActivity.do"})
+        , "/workbench/activity/updateActivity.do", "/workbench/activity/detailActivity.do"
+        , "/workbench/activity/getRemarkListById.do"})
 public class ActivityController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -44,7 +47,24 @@ public class ActivityController extends HttpServlet {
             updateActivity(req, resp);
         } else if ("/workbench/activity/detailActivity.do".equals(path)) {
             detailActivity(req, resp);
+        } else if ("/workbench/activity/getRemarkListById.do".equals(path)) {
+            getRemarkListById(req, resp);
         }
+    }
+
+    /**
+     * 进入根据市场活动ID获取备注操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void getRemarkListById(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入根据市场活动ID获取备注操作");
+        ActivityService service = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        String id = req.getParameter("id");
+        List<ActivityRemark> activityRemarkList = service.getRemarkListById(id);
+        PrintJson.printJsonObj(resp, activityRemarkList);
+
     }
 
     /**

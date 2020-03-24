@@ -16,4 +16,11 @@
             #{id}
         </foreach>
     </select>
+    <select id="getRemarkListById" resultType="ActivityRemark">
+        SELECT ar.id,ar.noteContent,ar.createTime,ar.editTime,ar.editFlag
+          ,(SELECT name FROM tbl_user u WHERE u.id=ar.createBy) AS createBy
+          ,(SELECT name FROM tbl_user u WHERE u.id=ar.editBy) AS editBy
+          ,activityId
+        FROM tbl_activity_remark ar WHERE ar.activityId = #{id}
+    </select>
 </mapper>
