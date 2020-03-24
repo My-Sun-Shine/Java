@@ -35,7 +35,7 @@
                 cancelAndSaveBtnDefault = true;
             });
 
-            $(".remarkDiv").mouseover(function () {
+           /* $(".remarkDiv").mouseover(function () {
                 $(this).children("div").children("div").show();
             });
 
@@ -49,9 +49,57 @@
 
             $(".myHref").mouseout(function () {
                 $(this).children("span").css("color", "#E6E6E6");
-            });
+            });*/
+
+            //页面j加载完毕之后，查询并展示该条市场活动对应的备注信息列表
+            showRemark();
+
+            //js动态拼接的字符串html，需要使用on才能绑定事件
+            $("#remarkBody").on("mouseover",".remarkDiv",function(){
+                $(this).children("div").children("div").show();
+            })
+            $("#remarkBody").on("mouseout",".remarkDiv",function(){
+                $(this).children("div").children("div").hide();
+            })
         });
 
+        //备注列表显示
+        function showRemark() {
+            $.ajax({
+                url: "workbench/activity/getRemarkListById.do",
+                data: {
+                    "id": "${activity.id}"
+                },
+                type: "get",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    var html = "";
+                    $.each(data, function (i, item) {
+                        html += '<div class="remarkDiv" style="height:60px;">';
+                        html += '<img title="' + item.createBy + '" src="image/user-thumbnail.png" style="width: 30px; height:30px;">';
+                        html += '<div style="position: relative; top: -40px; left: 40px;">';
+                        html += '<h5>' + item.noteContent + '</h5>';
+                        html += '<font color="gray">市场活动</font> <font color="gray">-</font><b>${activity.name}</b>';
+                        html += '&nbsp;&nbsp;&nbsp;&nbsp;<small style="color: gray;">';
+                        html += (item.editFlag === "0" ? item.createTime + ' 由' + item.createBy : item.editTime + ' 由' + item.editBy);
+                        html += '&nbsp;创建</small>';
+                        html += '<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display:none;">';
+                        html += '<a class="myHref" href="javascript:void(0);">';
+                        html += '<span class="glyphicon glyphicon-edit" style="font-size: 20px;color: red;"></span>';
+                        html += '</a>&nbsp;&nbsp;&nbsp;&nbsp;';
+                        html += '<a class="myHref" href="javascript:void(0);">';
+                        html += '<span class="glyphicon glyphicon-remove" style="font-size:20px;color: red;"></span>';
+                        html += '</a>';
+                        html += '</div></div></div>';
+                        console.log(html)
+                    });
+                    //before:往指定的元素的上方添加新元素
+                    $("#remarkDiv").before(html)
+                }
+            });
+        }
     </script>
 
 </head>
@@ -139,7 +187,9 @@
                         <div class="form-group">
                             <label for="edit-describe" class="col-sm-2 control-label">描述</label>
                             <div class="col-sm-10" style="width: 81%;">
-                                <textarea class="form-control" rows="3" id="edit-describe">市场活动Marketing，是指品牌主办或参与的展览会议与公关市场活动，包括自行主办的各类研讨会、客户交流会、演示会、新产品发布会、体验会、答谢会、年会和出席参加并布展或演讲的展览会、研讨会、行业交流会、颁奖典礼等</textarea>
+                                <textarea class="form-control" rows="3" id="edit-describe">
+                                    市场活动Marketing，是指品牌主办或参与的展览会议与公关市场活动，包括自行主办的各类研讨会、客户交流会、演示会、新产品发布会、体验会、答谢会、年会和出席参加并布展或演讲的展览会、研讨会、行业交流会、颁奖典礼等
+                                </textarea>
                             </div>
                         </div>
 
@@ -226,45 +276,11 @@
     </div>
 
     <!-- 备注 -->
-    <div style="position: relative; top: 30px; left: 40px;">
+    <div style="position: relative; top: 30px; left: 40px;" id="remarkBody">
         <div class="page-header">
             <h4>备注</h4>
         </div>
-
-        <!-- 备注1 -->
-        <div class="remarkDiv" style="height: 60px;">
-            <img title="zhangsan" src="image/user-thumbnail.png" style="width: 30px; height:30px;">
-            <div style="position: relative; top: -40px; left: 40px;">
-                <h5>哎呦！</h5>
-                <font color="gray">市场活动</font> <font color="gray">-</font> <b>发传单</b>
-                <small style="color: gray;"> 2017-01-22 10:10:10 由zhangsan</small>
-                <div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
-                    <a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-edit"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
-                </div>
-            </div>
-        </div>
-
-        <!-- 备注2 -->
-        <div class="remarkDiv" style="height: 60px;">
-            <img title="zhangsan" src="image/user-thumbnail.png" style="width: 30px; height:30px;">
-            <div style="position: relative; top: -40px; left: 40px;">
-                <h5>呵呵！</h5>
-                <font color="gray">市场活动</font> <font color="gray">-</font> <b>发传单</b>
-                <small style="color: gray;"> 2017-01-22 10:20:10 由zhangsan</small>
-                <div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
-                    <a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-edit"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-remove"
-                                                                       style="font-size: 20px; color: #E6E6E6;"></span></a>
-                </div>
-            </div>
-        </div>
-
+        <!-- 备注列表 -->
         <div id="remarkDiv" style="background-color: #E6E6E6; width: 870px; height: 90px;">
             <form role="form" style="position: relative;top: 10px; left: 10px;">
                 <textarea id="remark" class="form-control" style="width: 850px; resize : none;" rows="2"
