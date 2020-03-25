@@ -65,7 +65,7 @@
             //添加备注
             $("#saveRemarkBtn").click(function () {
                 var remark = $.trim($("#remark").val());
-                if(remark===""){
+                if (remark === "") {
                     alert("验证备注信息不能为空");
                     return false;
                 }
@@ -86,6 +86,39 @@
                         } else {
                             alert("添加备注失败")
                         }
+                    }
+                })
+            });
+
+            //更新备注操作
+            $("#updateRemarkBtn").click(function () {
+                var noteContent = $.trim($("#noteContent").val());
+                var remarkId = $.trim($("#remarkId").val());
+                if (noteContent === "") {
+                    alert("验证备注信息不能为空");
+                    return false;
+                }
+                $.ajax({
+                    url: "workbench/activity/updateRemark.do",
+                    data: {
+                        "id": remarkId,
+                        "remark": noteContent
+                    },
+                    type: "post",
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            var item = data.data;
+                            $("#NC" + remarkId).html(item.noteContent);
+                            $("#small" + remarkId).html(item.editTime + ' 由' + item.editBy + '&nbsp;创建');
+                            $("#editRemarkModal").modal("hide");
+                        } else {
+                            alert("修改备注失败");
+                        }
+                    },
+                    error: function () {
+                        alert("修改备注失败");
                     }
                 })
             })
@@ -134,18 +167,28 @@
         }
 
 
+        //打开修改备注的窗口
+        function editRemark(id, noteContent) {
+            $("#editRemarkModal").modal("show");
+            //将id和notecontent值放到窗口中
+            $("#remarkId").val(id);
+            //console.log($("#NC" + id).html())
+            $("#noteContent").val($("#NC" + id).html());
+
+        }
+
         function getHtml(item) {
             var html = "";
             html += '<div id="' + item.id + '" class="remarkDiv" style="height:60px;">';
             html += '<img title="' + item.createBy + '" src="image/user-thumbnail.png" style="width: 30px; height:30px;">';
             html += '<div style="position: relative; top: -40px; left: 40px;">';
-            html += '<h5>' + item.noteContent + '</h5>';
+            html += '<h5 id="NC' + item.id + '">' + item.noteContent + '</h5>';
             html += '<font color="gray">市场活动</font> <font color="gray">-</font><b>${activity.name}</b>';
-            html += '&nbsp;&nbsp;&nbsp;&nbsp;<small style="color: gray;">';
+            html += '&nbsp;&nbsp;&nbsp;&nbsp;<small style="color: gray;" id="small' + item.id + '">';
             html += (item.editFlag === "0" ? item.createTime + ' 由' + item.createBy : item.editTime + ' 由' + item.editBy);
             html += '&nbsp;创建</small>';
             html += '<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display:none;">';
-            html += '<a class="myHref" href="javascript:void(0);">';
+            html += '<a class="myHref" href="javascript:void(0);" onclick=editRemark(\'' + item.id + '\') >';
             html += '<span class="glyphicon glyphicon-edit" style="font-size: 20px;color: red;"></span>';
             html += '</a>&nbsp;&nbsp;&nbsp;&nbsp;';
             html += '<a class="myHref" href="javascript:void(0);" onclick=deleteRemark(\'' + item.id + '\') >';
