@@ -90,4 +90,9 @@ public class ActivityServiceImpl implements ActivityService {
     public List<ActivityRemark> getRemarkListById(String id) {
         return activityRemarkDao.getRemarkListById(id);
     }
+
+    @Override
+    public boolean deleteRemarkById(String id) {
+        return activityRemarkDao.deleteRemarkById(id) == 1;
+    }
 }

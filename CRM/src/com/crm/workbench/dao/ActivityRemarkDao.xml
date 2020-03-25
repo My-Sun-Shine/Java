@@ -23,4 +23,7 @@
           ,activityId
         FROM tbl_activity_remark ar WHERE ar.activityId = #{id}
     </select>
+    <delete id="deleteRemarkById">
+        DELETE FROM tbl_activity_remark WHERE id = #{id}
+    </delete>
 </mapper>

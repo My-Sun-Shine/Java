@@ -30,7 +30,7 @@ import java.util.Map;
 @WebServlet(urlPatterns = {"/workbench/activity/saveActivity.do", "/workbench/activity/pageList.do"
         , "/workbench/activity/deleteActivity.do", "/workbench/activity/showEditActivity.do"
         , "/workbench/activity/updateActivity.do", "/workbench/activity/detailActivity.do"
-        , "/workbench/activity/getRemarkListById.do"})
+        , "/workbench/activity/getRemarkListById.do", "/workbench/activity/deleteRemarkById.do"})
 public class ActivityController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,7 +49,23 @@ public class ActivityController extends HttpServlet {
             detailActivity(req, resp);
         } else if ("/workbench/activity/getRemarkListById.do".equals(path)) {
             getRemarkListById(req, resp);
+        } else if ("/workbench/activity/deleteRemarkById.do".equals(path)) {
+            deleteRemarkById(req, resp);
         }
+    }
+
+    /**
+     * 进入根据id删除市场活动备注操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void deleteRemarkById(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入根据id删除市场活动备注操作");
+        ActivityService service = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        String id = req.getParameter("id");
+        boolean flag = service.deleteRemarkById(id);
+        PrintJson.printJsonFlag(resp, flag);
     }
 
     /**
