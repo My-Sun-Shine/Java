@@ -30,4 +30,9 @@
         INSERT INTO tbl_activity_remark(id,noteContent,createTime,createBy,editFlag,activityId)
         VALUES (#{id},#{noteContent},#{createTime},#{createBy},#{editFlag},#{activityId})
     </insert>
+    <update id="updateRemark">
+        UPDATE tbl_activity_remark
+        SET noteContent=#{noteContent},editFlag=#{editFlag},editBy=#{editBy},editTime=#{editTime}
+        WHERE id=#{id}
+    </update>
 </mapper>
