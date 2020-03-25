@@ -61,6 +61,34 @@
             $("#remarkBody").on("mouseout", ".remarkDiv", function () {
                 $(this).children("div").children("div").hide();
             })
+
+            //添加备注
+            $("#saveRemarkBtn").click(function () {
+                var remark = $.trim($("#remark").val());
+                if(remark===""){
+                    alert("验证备注信息不能为空");
+                    return false;
+                }
+                $.ajax({
+                    url: "workbench/activity/saveRemark.do",
+                    data: {
+                        "Aid": "${activity.id}",
+                        "remark": remark
+                    },
+                    type: "post",
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            var html = getHtml(data.data);
+                            $("#remarkDiv").before(html)
+                            $("#remark").val("");
+                        } else {
+                            alert("添加备注失败")
+                        }
+                    }
+                })
+            })
         });
 
         //备注列表显示
@@ -77,23 +105,8 @@
                     console.log(data);
                     var html = "";
                     $.each(data, function (i, item) {
-                        html += '<div id="' + item.id + '" class="remarkDiv" style="height:60px;">';
-                        html += '<img title="' + item.createBy + '" src="image/user-thumbnail.png" style="width: 30px; height:30px;">';
-                        html += '<div style="position: relative; top: -40px; left: 40px;">';
-                        html += '<h5>' + item.noteContent + '</h5>';
-                        html += '<font color="gray">市场活动</font> <font color="gray">-</font><b>${activity.name}</b>';
-                        html += '&nbsp;&nbsp;&nbsp;&nbsp;<small style="color: gray;">';
-                        html += (item.editFlag === "0" ? item.createTime + ' 由' + item.createBy : item.editTime + ' 由' + item.editBy);
-                        html += '&nbsp;创建</small>';
-                        html += '<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display:none;">';
-                        html += '<a class="myHref" href="javascript:void(0);">';
-                        html += '<span class="glyphicon glyphicon-edit" style="font-size: 20px;color: red;"></span>';
-                        html += '</a>&nbsp;&nbsp;&nbsp;&nbsp;';
-                        html += '<a class="myHref" href="javascript:void(0);" onclick=deleteRemark(\'' + item.id + '\') >';
-                        html += '<span class="glyphicon glyphicon-remove" style="font-size:20px;color: red;"></span>';
-                        html += '</a>';
-                        html += '</div></div></div>';
-                        console.log(html)
+                        html += getHtml(item);
+                        //console.log(html);
                     });
                     //before:往指定的元素的上方添加新元素
                     $("#remarkDiv").before(html)
@@ -118,6 +131,28 @@
                     }
                 }
             })
+        }
+
+
+        function getHtml(item) {
+            var html = "";
+            html += '<div id="' + item.id + '" class="remarkDiv" style="height:60px;">';
+            html += '<img title="' + item.createBy + '" src="image/user-thumbnail.png" style="width: 30px; height:30px;">';
+            html += '<div style="position: relative; top: -40px; left: 40px;">';
+            html += '<h5>' + item.noteContent + '</h5>';
+            html += '<font color="gray">市场活动</font> <font color="gray">-</font><b>${activity.name}</b>';
+            html += '&nbsp;&nbsp;&nbsp;&nbsp;<small style="color: gray;">';
+            html += (item.editFlag === "0" ? item.createTime + ' 由' + item.createBy : item.editTime + ' 由' + item.editBy);
+            html += '&nbsp;创建</small>';
+            html += '<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display:none;">';
+            html += '<a class="myHref" href="javascript:void(0);">';
+            html += '<span class="glyphicon glyphicon-edit" style="font-size: 20px;color: red;"></span>';
+            html += '</a>&nbsp;&nbsp;&nbsp;&nbsp;';
+            html += '<a class="myHref" href="javascript:void(0);" onclick=deleteRemark(\'' + item.id + '\') >';
+            html += '<span class="glyphicon glyphicon-remove" style="font-size:20px;color: red;"></span>';
+            html += '</a>';
+            html += '</div></div></div>';
+            return html;
         }
     </script>
 
@@ -306,7 +341,7 @@
                           placeholder="添加备注..."></textarea>
                 <p id="cancelAndSaveBtn" style="position: relative;left: 737px; top: 10px; display: none;">
                     <button id="cancelBtn" type="button" class="btn btn-default">取消</button>
-                    <button type="button" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-primary" id="saveRemarkBtn">保存</button>
                 </p>
             </form>
         </div>
