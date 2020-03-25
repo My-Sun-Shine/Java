@@ -35,30 +35,30 @@
                 cancelAndSaveBtnDefault = true;
             });
 
-           /* $(".remarkDiv").mouseover(function () {
-                $(this).children("div").children("div").show();
-            });
+            /* $(".remarkDiv").mouseover(function () {
+                 $(this).children("div").children("div").show();
+             });
 
-            $(".remarkDiv").mouseout(function () {
-                $(this).children("div").children("div").hide();
-            });
+             $(".remarkDiv").mouseout(function () {
+                 $(this).children("div").children("div").hide();
+             });
 
-            $(".myHref").mouseover(function () {
-                $(this).children("span").css("color", "red");
-            });
+             $(".myHref").mouseover(function () {
+                 $(this).children("span").css("color", "red");
+             });
 
-            $(".myHref").mouseout(function () {
-                $(this).children("span").css("color", "#E6E6E6");
-            });*/
+             $(".myHref").mouseout(function () {
+                 $(this).children("span").css("color", "#E6E6E6");
+             });*/
 
             //页面j加载完毕之后，查询并展示该条市场活动对应的备注信息列表
             showRemark();
 
             //js动态拼接的字符串html，需要使用on才能绑定事件
-            $("#remarkBody").on("mouseover",".remarkDiv",function(){
+            $("#remarkBody").on("mouseover", ".remarkDiv", function () {
                 $(this).children("div").children("div").show();
             })
-            $("#remarkBody").on("mouseout",".remarkDiv",function(){
+            $("#remarkBody").on("mouseout", ".remarkDiv", function () {
                 $(this).children("div").children("div").hide();
             })
         });
@@ -77,7 +77,7 @@
                     console.log(data);
                     var html = "";
                     $.each(data, function (i, item) {
-                        html += '<div class="remarkDiv" style="height:60px;">';
+                        html += '<div id="' + item.id + '" class="remarkDiv" style="height:60px;">';
                         html += '<img title="' + item.createBy + '" src="image/user-thumbnail.png" style="width: 30px; height:30px;">';
                         html += '<div style="position: relative; top: -40px; left: 40px;">';
                         html += '<h5>' + item.noteContent + '</h5>';
@@ -89,7 +89,7 @@
                         html += '<a class="myHref" href="javascript:void(0);">';
                         html += '<span class="glyphicon glyphicon-edit" style="font-size: 20px;color: red;"></span>';
                         html += '</a>&nbsp;&nbsp;&nbsp;&nbsp;';
-                        html += '<a class="myHref" href="javascript:void(0);">';
+                        html += '<a class="myHref" href="javascript:void(0);" onclick=deleteRemark(\'' + item.id + '\') >';
                         html += '<span class="glyphicon glyphicon-remove" style="font-size:20px;color: red;"></span>';
                         html += '</a>';
                         html += '</div></div></div>';
@@ -99,6 +99,25 @@
                     $("#remarkDiv").before(html)
                 }
             });
+        }
+
+
+        function deleteRemark(id) {
+            $.ajax({
+                url: "workbench/activity/deleteRemarkById.do",
+                data: {"id": id},
+                type: "post",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    if (data.success) {
+                        //删除备注成功之后，定位到删除的该记录对应的div，将div干掉
+                        $("#" + id).remove();
+                    } else {
+                        alert("删除备注失败")
+                    }
+                }
+            })
         }
     </script>
 
