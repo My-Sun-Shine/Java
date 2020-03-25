@@ -30,7 +30,8 @@ import java.util.Map;
 @WebServlet(urlPatterns = {"/workbench/activity/saveActivity.do", "/workbench/activity/pageList.do"
         , "/workbench/activity/deleteActivity.do", "/workbench/activity/showEditActivity.do"
         , "/workbench/activity/updateActivity.do", "/workbench/activity/detailActivity.do"
-        , "/workbench/activity/getRemarkListById.do", "/workbench/activity/deleteRemarkById.do"})
+        , "/workbench/activity/getRemarkListById.do", "/workbench/activity/deleteRemarkById.do"
+        , "/workbench/activity/saveRemark.do"})
 public class ActivityController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,7 +52,37 @@ public class ActivityController extends HttpServlet {
             getRemarkListById(req, resp);
         } else if ("/workbench/activity/deleteRemarkById.do".equals(path)) {
             deleteRemarkById(req, resp);
+        } else if ("/workbench/activity/saveRemark.do".equals(path)) {
+            saveRemark(req, resp);
         }
+    }
+
+    /**
+     * 进入添加市场活动备注操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void saveRemark(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入添加市场活动备注操作");
+        ActivityService service = (ActivityService) ServiceFactory.getService(new ActivityServiceImpl());
+        String Aid = req.getParameter("Aid");
+        String remark = req.getParameter("remark");
+        ActivityRemark activityRemark = new ActivityRemark();
+        activityRemark.setId(UUIDUtil.getUUID());
+        activityRemark.setNoteContent(remark);
+        activityRemark.setActivityId(Aid);
+        String uId = ((User) req.getSession().getAttribute("user")).getId();
+        String uName = ((User) req.getSession().getAttribute("user")).getName();
+        activityRemark.setCreateBy(uId);
+        activityRemark.setCreateTime(DateTimeUtil.getSysTime());
+        activityRemark.setEditFlag("0");
+        boolean flag = service.saveRemark(activityRemark);
+        Map<String, Object> map = new HashMap<>();
+        map.put("success", flag);
+        activityRemark.setCreateBy(uName);
+        map.put("data", activityRemark);
+        PrintJson.printJsonObj(resp, map);
     }
 
     /**

@@ -95,4 +95,9 @@ public class ActivityServiceImpl implements ActivityService {
     public boolean deleteRemarkById(String id) {
         return activityRemarkDao.deleteRemarkById(id) == 1;
     }
+
+    @Override
+    public boolean saveRemark(ActivityRemark activityRemark) {
+        return activityRemarkDao.saveRemark(activityRemark) == 1;
+    }
 }
