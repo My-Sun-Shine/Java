@@ -7,4 +7,7 @@
     <insert id="saveDicValue">
         INSERT INTO tbl_dic_value(id,value,text,orderNo,typeCode) VALUES(#{id},#{value},#{text},#{orderNo},#{typeCode})
     </insert>
+    <select id="getListByTypeCode" resultType="DicValue" parameterType="String">
+        SELECT * FROM tbl_dic_value WHERE typeCode=#{typeCode}
+    </select>
 </mapper>

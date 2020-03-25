@@ -4,6 +4,7 @@ import com.crm.settings.domain.DicType;
 import com.crm.settings.domain.DicValue;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Classname DicService
@@ -19,4 +20,6 @@ public interface DicService {
     List<DicType> getDicTypeList();
 
     boolean saveDicValue(DicValue dicValue);
+
+    Map<String,List<DicValue>> getDicInit();
 }

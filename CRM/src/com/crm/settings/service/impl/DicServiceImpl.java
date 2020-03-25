@@ -7,7 +7,9 @@ import com.crm.settings.domain.DicValue;
 import com.crm.settings.service.DicService;
 import com.crm.utils.SqlSessionUtil;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Classname DicServiceImpl
@@ -38,5 +40,18 @@ public class DicServiceImpl implements DicService {
     @Override
     public boolean saveDicValue(DicValue dicValue) {
         return dicValueDao.saveDicValue(dicValue) == 1;
+    }
+
+    @Override
+    public Map<String, List<DicValue>> getDicInit() {
+        Map<String, List<DicValue>> map=new HashMap<>();
+        List<DicType> dicTypeList=dicTypeDao.getDicTypeList();
+        for(DicType dicType:dicTypeList){
+            //取得类型编码
+            String code=dicType.getCode();
+            List<DicValue> dicValueList=dicValueDao.getListByTypeCode(code);
+            map.put(code,dicValueList);
+        }
+        return map;
     }
 }
