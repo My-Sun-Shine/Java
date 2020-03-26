@@ -1,9 +1,13 @@
 package com.crm.workbench.service.impl;
 
 import com.crm.utils.SqlSessionUtil;
+import com.crm.vo.PaginationVO;
 import com.crm.workbench.dao.ClueDao;
 import com.crm.workbench.domain.Clue;
 import com.crm.workbench.service.ClueService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Classname ClueServiceImpl
@@ -17,5 +21,16 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public boolean saveClue(Clue clue) {
         return clueDao.saveClue(clue) == 1;
+    }
+
+    @Override
+    public PaginationVO<Clue> pageList(Map<String, Object> map) {
+
+        int total = clueDao.getTotalByCondition(map);
+        List<Clue> clueList = clueDao.getListByCondition(map);
+        PaginationVO<Clue> paginationVO = new PaginationVO<>();
+        paginationVO.setTotal(total);
+        paginationVO.setDataList(clueList);
+        return paginationVO;
     }
 }

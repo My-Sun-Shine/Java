@@ -16,9 +16,16 @@
     <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
     <script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
 
+    <%--分页插件引入--%>
+    <link rel="stylesheet" type="text/css" href="jquery/bs_pagination/jquery.bs_pagination.min.css">
+    <script type="text/javascript" src="jquery/bs_pagination/jquery.bs_pagination.min.js"></script>
+    <script type="text/javascript" src="jquery/bs_pagination/en.js"></script>
+
     <script type="text/javascript">
 
         $(function () {
+
+            const PAGESIZE = 3;
 
             //以下日历插件在FF中存在兼容问题，在IE浏览器中可以正常使用。
             $(".time").datetimepicker({
@@ -130,10 +137,117 @@
                         $("#editClueModal").modal("show");
                     }
                 });
-            })
+            });
 
+
+            //页面加载完毕之后，默认展示第一页数据，第一页展示2条数据
+            pageList(1, PAGESIZE);
+
+            $("#searchBtn").click(function () {
+                //点击查询的时候，将搜索框上的值放到隐藏域中
+                //只有点击查询按钮，才能修改隐藏域的值
+                $("#hidden-fullname").val($("#search-fullname").val());
+                $("#hidden-company").val($("#search-company").val());
+                $("#hidden-phone").val($("#search-phone").val());
+                $("#hidden-source").val($("#search-source").val());
+                $("#hidden-owner").val($("#search-owner").val());
+                $("#hidden-mphone").val($("#search-mphone").val());
+                $("#hidden-state").val($("#search-state").val());
+                pageList(1, PAGESIZE)
+            });
         });
 
+        /*
+       pageNo:页码
+       pageSize：每页展现的记录数
+       name
+       owner
+       startDate
+       endDate
+       */
+        function pageList(pageNo, pageSize) {
+            //换页的时候取消选中
+            $("#selectAll")[0].checked = false;
+
+            //普通换页的时候(不是点击查询按钮)，获取隐藏域的值赋值到搜索框中
+            $("#search-fullname").val($("#hidden-fullname").val());
+            $("#search-company").val($("#hidden-company").val());
+            $("#search-phone").val($("#hidden-phone").val());
+            $("#search-source").val($("#hidden-source").val());
+            $("#search-owner").val($("#hidden-owner").val());
+            $("#search-mphone").val($("#hidden-mphone").val());
+            $("#search-state").val($("#hidden-state").val());
+
+            var fullname = $.trim($("#search-fullname").val());
+            var company = $.trim($("#search-company").val());
+            var phone = $.trim($("#search-phone").val());
+            var source = $.trim($("#search-source").val());
+            var owner = $.trim($("#search-owner").val());
+            var mphone = $.trim($("#search-mphone").val());
+            var state = $.trim($("#search-state").val());
+            console.log(fullname);
+            $.ajax({
+                url: "workbench/clue/pageList.do",
+                data: {
+                    "pageNo": pageNo,
+                    "pageSize": pageSize,
+                    "fullname": fullname,
+                    "company": company,
+                    "phone": phone,
+                    "source": source,
+                    "owner": owner,
+                    "mphone": mphone,
+                    "state": state,
+                    cache: false//加入时间戳，确保每次数据都是最新的，不是浏览器的缓存数据
+                },
+                type: "get",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    // data:{"total":?,"dataList":[{},{},{}...]}
+                    var html = "";
+                    $.each(data.dataList, function (i, item) {
+                        html += '<tr>';
+                        html += '<td><input type="checkbox" id="' + item.id + '"/></td>';
+                        html += '<td><a style="text-decoration: none; cursor: pointer;"';
+                        html += 'onclick="window.location.href=\'workbench/clue/detailClue.do\';">' + item.fullname + '</a></td>';
+                        html += '<td>' + item.company + '</td>';
+                        html += '<td>' + item.phone + '</td>';
+                        html += '<td>' + item.mphone + '</td>';
+                        html += '<td>' + item.source + '</td>';
+                        html += '<td>' + item.owner + '</td>';
+                        html += '<td>' + item.state + '</td>';
+                        html += '</tr>';
+                    });
+                    $("#cluebody").html(html);
+
+                    //引入分页控件
+                    var totalPages = Math.ceil(data.total / pageSize);//向上取整
+                    //data.total % pageSize == 0 ? data.total / pageSize : parseInt(data.total / pageSize) + 1
+                    $("#activityPage").bs_pagination({
+                        currentPage: pageNo, // 页码
+                        rowsPerPage: pageSize, // 每页显示的记录条数
+                        maxRowsPerPage: 20, // 每页最多显示的记录条数
+                        totalPages: totalPages, // 总页数
+                        totalRows: data.total, // 总记录条数
+
+                        visiblePageLinks: 5, // 显示几个卡片
+
+                        showGoToPage: true,
+                        showRowsPerPage: true,
+                        showRowsInfo: true,
+                        showRowsDefaultInfo: true,
+
+                        onChangePage: function (event, data) {
+                            pageList(data.currentPage, data.rowsPerPage);
+                        }
+                    });
+
+
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -432,47 +546,43 @@
 
             <div class="btn-toolbar" role="toolbar" style="height: 80px;">
                 <form class="form-inline" role="form" style="position: relative;top: 8%; left: 5px;">
+                    <input type="hidden" id="hidden-fullname">
+                    <input type="hidden" id="hidden-company">
+                    <input type="hidden" id="hidden-phone">
+                    <input type="hidden" id="hidden-source">
+                    <input type="hidden" id="hidden-owner">
+                    <input type="hidden" id="hidden-mphone">
+                    <input type="hidden" id="hidden-state">
 
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">名称</div>
-                            <input class="form-control" type="text">
+                            <input class="form-control" type="text" id="search-fullname">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">公司</div>
-                            <input class="form-control" type="text">
+                            <input class="form-control" type="text" id="search-company">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">公司座机</div>
-                            <input class="form-control" type="text">
+                            <input class="form-control" type="text" id="search-phone">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">线索来源</div>
-                            <select class="form-control">
+                            <select class="form-control" id="search-source">
                                 <option></option>
-                                <option>广告</option>
-                                <option>推销电话</option>
-                                <option>员工介绍</option>
-                                <option>外部介绍</option>
-                                <option>在线商场</option>
-                                <option>合作伙伴</option>
-                                <option>公开媒介</option>
-                                <option>销售邮件</option>
-                                <option>合作伙伴研讨会</option>
-                                <option>内部研讨会</option>
-                                <option>交易会</option>
-                                <option>web下载</option>
-                                <option>web调研</option>
-                                <option>聊天</option>
+                                <<c:forEach items="${applicationScope.source}" var="item">
+                                <option value="${item.value}">${item.text}</option>
+                            </c:forEach>
                             </select>
                         </div>
                     </div>
@@ -482,7 +592,7 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">所有者</div>
-                            <input class="form-control" type="text">
+                            <input class="form-control" type="text" id="search-owner">
                         </div>
                     </div>
 
@@ -490,27 +600,23 @@
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">手机</div>
-                            <input class="form-control" type="text">
+                            <input class="form-control" type="text" id="search-mphone">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="input-group">
                             <div class="input-group-addon">线索状态</div>
-                            <select class="form-control">
+                            <select class="form-control" id="search-state">
                                 <option></option>
-                                <option>试图联系</option>
-                                <option>将来联系</option>
-                                <option>已联系</option>
-                                <option>虚假线索</option>
-                                <option>丢失线索</option>
-                                <option>未联系</option>
-                                <option>需要条件</option>
+                                <c:forEach items="${applicationScope.clueState}" var="item">
+                                    <option value="${item.value}">${item.text}</option>
+                                </c:forEach>
                             </select>
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-default">查询</button>
+                    <button type="button" class="btn btn-default" id="searchBtn">查询</button>
 
                 </form>
             </div>
@@ -533,7 +639,7 @@
                 <table class="table table-hover">
                     <thead>
                         <tr style="color: #B3B3B3;">
-                            <td><input type="checkbox"/></td>
+                            <td><input type="checkbox" id="selectAll"/></td>
                             <td>名称</td>
                             <td>公司</td>
                             <td>公司座机</td>
@@ -543,57 +649,15 @@
                             <td>线索状态</td>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="checkbox"/></td>
-                            <td><a style="text-decoration: none; cursor: pointer;"
-                                   onclick="window.location.href='workbench/clue/detail.jsp';">李四先生</a></td>
-                            <td>动力节点</td>
-                            <td>010-84846003</td>
-                            <td>12345678901</td>
-                            <td>广告</td>
-                            <td>zhangsan</td>
-                            <td>已联系</td>
-                        </tr>
+                    <tbody id="cluebody">
+
                     </tbody>
                 </table>
             </div>
-
             <div style="height: 50px; position: relative;top: 60px;">
-                <div>
-                    <button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
-                </div>
-                <div class="btn-group" style="position: relative;top: -34px; left: 110px;">
-                    <button type="button" class="btn btn-default" style="cursor: default;">显示</button>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            10
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">20</a></li>
-                            <li><a href="#">30</a></li>
-                        </ul>
-                    </div>
-                    <button type="button" class="btn btn-default" style="cursor: default;">条/页</button>
-                </div>
-                <div style="position: relative;top: -88px; left: 285px;">
-                    <nav>
-                        <ul class="pagination">
-                            <li class="disabled"><a href="#">首页</a></li>
-                            <li class="disabled"><a href="#">上一页</a></li>
-                            <li class="active"><a href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a href="#">3</a></li>
-                            <li><a href="#">4</a></li>
-                            <li><a href="#">5</a></li>
-                            <li><a href="#">下一页</a></li>
-                            <li class="disabled"><a href="#">末页</a></li>
-                        </ul>
-                    </nav>
-                </div>
+                <%--在列表下面导入分页组件div（将原有默认分页div去掉）--%>
+                <div id="activityPage"></div>
             </div>
-
         </div>
 
     </div>

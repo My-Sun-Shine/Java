@@ -46,4 +46,59 @@
             #{address}
           )
     </insert>
+    <select id="getTotalByCondition" resultType="int">
+        SELECT COUNT(*) FROM tbl_clue c
+        <where>
+            <if test="fullname!=null and fullname!=''">
+                AND c.fullname LIKE '%' #{fullname} '%'
+            </if>
+            <if test="company!=null and company!=''">
+                AND c.company LIKE '%' #{company} '%'
+            </if>
+            <if test="phone!=null and phone!=''">
+                AND c.phone LIKE '%' #{phone} '%'
+            </if>
+            <if test="mphone!=null and mphone!=''">
+                AND c.mphone LIKE '%' #{mphone} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                AND owner IN (SELECT id FROM tbl_user u WHERE u.name LIKE '%' #{owner} '%')
+            </if>
+            <if test="state!=null and state!=''">
+                AND c.state LIKE '%' #{state} '%'
+            </if>
+            <if test="source!=null and source!=''">
+                AND c.source LIKE '%' #{source} '%'
+            </if>
+        </where>
+    </select>
+    <select id="getListByCondition" resultType="Clue">
+        SELECT c.id,c.fullname,u.name AS owner,c.company,c.phone,c.mphone,c.state,c.source
+        FROM tbl_clue c LEFT JOIN tbl_user u ON c.owner=u.id
+        <where>
+            <if test="fullname!=null and fullname!=''">
+                AND c.fullname LIKE '%' #{fullname} '%'
+            </if>
+            <if test="company!=null and company!=''">
+                AND c.company LIKE '%' #{company} '%'
+            </if>
+            <if test="phone!=null and phone!=''">
+                AND c.phone LIKE '%' #{phone} '%'
+            </if>
+            <if test="mphone!=null and mphone!=''">
+                AND c.mphone LIKE '%' #{mphone} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                AND u.name  LIKE '%' #{owner} '%'
+            </if>
+            <if test="state!=null and state!=''">
+                AND c.state LIKE '%' #{state} '%'
+            </if>
+            <if test="source!=null and source!=''">
+                AND c.source LIKE '%' #{source} '%'
+            </if>
+        </where>
+        ORDER BY c.createTime DESC
+        LIMIT #{skipCount},#{pageSize}
+    </select>
 </mapper>

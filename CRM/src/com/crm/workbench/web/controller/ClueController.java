@@ -5,6 +5,7 @@ import com.crm.utils.DateTimeUtil;
 import com.crm.utils.PrintJson;
 import com.crm.utils.ServiceFactory;
 import com.crm.utils.UUIDUtil;
+import com.crm.vo.PaginationVO;
 import com.crm.workbench.domain.Clue;
 import com.crm.workbench.service.ClueService;
 import com.crm.workbench.service.impl.ClueServiceImpl;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Classname ClueController
@@ -22,14 +25,53 @@ import java.io.IOException;
  * @Created by Falling Stars
  * @Description 线索表控制器
  */
-@WebServlet(urlPatterns = {"/settings/clue/saveClue.do"})
+@WebServlet(urlPatterns = {"/settings/clue/saveClue.do", "/workbench/clue/pageList.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getServletPath();
         if ("/settings/clue/saveClue.do".equals(path)) {
             saveClue(req, resp);
+        } else if ("/workbench/clue/pageList.do".equals(path)) {
+            pageList(req, resp);
         }
+    }
+
+    /**
+     * 分页查询数据操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void pageList(HttpServletRequest req, HttpServletResponse resp) {
+        ClueService service = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        //分页参数
+        String pageNoStr = req.getParameter("pageNo");
+        String pageSizeStr = req.getParameter("pageSize");
+        int pageNo = Integer.valueOf(pageNoStr);
+        int pageSize = Integer.valueOf(pageSizeStr);
+        int skipCount = (pageNo - 1) * pageSize;//跳过的记录数
+
+        String fullname = req.getParameter("fullname");
+        String owner = req.getParameter("owner");
+        String company = req.getParameter("company");
+        String phone = req.getParameter("phone");
+        String mphone = req.getParameter("mphone");
+        String state = req.getParameter("state");
+        String source = req.getParameter("source");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("fullname", fullname);
+        map.put("company", company);
+        map.put("phone", phone);
+        map.put("mphone", mphone);
+        map.put("owner", owner);
+        map.put("state", state);
+        map.put("source", source);
+        map.put("skipCount", skipCount);
+        map.put("pageSize", pageSize);
+        PaginationVO<Clue> result = service.pageList(map);
+        PrintJson.printJsonObj(resp, result);
     }
 
     /**
