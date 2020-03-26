@@ -58,6 +58,62 @@
                 });
             });
 
+            $("#saveBtn").click(function () {
+                var fullname = $.trim($("#create-fullname").val());
+                var appellation = $.trim($("#create-appellation").val());
+                var owner = $.trim($("#create-owner").val());
+                var company = $.trim($("#create-company").val());
+                var job = $.trim($("#create-job").val());
+                var email = $.trim($("#create-email").val());
+                var phone = $.trim($("#create-phone").val());
+                var website = $.trim($("#create-website").val());
+                var mphone = $.trim($("#create-mphone").val());
+                var state = $.trim($("#create-state").val());
+                var source = $.trim($("#create-source").val());
+                var description = $.trim($("#create-description").val());
+                var contactSummary = $.trim($("#create-contactSummary").val());
+                var nextContactTime = $.trim($("#create-nextContactTime").val());
+                var address = $.trim($("#create-address").val());
+
+                $.ajax({
+                    url: "settings/clue/saveClue.do",
+                    data: {
+                        "fullname": fullname,
+                        "appellation": appellation,
+                        "owner": owner,
+                        "company": company,
+                        "job": job,
+                        "email": email,
+                        "phone": phone,
+                        "website": website,
+                        "mphone": mphone,
+                        "state": state,
+                        "source": source,
+                        "description": description,
+                        "contactSummary": contactSummary,
+                        "nextContactTime": nextContactTime,
+                        "address": address
+
+                    },
+                    type: "post",
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            $("#createClueModal").modal("hide");
+                            window.location.href = "workbench/clue/index.jsp";
+                        }
+                        else {
+                            alert("线索添加失败");
+                        }
+                    },
+                    error: function () {
+                        alert("线索添加失败");
+                    }
+                });
+
+            });
+
             $("#editBtn").click(function () {
                 $.ajax({
                     url: "settings/user/getUserList.do",
@@ -119,10 +175,10 @@
                                     </c:forEach>
                                 </select>
                             </div>
-                            <label for="create-surname" class="col-sm-2 control-label">姓名<span
+                            <label for="create-fullname" class="col-sm-2 control-label">姓名<span
                                     style="font-size: 15px; color: red;">*</span></label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <input type="text" class="form-control" id="create-surname">
+                                <input type="text" class="form-control" id="create-fullname">
                             </div>
                         </div>
 
@@ -153,9 +209,9 @@
                             <div class="col-sm-10" style="width: 300px;">
                                 <input type="text" class="form-control" id="create-mphone">
                             </div>
-                            <label for="create-status" class="col-sm-2 control-label">线索状态</label>
+                            <label for="create-state" class="col-sm-2 control-label">线索状态</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <select class="form-control" id="create-status">
+                                <select class="form-control" id="create-state">
                                     <option></option>
                                     <c:forEach items="${applicationScope.clueState}" var="item">
                                         <option value="${item.value}">${item.text}</option>
@@ -216,7 +272,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                    <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
                 </div>
             </div>
         </div>
@@ -293,9 +349,9 @@
                             <div class="col-sm-10" style="width: 300px;">
                                 <input type="text" class="form-control" id="edit-mphone" value="">
                             </div>
-                            <label for="edit-status" class="col-sm-2 control-label">线索状态</label>
+                            <label for="edit-state" class="col-sm-2 control-label">线索状态</label>
                             <div class="col-sm-10" style="width: 300px;">
-                                <select class="form-control" id="edit-status">
+                                <select class="form-control" id="edit-state">
                                     <option></option>
                                     <c:forEach items="${applicationScope.clueState}" var="item">
                                         <option value="${item.value}">${item.text}</option>
