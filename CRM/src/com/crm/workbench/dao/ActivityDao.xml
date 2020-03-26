@@ -34,7 +34,7 @@
                 AND a.name LIKE '%' #{name} '%'
             </if>
             <if test="owner!=null and owner!=''">
-                AND owner IN (SELECT id FROM tbl_user u WHERE u.name LIKE '%' #{name} '%')
+                AND a.owner IN (SELECT id FROM tbl_user u WHERE u.name LIKE '%' #{owner} '%')
             </if>
             <if test="startDate!=null and startDate!=''">
                 AND a.startDate &lt; #{startDate}
