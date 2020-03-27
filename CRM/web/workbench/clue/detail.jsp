@@ -52,6 +52,30 @@
             });
 
             loadActivity();
+
+            $("#deleteRelation").click(function () {
+                var id = $("#unbundId").val();
+                $.ajax({
+                    url: "workbench/clue/deleteRelation.do",
+                    data: {
+                        "id": id
+                    },
+                    type: "post",
+                    async: false,
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.success) {
+                            loadActivity();
+                            $("#unbundModal").modal("hide");
+                        } else {
+                            alert("解除关联失败");
+                        }
+                    },
+                    error: function () {
+                        alert("解除关联失败");
+                    }
+                })
+            })
         });
 
         function loadActivity() {
@@ -71,7 +95,7 @@
                         html += '<td>' + item.startDate + '</td>';
                         html += '<td>' + item.endDate + '</td>';
                         html += '<td>' + item.owner + '</td>';
-                        html += '<td><a href="javascript:void(0);" onclick="un(\'' + item.id + '\')" style="text-decoration: none;">';
+                        html += '<td><a href="javascript:void(0);" onclick="unbund(\'' + item.id + '\')" style="text-decoration: none;">';
                         html += '<span class="glyphicon glyphicon-remove"></span>解除关联</a></td>';
                         html += '</tr>';
                     });
@@ -80,6 +104,12 @@
             })
 
         }
+
+        //这里的id是市场活动和显示关联表的id
+        function unbund(id) {
+            $("#unbundModal").modal("show");
+            $("#unbundId").val(id);
+        }
     </script>
 
 </head>
@@ -87,6 +117,7 @@
 
     <!-- 解除关联的模态窗口 -->
     <div class="modal fade" id="unbundModal" role="dialog">
+        <input type="hidden" id="unbundId">
         <div class="modal-dialog" role="document" style="width: 30%;">
             <div class="modal-content">
                 <div class="modal-header">
@@ -100,7 +131,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">确定</button>
+                    <button type="button" class="btn btn-danger" id="deleteRelation">确定</button>
                 </div>
             </div>
         </div>

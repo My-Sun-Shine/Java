@@ -19,4 +19,6 @@ public interface ClueService {
     Clue detailClue(String id);
 
     List<Activity> getActivityByClueId(String clueId);
+
+    boolean deleteRelation(String id);
 }

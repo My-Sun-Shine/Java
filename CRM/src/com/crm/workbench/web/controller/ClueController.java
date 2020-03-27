@@ -28,7 +28,7 @@ import java.util.Map;
  * @Description 线索表控制器
  */
 @WebServlet(urlPatterns = {"/settings/clue/saveClue.do", "/workbench/clue/pageList.do", "/workbench/clue/detailClue.do"
-        , "/workbench/clue/getActivityByClueId.do"})
+        , "/workbench/clue/getActivityByClueId.do", "/workbench/clue/deleteRelation.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,7 +41,23 @@ public class ClueController extends HttpServlet {
             detailClue(req, resp);
         } else if ("/workbench/clue/getActivityByClueId.do".equals(path)) {
             getActivityByClueId(req, resp);
+        } else if ("/workbench/clue/deleteRelation.do".equals(path)) {
+            deleteRelation(req, resp);
         }
+    }
+
+    /**
+     * 进入删除市场活动与线索的关联操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void deleteRelation(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入删除市场活动与线索的关联操作");
+        ClueService service = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        String id = req.getParameter("id");
+        boolean flag = service.deleteRelation(id);
+        PrintJson.printJsonFlag(resp, flag);
     }
 
     /**
@@ -54,7 +70,7 @@ public class ClueController extends HttpServlet {
         System.out.println("进入根据线索ID获取关联的市场活动操作");
         ClueService service = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
         String ClueId = req.getParameter("ClueId");
-        List<Activity> activityList= service.getActivityByClueId(ClueId);
+        List<Activity> activityList = service.getActivityByClueId(ClueId);
         PrintJson.printJsonObj(resp, activityList);
 
     }
