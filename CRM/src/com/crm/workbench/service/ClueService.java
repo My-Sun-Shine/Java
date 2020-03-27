@@ -1,8 +1,10 @@
 package com.crm.workbench.service;
 
 import com.crm.vo.PaginationVO;
+import com.crm.workbench.domain.Activity;
 import com.crm.workbench.domain.Clue;
 
+import java.util.List;
 import java.util.Map; /**
  * @Classname ClueService
  * @Date 2020/3/25 21:58
@@ -15,4 +17,6 @@ public interface ClueService {
     PaginationVO<Clue> pageList(Map<String, Object> map);
 
     Clue detailClue(String id);
+
+    List<Activity> getActivityByClueId(String clueId);
 }

@@ -50,8 +50,36 @@
             $(".myHref").mouseout(function () {
                 $(this).children("span").css("color", "#E6E6E6");
             });
+
+            loadActivity();
         });
 
+        function loadActivity() {
+            $.ajax({
+                url: "workbench/clue/getActivityByClueId.do",
+                data: {
+                    "ClueId": "${clue.id}"
+                },
+                type: "get",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    var html = "";
+                    $.each(data, function (i, item) {
+                        html += '<tr>';
+                        html += '<td>' + item.name + '</td>';
+                        html += '<td>' + item.startDate + '</td>';
+                        html += '<td>' + item.endDate + '</td>';
+                        html += '<td>' + item.owner + '</td>';
+                        html += '<td><a href="javascript:void(0);" onclick="un(\'' + item.id + '\')" style="text-decoration: none;">';
+                        html += '<span class="glyphicon glyphicon-remove"></span>解除关联</a></td>';
+                        html += '</tr>';
+                    });
+                    $("#activityBody").html(html);
+                }
+            })
+
+        }
     </script>
 
 </head>
@@ -367,12 +395,16 @@
         </div>
         <div style="position: relative; left: 40px; height: 30px; top: 50px;">
             <div style="width: 300px; color: gray;">创建者</div>
-            <div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>${clue.createBy}&nbsp;&nbsp;</b><small style="font-size: 10px; color: gray;">${clue.createTime}</small></div>
+            <div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>${clue.createBy}&nbsp;&nbsp;</b>
+                <small style="font-size: 10px; color: gray;">${clue.createTime}</small>
+            </div>
             <div style="height: 1px; width: 550px; background: #D5D5D5; position: relative; top: -20px;"></div>
         </div>
         <div style="position: relative; left: 40px; height: 30px; top: 60px;">
             <div style="width: 300px; color: gray;">修改者</div>
-            <div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>${clue.editBy}&nbsp;&nbsp;</b><small style="font-size: 10px; color: gray;">${clue.editTime}</small></div>
+            <div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>${clue.editBy}&nbsp;&nbsp;</b>
+                <small style="font-size: 10px; color: gray;">${clue.editTime}</small>
+            </div>
             <div style="height: 1px; width: 550px; background: #D5D5D5; position: relative; top: -20px;"></div>
         </div>
         <div style="position: relative; left: 40px; height: 30px; top: 70px;">
@@ -450,16 +482,8 @@
                             <td></td>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>发传单</td>
-                            <td>2020-10-10</td>
-                            <td>2020-10-20</td>
-                            <td>zhangsan</td>
-                            <td><a href="javascript:void(0);" data-toggle="modal" data-target="#unbundModal"
-                                   style="text-decoration: none;"><span
-                                    class="glyphicon glyphicon-remove"></span>解除关联</a></td>
-                        </tr>
+                    <tbody id="activityBody">
+
                     </tbody>
                 </table>
             </div>

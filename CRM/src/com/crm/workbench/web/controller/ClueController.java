@@ -6,6 +6,7 @@ import com.crm.utils.PrintJson;
 import com.crm.utils.ServiceFactory;
 import com.crm.utils.UUIDUtil;
 import com.crm.vo.PaginationVO;
+import com.crm.workbench.domain.Activity;
 import com.crm.workbench.domain.Clue;
 import com.crm.workbench.service.ClueService;
 import com.crm.workbench.service.impl.ClueServiceImpl;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,7 +27,8 @@ import java.util.Map;
  * @Created by Falling Stars
  * @Description 线索表控制器
  */
-@WebServlet(urlPatterns = {"/settings/clue/saveClue.do", "/workbench/clue/pageList.do", "/workbench/clue/detailClue.do"})
+@WebServlet(urlPatterns = {"/settings/clue/saveClue.do", "/workbench/clue/pageList.do", "/workbench/clue/detailClue.do"
+        , "/workbench/clue/getActivityByClueId.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +39,24 @@ public class ClueController extends HttpServlet {
             pageList(req, resp);
         } else if ("/workbench/clue/detailClue.do".equals(path)) {
             detailClue(req, resp);
+        } else if ("/workbench/clue/getActivityByClueId.do".equals(path)) {
+            getActivityByClueId(req, resp);
         }
+    }
+
+    /**
+     * 进入根据线索ID获取关联的市场活动操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void getActivityByClueId(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入根据线索ID获取关联的市场活动操作");
+        ClueService service = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        String ClueId = req.getParameter("ClueId");
+        List<Activity> activityList= service.getActivityByClueId(ClueId);
+        PrintJson.printJsonObj(resp, activityList);
+
     }
 
     /**

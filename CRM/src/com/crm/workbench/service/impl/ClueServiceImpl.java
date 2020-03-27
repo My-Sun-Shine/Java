@@ -2,7 +2,9 @@ package com.crm.workbench.service.impl;
 
 import com.crm.utils.SqlSessionUtil;
 import com.crm.vo.PaginationVO;
+import com.crm.workbench.dao.ActivityDao;
 import com.crm.workbench.dao.ClueDao;
+import com.crm.workbench.domain.Activity;
 import com.crm.workbench.domain.Clue;
 import com.crm.workbench.service.ClueService;
 
@@ -17,6 +19,7 @@ import java.util.Map;
  */
 public class ClueServiceImpl implements ClueService {
     ClueDao clueDao = (ClueDao) SqlSessionUtil.getSqlSession().getMapper(ClueDao.class);
+    ActivityDao activityDao = (ActivityDao) SqlSessionUtil.getSqlSession().getMapper(ActivityDao.class);
 
     @Override
     public boolean saveClue(Clue clue) {
@@ -37,5 +40,10 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public Clue detailClue(String id) {
         return clueDao.detailClue(id);
+    }
+
+    @Override
+    public List<Activity> getActivityByClueId(String clueId) {
+        return activityDao.getActivityByClueId(clueId);
     }
 }
