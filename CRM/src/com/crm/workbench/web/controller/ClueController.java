@@ -25,7 +25,7 @@ import java.util.Map;
  * @Created by Falling Stars
  * @Description 线索表控制器
  */
-@WebServlet(urlPatterns = {"/settings/clue/saveClue.do", "/workbench/clue/pageList.do"})
+@WebServlet(urlPatterns = {"/settings/clue/saveClue.do", "/workbench/clue/pageList.do", "/workbench/clue/detailClue.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,7 +34,24 @@ public class ClueController extends HttpServlet {
             saveClue(req, resp);
         } else if ("/workbench/clue/pageList.do".equals(path)) {
             pageList(req, resp);
+        } else if ("/workbench/clue/detailClue.do".equals(path)) {
+            detailClue(req, resp);
         }
+    }
+
+    /**
+     * 进入查询线索详情页面操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void detailClue(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("进入查询线索详情页面操作");
+        ClueService service = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        String id = req.getParameter("id");
+        Clue clue = service.detailClue(id);
+        req.setAttribute("clue", clue);
+        req.getRequestDispatcher("/workbench/clue/detail.jsp").forward(req, resp);
     }
 
     /**

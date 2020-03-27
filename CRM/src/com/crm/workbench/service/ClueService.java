@@ -13,4 +13,6 @@ public interface ClueService {
     boolean saveClue(Clue clue);
 
     PaginationVO<Clue> pageList(Map<String, Object> map);
+
+    Clue detailClue(String id);
 }

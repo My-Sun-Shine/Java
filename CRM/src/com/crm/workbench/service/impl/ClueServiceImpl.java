@@ -33,4 +33,9 @@ public class ClueServiceImpl implements ClueService {
         paginationVO.setDataList(clueList);
         return paginationVO;
     }
+
+    @Override
+    public Clue detailClue(String id) {
+        return clueDao.detailClue(id);
+    }
 }

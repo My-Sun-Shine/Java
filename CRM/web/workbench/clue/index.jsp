@@ -185,7 +185,6 @@
             var owner = $.trim($("#search-owner").val());
             var mphone = $.trim($("#search-mphone").val());
             var state = $.trim($("#search-state").val());
-            console.log(fullname);
             $.ajax({
                 url: "workbench/clue/pageList.do",
                 data: {
@@ -211,7 +210,7 @@
                         html += '<tr>';
                         html += '<td><input type="checkbox" id="' + item.id + '"/></td>';
                         html += '<td><a style="text-decoration: none; cursor: pointer;"';
-                        html += 'onclick="window.location.href=\'workbench/clue/detailClue.do\';">' + item.fullname + '</a></td>';
+                        html += 'onclick="window.location.href=\'workbench/clue/detailClue.do?id=' + item.id + '\';">' + item.fullname + '</a></td>';
                         html += '<td>' + item.company + '</td>';
                         html += '<td>' + item.phone + '</td>';
                         html += '<td>' + item.mphone + '</td>';
