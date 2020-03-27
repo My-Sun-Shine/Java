@@ -21,4 +21,6 @@ public interface ClueService {
     List<Activity> getActivityByClueId(String clueId);
 
     boolean deleteRelation(String id);
+
+    List<Activity> getActivityListByNameAndNotByClueId(String clueid, String aname);
 }

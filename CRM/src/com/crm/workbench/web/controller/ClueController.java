@@ -28,7 +28,7 @@ import java.util.Map;
  * @Description 线索表控制器
  */
 @WebServlet(urlPatterns = {"/settings/clue/saveClue.do", "/workbench/clue/pageList.do", "/workbench/clue/detailClue.do"
-        , "/workbench/clue/getActivityByClueId.do", "/workbench/clue/deleteRelation.do"})
+        , "/workbench/clue/getActivityByClueId.do", "/workbench/clue/deleteRelation.do", "/workbench/clue/getActivityListByNameAndNotByClueId.do"})
 public class ClueController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,7 +43,24 @@ public class ClueController extends HttpServlet {
             getActivityByClueId(req, resp);
         } else if ("/workbench/clue/deleteRelation.do".equals(path)) {
             deleteRelation(req, resp);
+        } else if ("/workbench/clue/getActivityListByNameAndNotByClueId.do".equals(path)) {
+            getActivityListByNameAndNotByClueId(req, resp);
         }
+    }
+
+    /**
+     * 进入关联市场活动，查询没有关联的市场活动 操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void getActivityListByNameAndNotByClueId(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入关联市场活动，查询没有关联的市场活动 操作");
+        ClueService service = (ClueService) ServiceFactory.getService(new ClueServiceImpl());
+        String clueId = req.getParameter("clueId");
+        String aname = req.getParameter("aname");
+        List<Activity> activityList = service.getActivityListByNameAndNotByClueId(clueId, aname);
+        PrintJson.printJsonObj(resp, activityList);
     }
 
     /**

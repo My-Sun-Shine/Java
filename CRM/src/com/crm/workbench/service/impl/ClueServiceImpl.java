@@ -9,6 +9,7 @@ import com.crm.workbench.domain.Activity;
 import com.crm.workbench.domain.Clue;
 import com.crm.workbench.service.ClueService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,5 +53,13 @@ public class ClueServiceImpl implements ClueService {
     @Override
     public boolean deleteRelation(String id) {
         return clueActivityRelationDao.deleteRelation(id) == 1;
+    }
+
+    @Override
+    public List<Activity> getActivityListByNameAndNotByClueId(String clueId, String aname) {
+        Map<String,String> map=new HashMap<>();
+        map.put("aname",aname);
+        map.put("clueId",clueId);
+        return activityDao.getActivityListByNameAndNotByClueId(map);
     }
 }

@@ -79,18 +79,50 @@
         WHERE id=#{id}
     </update>
     <select id="getDetailById" resultType="Activity">
-        SELECT a.id,u.name AS owner,a.name,a.startDate,a.endDate,a.cost
-          ,a.description,a.createTime,(SELECT name from tbl_user where id=a.createBy) AS createBy
-          ,a.editTime,(SELECT name from tbl_user where id=a.editBy) AS editBy
+        SELECT a.id
+          ,u.name AS owner
+          ,a.name
+          ,a.startDate
+          ,a.endDate
+          ,a.cost
+          ,a.description
+          ,a.createTime
+          ,(SELECT name from tbl_user where id=a.createBy) AS createBy
+          ,a.editTime
+          ,(SELECT name from tbl_user where id=a.editBy) AS editBy
 		FROM tbl_activity a LEFT JOIN tbl_user u ON a.owner=u.id
 		WHERE a.id=#{id}
     </select>
     <select id="getActivityByClueId" resultType="Activity">
-        SELECT ca.id AS id,a.name,a.startDate,a.endDate,a.cost,a.description
+        SELECT ca.id AS id
+          ,a.name
+          ,a.startDate
+          ,a.endDate
+          ,a.cost
+          ,a.description
           ,(SELECT name from tbl_user where id=a.owner) AS owner
-          ,a.createTime,(SELECT name from tbl_user where id=a.createBy) AS createBy
-          ,a.editTime,(SELECT name from tbl_user where id=a.editBy) AS editBy
-        FROM tbl_activity a LEFT JOIN tbl_clue_activity_relation ca ON a.id=ca.activityId
+          ,a.createTime
+          ,(SELECT name from tbl_user where id=a.createBy) AS createBy
+          ,a.editTime
+          ,(SELECT name from tbl_user where id=a.editBy) AS editBy
+        FROM tbl_activity a
+        LEFT JOIN tbl_clue_activity_relation ca ON a.id=ca.activityId
         WHERE ca.clueId=#{clueId}
+    </select>
+    <select id="getActivityListByNameAndNotByClueId" resultType="Activity">
+         SELECT a.id
+          ,a.name
+          ,a.startDate
+          ,a.endDate
+          ,a.cost
+          ,a.description
+          ,(SELECT name from tbl_user where id=a.owner) AS owner
+          ,a.createTime
+          ,(SELECT name from tbl_user where id=a.createBy) AS createBy
+          ,a.editTime
+          ,(SELECT name from tbl_user where id=a.editBy) AS editBy
+        FROM tbl_activity a
+        WHERE a.id NOT IN(SELECT activityId FROM tbl_clue_activity_relation WHERE clueId=#{clueId} )
+        AND a.name LIKE '%' #{aname} '%'
     </select>
 </mapper>

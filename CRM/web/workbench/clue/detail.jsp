@@ -76,6 +76,47 @@
                     }
                 })
             })
+
+            $("#bundBtn").click(function () {
+                $("#bundModal").modal("hide");
+            })
+
+            $("#activity-name").keydown(function () {
+                if (event.keyCode === 13) {
+                    var name = $.trim($("#activity-name").val());
+                    if (name === "") {
+                        alert("请输入市场活动名称");
+                        return false;
+                    }
+                    console.log("${clue.id}");
+                    $.ajax({
+                        url: "workbench/clue/getActivityListByNameAndNotByClueId.do",
+                        data: {
+                            "clueId": "${clue.id}",
+                            "aname": name
+                        },
+                        type: "get",
+                        async: false,
+                        dataType: "json",
+                        success: function (data) {
+                            var html = "";
+                            $.each(data, function (i, item) {
+                                html += '<tr>';
+                                html += '<td><input type="checkbox" name="xz" value="\'' + item.id + '\'"/></td>';
+                                html += '<td>' + item.name + '</td>';
+                                html += '<td>' + item.startDate + '</td>';
+                                html += '<td>' + item.endDate + '</td>';
+                                html += '<td>' + item.owner + '</td>';
+                                html += '</tr>';
+                            });
+                            $("#allActivityBody").html(html);
+                        }
+                    });
+                    return false;
+                }
+
+
+            })
         });
 
         function loadActivity() {
@@ -109,6 +150,14 @@
         function unbund(id) {
             $("#unbundModal").modal("show");
             $("#unbundId").val(id);
+        }
+
+        //关联市场活动
+        function bund() {
+            $("#bundModal").modal("show");
+            $("#activity-name").val("");
+            $("#activity-name").focus();
+            $("input:checkbox").prop("checked", false);
         }
     </script>
 
@@ -151,8 +200,7 @@
                     <div class="btn-group" style="position: relative; top: 18%; left: 8px;">
                         <form class="form-inline" role="form">
                             <div class="form-group has-feedback">
-                                <input type="text" class="form-control" style="width: 300px;"
-                                       placeholder="请输入市场活动名称，支持模糊查询">
+                                <input id="activity-name" type="text" class="form-control" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
                                 <span class="glyphicon glyphicon-search form-control-feedback"></span>
                             </div>
                         </form>
@@ -161,7 +209,7 @@
                            style="width: 900px; position: relative;top: 10px;">
                         <thead>
                             <tr style="color: #B3B3B3;">
-                                <td><input type="checkbox"/></td>
+                                <td><input type="checkbox" id="selectAllActivity"/></td>
                                 <td>名称</td>
                                 <td>开始日期</td>
                                 <td>结束日期</td>
@@ -169,27 +217,15 @@
                                 <td></td>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="checkbox"/></td>
-                                <td>发传单</td>
-                                <td>2020-10-10</td>
-                                <td>2020-10-20</td>
-                                <td>zhangsan</td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox"/></td>
-                                <td>发传单</td>
-                                <td>2020-10-10</td>
-                                <td>2020-10-20</td>
-                                <td>zhangsan</td>
-                            </tr>
+                        <tbody id="allActivityBody">
+
+
                         </tbody>
                     </table>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal">关联</button>
+                    <button type="button" class="btn btn-primary" id="bundBtn">关联</button>
                 </div>
             </div>
         </div>
@@ -520,7 +556,7 @@
             </div>
 
             <div>
-                <a href="javascript:void(0);" data-toggle="modal" data-target="#bundModal"
+                <a href="javascript:void(0);" onclick="bund()"
                    style="text-decoration: none;"><span class="glyphicon glyphicon-plus"></span>关联市场活动</a>
             </div>
         </div>
