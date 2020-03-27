@@ -78,7 +78,35 @@
             })
 
             $("#bundBtn").click(function () {
-                $("#bundModal").modal("hide");
+                var $xz = $("input[name=xz]:checked");
+                if ($xz.length === 0) {
+                    alert("请选择市场活动")
+                } else {
+                    var param = "clueId=${clue.id}&";
+                    for (var i = 0; i < $xz.length; i++) {
+                        param += "id=" + $($xz[i]).val();
+                        if (i < $xz.length - 1) {
+                            param += "&"
+                        }
+                    }
+                    $.ajax({
+                        url: "workbench/clue/bund.do",
+                        data: param,
+                        type: "get",
+                        async: false,
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.success) {
+                                loadActivity();
+                                $("#bundModal").modal("hide");
+                            } else {
+                                alert("关联失败");
+                            }
+                        }
+                    });
+                }
+
+
             })
 
             $("#activity-name").keydown(function () {
@@ -102,7 +130,7 @@
                             var html = "";
                             $.each(data, function (i, item) {
                                 html += '<tr>';
-                                html += '<td><input type="checkbox" name="xz" value="\'' + item.id + '\'"/></td>';
+                                html += '<td><input type="checkbox" name="xz" value="' + item.id + '"/></td>';
                                 html += '<td>' + item.name + '</td>';
                                 html += '<td>' + item.startDate + '</td>';
                                 html += '<td>' + item.endDate + '</td>';
@@ -117,6 +145,15 @@
 
 
             })
+
+            $("#selectAllActivity").click(function () {
+                $("input[name=xz]").prop("checked", this.checked)
+            });
+
+            $("#allActivityBody").on("click", $("input[name=xz]"), function () {
+                //当点击列表上的多选框时，如果列表上的所有多选框都被选中，则全选框被选中，反之，如果有一个没有被选中，这全选框取消选中
+                $("#selectAllActivity").prop("checked", $("input[name=xz]").length == $("input[name=xz]:checked").length);
+            });
         });
 
         function loadActivity() {
@@ -157,7 +194,8 @@
             $("#bundModal").modal("show");
             $("#activity-name").val("");
             $("#activity-name").focus();
-            $("input:checkbox").prop("checked", false);
+            $("#allActivityBody").html("");
+            $("#selectAllActivity").prop("checked", false);
         }
     </script>
 

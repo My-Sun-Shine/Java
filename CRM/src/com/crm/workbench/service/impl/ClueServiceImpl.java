@@ -1,12 +1,14 @@
 package com.crm.workbench.service.impl;
 
 import com.crm.utils.SqlSessionUtil;
+import com.crm.utils.UUIDUtil;
 import com.crm.vo.PaginationVO;
 import com.crm.workbench.dao.ActivityDao;
 import com.crm.workbench.dao.ClueActivityRelationDao;
 import com.crm.workbench.dao.ClueDao;
 import com.crm.workbench.domain.Activity;
 import com.crm.workbench.domain.Clue;
+import com.crm.workbench.domain.ClueActivityRelation;
 import com.crm.workbench.service.ClueService;
 
 import java.util.HashMap;
@@ -57,9 +59,26 @@ public class ClueServiceImpl implements ClueService {
 
     @Override
     public List<Activity> getActivityListByNameAndNotByClueId(String clueId, String aname) {
-        Map<String,String> map=new HashMap<>();
-        map.put("aname",aname);
-        map.put("clueId",clueId);
+        Map<String, String> map = new HashMap<>();
+        map.put("aname", aname);
+        map.put("clueId", clueId);
         return activityDao.getActivityListByNameAndNotByClueId(map);
+    }
+
+    @Override
+    public boolean bund(String clueId, String[] aIds) {
+        boolean flag = true;
+        for (String aId : aIds) {
+            ClueActivityRelation clueActivityRelation = new ClueActivityRelation();
+            clueActivityRelation.setId(UUIDUtil.getUUID());
+            clueActivityRelation.setClueId(clueId);
+            clueActivityRelation.setActivityId(aId);
+            int count = clueActivityRelationDao.saveRelationDao(clueActivityRelation);
+            if (count != 1) {
+                flag = false;
+            }
+        }
+
+        return flag;
     }
 }

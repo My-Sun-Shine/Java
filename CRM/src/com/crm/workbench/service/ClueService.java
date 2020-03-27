@@ -23,4 +23,6 @@ public interface ClueService {
     boolean deleteRelation(String id);
 
     List<Activity> getActivityListByNameAndNotByClueId(String clueid, String aname);
+
+    boolean bund(String clueId, String[] aIds);
 }

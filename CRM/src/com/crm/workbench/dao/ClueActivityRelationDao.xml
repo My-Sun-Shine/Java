@@ -7,4 +7,8 @@
     <delete id="deleteRelation">
         DELETE FROM tbl_clue_activity_relation WHERE id=#{id}
     </delete>
+    <insert id="saveRelationDao">
+        INSERT INTO tbl_clue_activity_relation(id,clueId,activityId)
+        VALUES(#{id},#{clueId},#{activityId})
+    </insert>
 </mapper>
