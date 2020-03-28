@@ -125,4 +125,19 @@
         WHERE a.id NOT IN(SELECT activityId FROM tbl_clue_activity_relation WHERE clueId=#{clueId} )
         AND a.name LIKE '%' #{aname} '%'
     </select>
+    <select id="getActivityListByName" resultType="Activity">
+        SELECT a.id
+          ,a.name
+          ,a.startDate
+          ,a.endDate
+          ,a.cost
+          ,a.description
+          ,(SELECT name from tbl_user where id=a.owner) AS owner
+          ,a.createTime
+          ,(SELECT name from tbl_user where id=a.createBy) AS createBy
+          ,a.editTime
+          ,(SELECT name from tbl_user where id=a.editBy) AS editBy
+        FROM tbl_activity a
+        WHERE a.name LIKE '%' #{aname} '%'
+    </select>
 </mapper>

@@ -4,5 +4,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.crm.workbench.dao.TranHistoryDao">
-
+    <insert id="saveTranHistory">
+        INSERT INTO tbl_tran_history(
+                id,
+                stage,
+                money,
+                expectedDate,
+                createTime,
+                createBy,
+                tranId
+        ) VALUES (
+                #{id},
+                #{stage},
+                #{money},
+                #{expectedDate},
+                #{createTime},
+                #{createBy},
+                #{tranId}
+        )
+    </insert>
 </mapper>

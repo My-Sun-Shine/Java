@@ -89,7 +89,7 @@
                 AND c.mphone LIKE '%' #{mphone} '%'
             </if>
             <if test="owner!=null and owner!=''">
-                AND u.name  LIKE '%' #{owner} '%'
+                AND u.name LIKE '%' #{owner} '%'
             </if>
             <if test="state!=null and state!=''">
                 AND c.state LIKE '%' #{state} '%'
@@ -125,4 +125,10 @@
         FROM tbl_clue c
         WHERE id=#{id}
     </select>
+    <select id="getClueById" resultType="Clue">
+        SELECT * FROM tbl_clue WHERE id=#{id}
+    </select>
+    <delete id="deleteById">
+        DELETE FROM tbl_clue WHERE id=#{id}
+    </delete>
 </mapper>

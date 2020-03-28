@@ -3,6 +3,7 @@ package com.crm.workbench.service;
 import com.crm.vo.PaginationVO;
 import com.crm.workbench.domain.Activity;
 import com.crm.workbench.domain.Clue;
+import com.crm.workbench.domain.Tran;
 
 import java.util.List;
 import java.util.Map; /**
@@ -25,4 +26,8 @@ public interface ClueService {
     List<Activity> getActivityListByNameAndNotByClueId(String clueid, String aname);
 
     boolean bund(String clueId, String[] aIds);
+
+    boolean convert(String clueId, Tran tran, String createBy);
+
+    List<Activity> getActivityListByName(String aname);
 }
