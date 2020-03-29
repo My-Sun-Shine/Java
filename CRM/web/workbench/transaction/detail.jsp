@@ -1,6 +1,13 @@
+<%@ page import="java.util.Map" %>
+<%@ page import="com.crm.settings.domain.DicValue" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.crm.workbench.domain.Tran" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
+    //与阶段相关的数据字典列表
+    List<DicValue> dvList = (List<DicValue>) application.getAttribute("stage");
+    Map<String, String> stageMap = (Map<String, String>) application.getAttribute("stageMap");
 %>
 <!DOCTYPE html>
 <html>
@@ -144,24 +151,83 @@
     <!-- 阶段状态 -->
     <div style="position: relative; left: 40px; top: -50px;">
         阶段&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom" data-content="资质审查" style="color: #90F790;"></span>
+        <%
+            //取得当前阶段
+            Tran tran = (Tran) request.getAttribute("tran");
+            String currentStage = tran.getStage();
+            //取得当前阶段的可能性
+            String currentPossibility = stageMap.get(currentStage);
+
+            //判断当前阶段的可能性是否为0，如果为0怎么办，如果不为0怎么办
+            //如果当前阶段可能性为0 前7个肯定是黑圈，后两个，一个是红叉，一个是黑叉
+            if ("0".equals(currentPossibility)) {
+                for (int i = 0; i < dvList.size(); i++) {
+                    //取得每一个阶段的图标，为每一个图标赋予样式，然后赋予颜色
+                    DicValue dicValue = dvList.get(i);
+                    String listStage = dicValue.getValue();
+                    String listPossibility = stageMap.get(listStage);
+                    if ("0".equals(listPossibility)) {
+                        //黑叉或红叉
+                        if (listStage.equals(currentStage)) {
+                            //红叉
+        %>
+        <span class="glyphicon glyphicon-remove mystage" style="color: red;" data-toggle="popover" data-placement="bottom" data-content="<%=dicValue.getText()%>"></span>
         -----------
-        <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom" data-content="需求分析" style="color: #90F790;"></span>
+        <%
+        } else {
+            //黑叉
+        %>
+        <span class="glyphicon glyphicon-remove mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dicValue.getText()%>"></span>
         -----------
-        <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom" data-content="价值建议" style="color: #90F790;"></span>
+        <%
+            }
+        } else {
+            //黑圈
+        %>
+        <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dicValue.getText()%>"></span>
         -----------
-        <span class="glyphicon glyphicon-ok-circle mystage" data-toggle="popover" data-placement="bottom" data-content="确定决策者" style="color: #90F790;"></span>
+        <%
+                }
+
+            }
+        } else {
+            //如果当前阶段的可能性不为0	前7个 有可能是 绿圈 绿色标记 黑圈，后两个肯定是黑叉
+            for (int i = 0; i < dvList.size(); i++) {
+                DicValue dicValue = dvList.get(i);
+                String listStage = dicValue.getValue();
+                String listPossibility = stageMap.get(listStage);
+                if ("0".equals(listPossibility)) {
+                    //黑叉
+        %>
+        <span class="glyphicon glyphicon-remove mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dicValue.getText()%>"></span>
         -----------
-        <span class="glyphicon glyphicon-map-marker mystage" data-toggle="popover" data-placement="bottom" data-content="提案/报价" style="color: #90F790;"></span>
+        <%
+        } else {
+            if (Integer.valueOf(listPossibility) < Integer.valueOf(currentPossibility)) {
+                //绿圈
+        %>
+        <span class="glyphicon glyphicon-ok-circle mystage" style="color: #90F790;" data-toggle="popover" data-placement="bottom" data-content="<%=dicValue.getText()%>"></span>
         -----------
-        <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="谈判/复审"></span>
+        <%
+        } else if (Integer.valueOf(listPossibility).equals(Integer.valueOf(currentPossibility))) {
+            //当前
+        %>
+        <span class="glyphicon glyphicon-map-marker mystage" style="color: #90F790;" data-toggle="popover" data-placement="bottom" data-content="<%=dicValue.getText()%>"></span>
         -----------
-        <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="成交"></span>
+        <%
+        } else {
+            //黑圈
+        %>
+        <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="<%=dicValue.getText()%>"></span>
         -----------
-        <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="丢失的线索"></span>
-        -----------
-        <span class="glyphicon glyphicon-record mystage" data-toggle="popover" data-placement="bottom" data-content="因竞争丢失关闭"></span>
-        -----------
+        <%
+                        }
+                    }
+                }
+            }
+
+
+        %>
         <span class="closingDate">${tran.expectedDate}</span>
     </div>
 
