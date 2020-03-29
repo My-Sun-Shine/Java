@@ -3,6 +3,7 @@ package com.crm.workbench.service.impl;
 import com.crm.utils.DateTimeUtil;
 import com.crm.utils.SqlSessionUtil;
 import com.crm.utils.UUIDUtil;
+import com.crm.vo.PaginationVO;
 import com.crm.workbench.dao.CustomerDao;
 import com.crm.workbench.dao.TranDao;
 import com.crm.workbench.dao.TranHistoryDao;
@@ -10,6 +11,9 @@ import com.crm.workbench.domain.Customer;
 import com.crm.workbench.domain.Tran;
 import com.crm.workbench.domain.TranHistory;
 import com.crm.workbench.service.TranService;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Classname TranServiceImpl
@@ -63,5 +67,15 @@ public class TranServiceImpl implements TranService {
             }
         }
         return flag;
+    }
+
+    @Override
+    public PaginationVO<Tran> pageList(Map<String, Object> map) {
+        int total = tranDao.getTotalByCondition(map);
+        List<Tran> tranList = tranDao.getListByCondition(map);
+        PaginationVO<Tran> paginationVO = new PaginationVO<>();
+        paginationVO.setTotal(total);
+        paginationVO.setDataList(tranList);
+        return paginationVO;
     }
 }

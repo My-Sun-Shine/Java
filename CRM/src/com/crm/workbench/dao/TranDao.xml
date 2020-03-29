@@ -41,4 +41,69 @@
                 #{nextContactTime}
         )
     </insert>
+    <select id="getTotalByCondition" resultType="int">
+        SELECT COUNT(*) FROM tbl_tran t
+        <where>
+            <if test="name!=null and name!=''">
+                AND t.name LIKE '%' #{name} '%'
+            </if>
+            <if test="customerName!=null and customerName!=''">
+                AND t.customerId IN(SELECT id FROM tbl_customer WHERE name LIKE '%' #{customerName} '%')
+            </if>
+            <if test="stage!=null and stage!=''">
+                AND t.stage LIKE '%' #{stage} '%'
+            </if>
+            <if test="type!=null and type!=''">
+                AND t.type LIKE '%' #{type} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                AND owner IN (SELECT id FROM tbl_user u WHERE u.name LIKE '%' #{owner} '%')
+            </if>
+            <if test="contactsName!=null and contactsName!=''">
+                AND t.contactsId IN(SELECT id FROM tbl_contacts WHERE fullname LIKE '%' #{contactsName} '%')
+            </if>
+            <if test="source!=null and source!=''">
+                AND t.source LIKE '%' #{source} '%'
+            </if>
+        </where>
+    </select>
+    <select id="getListByCondition" resultType="Tran">
+        SELECT IFNULL(t.id,"") AS id
+          ,IFNULL(t.name,"") AS name
+          ,IFNULL(u.name,"") AS owner
+          ,IFNULL(cu.name,"") AS customerId
+          ,IFNULL(co.fullname,"") AS contactsId
+          ,IFNULL(t.stage,"") AS stage
+          ,IFNULL(t.type,"") AS type
+          ,IFNULL(t.source,"") AS source
+        FROM tbl_tran t
+        LEFT JOIN tbl_user u ON t.owner=u.id
+        LEFT JOIN tbl_customer cu ON t.customerId=cu.id
+        LEFT JOIN tbl_contacts co ON t.contactsId=co.id
+        <where>
+            <if test="name!=null and name!=''">
+                AND t.name LIKE '%' #{name} '%'
+            </if>
+            <if test="customerName!=null and customerName!=''">
+                AND cu.name LIKE '%' #{customerName} '%'
+            </if>
+            <if test="stage!=null and stage!=''">
+                AND t.stage LIKE '%' #{stage} '%'
+            </if>
+            <if test="type!=null and type!=''">
+                AND t.type LIKE '%' #{type} '%'
+            </if>
+            <if test="owner!=null and owner!=''">
+                AND u.name LIKE '%' #{owner} '%'
+            </if>
+            <if test="contactsName!=null and contactsName!=''">
+                AND co.fullname LIKE '%' #{contactsName} '%'
+            </if>
+            <if test="source!=null and source!=''">
+                AND t.source LIKE '%' #{source} '%'
+            </if>
+        </where>
+        ORDER BY t.createTime DESC
+        LIMIT #{skipCount},#{pageSize}
+    </select>
 </mapper>

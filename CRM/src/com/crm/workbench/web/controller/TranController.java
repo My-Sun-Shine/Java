@@ -5,6 +5,7 @@ import com.crm.utils.DateTimeUtil;
 import com.crm.utils.PrintJson;
 import com.crm.utils.ServiceFactory;
 import com.crm.utils.UUIDUtil;
+import com.crm.vo.PaginationVO;
 import com.crm.workbench.domain.Contacts;
 import com.crm.workbench.domain.Tran;
 import com.crm.workbench.service.CustomerService;
@@ -19,7 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.stream.events.DTD;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Classname TranController
@@ -27,7 +30,8 @@ import java.util.List;
  * @Created by Falling Stars
  * @Description
  */
-@WebServlet(urlPatterns = {"/workbench/transaction/getCustomerListByName.do", "/workbench/transaction/getContactsListByName.do", "/workbench/transaction/saveTransaction.do"})
+@WebServlet(urlPatterns = {"/workbench/transaction/getCustomerListByName.do", "/workbench/transaction/getContactsListByName.do", "/workbench/transaction/saveTransaction.do"
+        ,"/workbench/transaction/pageList.do"})
 public class TranController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,8 +42,48 @@ public class TranController extends HttpServlet {
             getContactsListByName(req, resp);
         } else if ("/workbench/transaction/saveTransaction.do".equals(path)) {
             saveTransaction(req, resp);
+        }else if("/workbench/transaction/pageList.do".equals(path)){
+            pageList(req,resp);
         }
 
+    }
+
+    /**
+     * 分页查询数据操作
+     * @param req
+     * @param resp
+     */
+    private void pageList(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("分页查询数据操作");
+        TranService tranService = (TranService) ServiceFactory.getService(new TranServiceImpl());
+        //分页参数
+        String pageNoStr = req.getParameter("pageNo");
+        String pageSizeStr = req.getParameter("pageSize");
+        int pageNo = Integer.valueOf(pageNoStr);
+        int pageSize = Integer.valueOf(pageSizeStr);
+        int skipCount = (pageNo - 1) * pageSize;//跳过的记录数
+
+        String name = req.getParameter("name");
+        String owner = req.getParameter("owner");
+        String customerName = req.getParameter("customerName");
+        String stage = req.getParameter("stage");
+        String type = req.getParameter("type");
+        String contactsName = req.getParameter("contactsName");
+        String source = req.getParameter("source");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        map.put("customerName", customerName);
+        map.put("stage", stage);
+        map.put("type", type);
+        map.put("owner", owner);
+        map.put("contactsName", contactsName);
+        map.put("source", source);
+        map.put("skipCount", skipCount);
+        map.put("pageSize", pageSize);
+
+        PaginationVO<Tran> result = tranService.pageList(map);
+        PrintJson.printJsonObj(resp, result);
     }
 
 
