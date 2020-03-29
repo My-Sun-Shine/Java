@@ -103,7 +103,7 @@
                         html += '<tr>';
                         html += '<td><input type="checkbox" id="' + item.id + '"/></td>';
                         html += '<td><a style="text-decoration: none; cursor: pointer;"';
-                        html += 'onclick="window.location.href=\'workbench/transaction/detailClue.do?id=' + item.id + '\';">' + item.name + '</a></td>';
+                        html += 'onclick="window.location.href=\'workbench/transaction/detailTran.do?id=' + item.id + '\';">' + item.name + '</a></td>';
                         html += '<td>' + item.customerId + '</td>';
                         html += '<td>' + item.stage + '</td>';
                         html += '<td>' + item.type + '</td>';

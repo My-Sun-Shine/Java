@@ -69,13 +69,13 @@
     </select>
     <select id="getListByCondition" resultType="Tran">
         SELECT IFNULL(t.id,"") AS id
-          ,IFNULL(t.name,"") AS name
-          ,IFNULL(u.name,"") AS owner
-          ,IFNULL(cu.name,"") AS customerId
-          ,IFNULL(co.fullname,"") AS contactsId
-          ,IFNULL(t.stage,"") AS stage
-          ,IFNULL(t.type,"") AS type
-          ,IFNULL(t.source,"") AS source
+        ,IFNULL(t.name,"") AS name
+        ,IFNULL(u.name,"") AS owner
+        ,IFNULL(cu.name,"") AS customerId
+        ,IFNULL(co.fullname,"") AS contactsId
+        ,IFNULL(t.stage,"") AS stage
+        ,IFNULL(t.type,"") AS type
+        ,IFNULL(t.source,"") AS source
         FROM tbl_tran t
         LEFT JOIN tbl_user u ON t.owner=u.id
         LEFT JOIN tbl_customer cu ON t.customerId=cu.id
@@ -105,5 +105,33 @@
         </where>
         ORDER BY t.createTime DESC
         LIMIT #{skipCount},#{pageSize}
+    </select>
+    <select id="detailTran" resultType="Tran">
+        SELECT t.id
+          ,IFNULL(u.name,"") AS owner
+          ,t.money
+          ,IFNULL(t.name,"") AS name
+          ,t.expectedDate
+          ,IFNULL(cu.name,"") AS customerId
+          ,IFNULL(t.stage,"") AS stage
+          ,IFNULL(t.type,"") AS type
+          ,IFNULL(t.source,"") AS source
+          ,a.name AS activityId
+          ,IFNULL(co.fullname,"") AS contactsId
+          ,uc.name AS createBy
+          ,t.createTime
+          ,IFNULL(uu.name,"") AS editBy
+          ,IFNULL(t.editTime,"") AS editTime
+          ,t.description
+          ,t.contactSummary
+          ,t.nextContactTime
+        FROM tbl_tran t
+            LEFT JOIN tbl_user u ON t.owner=u.id
+            LEFT JOIN tbl_customer cu ON t.customerId=cu.id
+            LEFT JOIN tbl_contacts co ON t.contactsId=co.id
+            LEFT JOIN tbl_activity a ON t.activityId=a.id
+            LEFT JOIN tbl_user uc ON t.createBy=uc.id
+            LEFT JOIN tbl_user uu ON t.editBy=uu.id
+        WHERE t.id=#{id}
     </select>
 </mapper>

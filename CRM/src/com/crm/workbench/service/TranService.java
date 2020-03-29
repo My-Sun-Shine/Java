@@ -15,4 +15,6 @@ public interface TranService {
     boolean saveTransaction(Tran tran);
 
     PaginationVO<Tran> pageList(Map<String, Object> map);
+
+    Tran detailTran(String id);
 }

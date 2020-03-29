@@ -78,4 +78,9 @@ public class TranServiceImpl implements TranService {
         paginationVO.setDataList(tranList);
         return paginationVO;
     }
+
+    @Override
+    public Tran detailTran(String id) {
+        return tranDao.detailTran(id);
+    }
 }

@@ -31,7 +31,7 @@ import java.util.Map;
  * @Description
  */
 @WebServlet(urlPatterns = {"/workbench/transaction/getCustomerListByName.do", "/workbench/transaction/getContactsListByName.do", "/workbench/transaction/saveTransaction.do"
-        ,"/workbench/transaction/pageList.do"})
+        , "/workbench/transaction/pageList.do", "/workbench/transaction/detailTran.do"})
 public class TranController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,14 +42,34 @@ public class TranController extends HttpServlet {
             getContactsListByName(req, resp);
         } else if ("/workbench/transaction/saveTransaction.do".equals(path)) {
             saveTransaction(req, resp);
-        }else if("/workbench/transaction/pageList.do".equals(path)){
-            pageList(req,resp);
+        } else if ("/workbench/transaction/pageList.do".equals(path)) {
+            pageList(req, resp);
+        } else if ("/workbench/transaction/detailTran.do".equals(path)) {
+            detailTran(req, resp);
         }
 
     }
 
     /**
+     * 进入交易详情页面操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void detailTran(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("进入交易详情页面操作");
+        String id = req.getParameter("id");
+        TranService tranService = (TranService) ServiceFactory.getService(new TranServiceImpl());
+        Tran tran = tranService.detailTran(id);
+        Map<String, String> map = (Map<String, String>) this.getServletContext().getAttribute("stageMap");
+        tran.setPossibility(map.get(tran.getStage()));
+        req.setAttribute("tran", tran);
+        req.getRequestDispatcher("/workbench/transaction/detail.jsp").forward(req, resp);
+    }
+
+    /**
      * 分页查询数据操作
+     *
      * @param req
      * @param resp
      */
