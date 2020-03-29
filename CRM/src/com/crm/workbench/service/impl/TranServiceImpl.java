@@ -83,4 +83,9 @@ public class TranServiceImpl implements TranService {
     public Tran detailTran(String id) {
         return tranDao.detailTran(id);
     }
+
+    @Override
+    public List<TranHistory> getTranHistoryByTranId(String tranId) {
+        return tranHistoryDao.getTranHistoryByTranId(tranId);
+    }
 }

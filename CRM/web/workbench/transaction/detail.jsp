@@ -87,9 +87,36 @@
                     }
                 }, 100);
             });
+
+            loadHistory();
         });
 
+        function loadHistory() {
+            $.ajax({
+                url: "workbench/transaction/getTranHistoryByTranId.do",
+                data: {
+                    "tranId": "${tran.id}"
+                },
+                type: "get",
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    var html = "";
+                    $.each(data, function (i, item) {
+                        html += '<tr>';
+                        html += '<td>' + item.stage + '</td>';
+                        html += '<td>' + item.money + '</td>';
+                        html += '<td>' + item.possibility + '</td>';
+                        html += '<td>' + item.expectedDate + '</td>';
+                        html += '<td>' + item.createTime + '</td>';
+                        html += '<td>' + item.createBy + '</td>';
+                        html += '</tr>';
+                    });
+                    $("#historyBody").html(html);
 
+                }
+            })
+        }
     </script>
 
 </head>
@@ -108,7 +135,8 @@
             </h3>
         </div>
         <div style="position: relative; height: 50px; width: 250px;  top: -72px; left: 700px;">
-            <button type="button" class="btn btn-default" onclick="window.location.href='workbench/transaction/edit.jsp';"><span class="glyphicon glyphicon-edit"></span> 编辑</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href='workbench/transaction/edit.jsp';"><span class="glyphicon glyphicon-edit"></span> 编辑
+            </button>
             <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除</button>
         </div>
     </div>
@@ -186,12 +214,16 @@
         </div>
         <div style="position: relative; left: 40px; height: 30px; top: 60px;">
             <div style="width: 300px; color: gray;">创建者</div>
-            <div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>${tran.createBy}&nbsp;&nbsp;</b><small style="font-size: 10px; color: gray;">${tran.createTime}</small></div>
+            <div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>${tran.createBy}&nbsp;&nbsp;</b>
+                <small style="font-size: 10px; color: gray;">${tran.createTime}</small>
+            </div>
             <div style="height: 1px; width: 550px; background: #D5D5D5; position: relative; top: -20px;"></div>
         </div>
         <div style="position: relative; left: 40px; height: 30px; top: 70px;">
             <div style="width: 300px; color: gray;">修改者</div>
-            <div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>${tran.editBy}&nbsp;&nbsp;</b><small style="font-size: 10px; color: gray;">${tran.editTime}</small></div>
+            <div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>${tran.editBy}&nbsp;&nbsp;</b>
+                <small style="font-size: 10px; color: gray;">${tran.editTime}</small>
+            </div>
             <div style="height: 1px; width: 550px; background: #D5D5D5; position: relative; top: -20px;"></div>
         </div>
         <div style="position: relative; left: 40px; height: 30px; top: 80px;">
@@ -266,42 +298,18 @@
                 <h4>阶段历史</h4>
             </div>
             <div style="position: relative;top: 0px;">
-                <table id="activityTable" class="table table-hover" style="width: 900px;">
+                <table id="historyTable" class="table table-hover" style="width: 900px;">
                     <thead>
                         <tr style="color: #B3B3B3;">
                             <td>阶段</td>
                             <td>金额</td>
                             <td>可能性</td>
                             <td>预计成交日期</td>
-                            <td>修改时间</td>
-                            <td>修改者</td>
+                            <td>创建时间</td>
+                            <td>创建者</td>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>资质审查</td>
-                            <td>5,000</td>
-                            <td>10</td>
-                            <td>2017-02-07</td>
-                            <td>2016-10-10 10:10:10</td>
-                            <td>zhangsan</td>
-                        </tr>
-                        <tr>
-                            <td>需求分析</td>
-                            <td>5,000</td>
-                            <td>20</td>
-                            <td>2017-02-07</td>
-                            <td>2016-10-20 10:10:10</td>
-                            <td>zhangsan</td>
-                        </tr>
-                        <tr>
-                            <td>谈判/复审</td>
-                            <td>5,000</td>
-                            <td>90</td>
-                            <td>2017-02-07</td>
-                            <td>2017-02-09 10:10:10</td>
-                            <td>zhangsan</td>
-                        </tr>
+                    <tbody id="historyBody">
                     </tbody>
                 </table>
             </div>

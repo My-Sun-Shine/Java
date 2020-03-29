@@ -8,6 +8,7 @@ import com.crm.utils.UUIDUtil;
 import com.crm.vo.PaginationVO;
 import com.crm.workbench.domain.Contacts;
 import com.crm.workbench.domain.Tran;
+import com.crm.workbench.domain.TranHistory;
 import com.crm.workbench.service.CustomerService;
 import com.crm.workbench.service.TranService;
 import com.crm.workbench.service.impl.CustomerServiceImpl;
@@ -31,7 +32,7 @@ import java.util.Map;
  * @Description
  */
 @WebServlet(urlPatterns = {"/workbench/transaction/getCustomerListByName.do", "/workbench/transaction/getContactsListByName.do", "/workbench/transaction/saveTransaction.do"
-        , "/workbench/transaction/pageList.do", "/workbench/transaction/detailTran.do"})
+        , "/workbench/transaction/pageList.do", "/workbench/transaction/detailTran.do", "/workbench/transaction/getTranHistoryByTranId.do"})
 public class TranController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -46,8 +47,28 @@ public class TranController extends HttpServlet {
             pageList(req, resp);
         } else if ("/workbench/transaction/detailTran.do".equals(path)) {
             detailTran(req, resp);
+        } else if ("/workbench/transaction/getTranHistoryByTranId.do".equals(path)) {
+            getTranHistoryByTranId(req, resp);
         }
 
+    }
+
+    /**
+     * 根据交易ID获取交易历史记录
+     *
+     * @param req
+     * @param resp
+     */
+    private void getTranHistoryByTranId(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("根据交易ID获取交易历史记录");
+        TranService tranService = (TranService) ServiceFactory.getService(new TranServiceImpl());
+        String tranId = req.getParameter("tranId");
+        List<TranHistory> tranHistories = tranService.getTranHistoryByTranId(tranId);
+        Map<String, String> map = (Map<String, String>) this.getServletContext().getAttribute("stageMap");
+        for (TranHistory item : tranHistories) {
+            item.setPossibility(map.get(item.getStage()));
+        }
+        PrintJson.printJsonObj(resp, tranHistories);
     }
 
     /**

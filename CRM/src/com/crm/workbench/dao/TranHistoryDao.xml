@@ -23,4 +23,16 @@
                 #{tranId}
         )
     </insert>
+    <select id="getTranHistoryByTranId" resultType="TranHistory">
+        SELECT  th.id,
+                th.stage,
+                th.money,
+                th.expectedDate,
+                th.createTime,
+                u.name AS createBy,
+                th.tranId
+        FROM tbl_tran_history th
+        LEFT JOIN tbl_user u ON u.id = th.createBy
+        WHERE th.tranId=#{tranId}
+    </select>
 </mapper>
