@@ -6,39 +6,42 @@
 <mapper namespace="com.crm.workbench.dao.ContactsDao">
     <insert id="saveContacts">
         INSERT INTO tbl_contacts(
-                id,
-                owner,
-                source,
-                customerId,
-                fullname,
-                appellation,
-                email,
-                mphone,
-                job,
-                birth,
-                createBy,
-                createTime,
-                description,
-                contactSummary,
-                nextContactTime,
-                address
+        id,
+        owner,
+        source,
+        customerId,
+        fullname,
+        appellation,
+        email,
+        mphone,
+        job,
+        birth,
+        createBy,
+        createTime,
+        description,
+        contactSummary,
+        nextContactTime,
+        address
         ) VALUES (
-                #{id},
-                #{owner},
-                #{source},
-                #{customerId},
-                #{fullname},
-                #{appellation},
-                #{email},
-                #{mphone},
-                #{job},
-                #{birth},
-                #{createBy},
-                #{createTime},
-                #{description},
-                #{contactSummary},
-                #{nextContactTime},
-                #{address}
+        #{id},
+        #{owner},
+        #{source},
+        #{customerId},
+        #{fullname},
+        #{appellation},
+        #{email},
+        #{mphone},
+        #{job},
+        #{birth},
+        #{createBy},
+        #{createTime},
+        #{description},
+        #{contactSummary},
+        #{nextContactTime},
+        #{address}
         )
-</insert>
+    </insert>
+    <select id="getContactsListByName" resultType="Contacts">
+        SELECT * FROM tbl_contacts WHERE fullname LIKE '%' #{name} '%'
+    </select>
 </mapper>

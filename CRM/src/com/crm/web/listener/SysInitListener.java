@@ -8,9 +8,7 @@ import com.crm.utils.ServiceFactory;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Classname SysInitListener
@@ -53,6 +51,17 @@ public class SysInitListener implements ServletContextListener {
         }
         System.out.println(map.toString());
         System.out.println("数据字典值初始化到服务缓存结束");
+        System.out.println("Stage2Possibility.properties初始化到服务缓存开始");
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("Stage2Possibility");
+        Enumeration<String> keys = resourceBundle.getKeys();
+        Map<String, String> stageMap = new HashMap<>();
+        while (keys.hasMoreElements()) {
+            String key = keys.nextElement();
+            String value = resourceBundle.getString(key);
+            stageMap.put(key, value);
+        }
+        application.setAttribute("stageMap", stageMap);
+        System.out.println("Stage2Possibility.properties初始化到服务缓存结束");
     }
 
     @Override
