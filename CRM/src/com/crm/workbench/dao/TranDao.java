@@ -17,4 +17,6 @@ public interface TranDao {
     List<Tran> getListByCondition(Map<String, Object> map);
 
     Tran detailTran(String id);
+
+    int changeStage(Tran tran);
 }

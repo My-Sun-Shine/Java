@@ -134,4 +134,8 @@
             LEFT JOIN tbl_user uu ON t.editBy=uu.id
         WHERE t.id=#{id}
     </select>
+    <update id="changeStage">
+        UPDATE tbl_tran SET stage=#{stage},editBy=#{editBy},editTime=#{editTime}
+        WHERE id=#{id}
+    </update>
 </mapper>

@@ -34,5 +34,6 @@
         FROM tbl_tran_history th
         LEFT JOIN tbl_user u ON u.id = th.createBy
         WHERE th.tranId=#{tranId}
+        ORDER BY th.stage
     </select>
 </mapper>

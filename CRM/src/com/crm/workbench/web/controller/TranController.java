@@ -32,7 +32,7 @@ import java.util.Map;
  * @Description
  */
 @WebServlet(urlPatterns = {"/workbench/transaction/getCustomerListByName.do", "/workbench/transaction/getContactsListByName.do", "/workbench/transaction/saveTransaction.do"
-        , "/workbench/transaction/pageList.do", "/workbench/transaction/detailTran.do", "/workbench/transaction/getTranHistoryByTranId.do"})
+        , "/workbench/transaction/pageList.do", "/workbench/transaction/detailTran.do", "/workbench/transaction/getTranHistoryByTranId.do", "/workbench/transaction/changeStage.do"})
 public class TranController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -49,8 +49,47 @@ public class TranController extends HttpServlet {
             detailTran(req, resp);
         } else if ("/workbench/transaction/getTranHistoryByTranId.do".equals(path)) {
             getTranHistoryByTranId(req, resp);
+        } else if ("/workbench/transaction/changeStage.do".equals(path)) {
+            changeStage(req, resp);
         }
 
+    }
+
+    /**
+     * 进入改变阶段图标操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void changeStage(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入改变阶段图标操作");
+        TranService tranService = (TranService) ServiceFactory.getService(new TranServiceImpl());
+        String id = req.getParameter("id");
+        String stage = req.getParameter("stage");
+        String money = req.getParameter("money");
+        String expectedDate = req.getParameter("expectedDate");
+        String editBy = ((User) req.getSession().getAttribute("user")).getId();
+        String editByName = ((User) req.getSession().getAttribute("user")).getName();
+        String editTime = DateTimeUtil.getSysTime();
+
+        Tran tran = new Tran();
+        tran.setId(id);
+        tran.setStage(stage);
+        tran.setMoney(money);
+        tran.setExpectedDate(expectedDate);
+        tran.setEditBy(editBy);
+        tran.setEditTime(editTime);
+
+        boolean flag = tranService.changeStage(tran);
+        Map<String, String> stageMap = (Map<String, String>) this.getServletContext().getAttribute("stageMap");
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("success", flag);
+        map.put("stage", stage);
+        map.put("possibility", stageMap.get(tran.getStage()));
+        map.put("editBy", editByName);
+        map.put("editTime", editTime);
+        PrintJson.printJsonObj(resp, map);
     }
 
     /**

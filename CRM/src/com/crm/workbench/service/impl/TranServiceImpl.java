@@ -88,4 +88,27 @@ public class TranServiceImpl implements TranService {
     public List<TranHistory> getTranHistoryByTranId(String tranId) {
         return tranHistoryDao.getTranHistoryByTranId(tranId);
     }
+
+    @Override
+    public boolean changeStage(Tran tran) {
+        boolean flag = true;
+        int count = tranDao.changeStage(tran);
+        if (count != 1) {
+            flag = false;
+        }
+
+        TranHistory tranHistory = new TranHistory();
+        tranHistory.setId(UUIDUtil.getUUID());
+        tranHistory.setStage(tran.getStage());
+        tranHistory.setExpectedDate(tran.getExpectedDate());
+        tranHistory.setMoney(tran.getMoney());
+        tranHistory.setTranId(tran.getId());
+        tranHistory.setCreateBy(tran.getEditBy());
+        tranHistory.setCreateTime(DateTimeUtil.getSysTime());
+        int count2 = tranHistoryDao.saveTranHistory(tranHistory);
+        if (count2 != 1) {
+            flag = false;
+        }
+        return flag;
+    }
 }
