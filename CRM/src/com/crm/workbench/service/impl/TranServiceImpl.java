@@ -12,6 +12,7 @@ import com.crm.workbench.domain.Tran;
 import com.crm.workbench.domain.TranHistory;
 import com.crm.workbench.service.TranService;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -110,5 +111,15 @@ public class TranServiceImpl implements TranService {
             flag = false;
         }
         return flag;
+    }
+
+    @Override
+    public Map<String, Object> getChartData() {
+        int total=tranDao.getTotal();
+        List<Map<String,Object>> dataList=tranDao.getChartData();
+        Map<String,Object> map=new HashMap<>();
+        map.put("total",total);
+        map.put("dataList",dataList);
+        return map;
     }
 }

@@ -138,4 +138,12 @@
         UPDATE tbl_tran SET stage=#{stage},editBy=#{editBy},editTime=#{editTime}
         WHERE id=#{id}
     </update>
+    <select id="getChartData" resultType="map">
+        SELECT COUNT(*) AS value,stage AS name
+        FROM tbl_tran
+        GROUP BY stage
+    </select>
+    <select id="getTotal" resultType="int">
+        SELECT COUNT(*) FROM tbl_tran
+    </select>
 </mapper>

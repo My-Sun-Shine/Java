@@ -32,7 +32,8 @@ import java.util.Map;
  * @Description
  */
 @WebServlet(urlPatterns = {"/workbench/transaction/getCustomerListByName.do", "/workbench/transaction/getContactsListByName.do", "/workbench/transaction/saveTransaction.do"
-        , "/workbench/transaction/pageList.do", "/workbench/transaction/detailTran.do", "/workbench/transaction/getTranHistoryByTranId.do", "/workbench/transaction/changeStage.do"})
+        , "/workbench/transaction/pageList.do", "/workbench/transaction/detailTran.do", "/workbench/transaction/getTranHistoryByTranId.do", "/workbench/transaction/changeStage.do"
+        , "/workbench/transaction/getChartData.do"})
 public class TranController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,8 +52,23 @@ public class TranController extends HttpServlet {
             getTranHistoryByTranId(req, resp);
         } else if ("/workbench/transaction/changeStage.do".equals(path)) {
             changeStage(req, resp);
+        } else if ("/workbench/transaction/getChartData.do".equals(path)) {
+            getChartData(req, resp);
         }
 
+    }
+
+    /**
+     * 进入取得统计图数据操作
+     *
+     * @param req
+     * @param resp
+     */
+    private void getChartData(HttpServletRequest req, HttpServletResponse resp) {
+        System.out.println("进入取得统计图数据操作");
+        TranService tranService = (TranService) ServiceFactory.getService(new TranServiceImpl());
+        Map<String, Object> map = tranService.getChartData();
+        PrintJson.printJsonObj(resp,map);
     }
 
     /**
