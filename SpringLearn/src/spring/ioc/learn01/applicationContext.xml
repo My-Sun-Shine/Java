@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+    bean对象定义，声明
+        id:自定义的名称，表示对象的名字，名称定义同java中变量的名称，是唯一值
+        class:类的全限定名称，不能是接口，Class.forName("类的全限定名称")
+
+        <bean>等同于
+        SomeService someService = new spring.ioc.service.impl.SomeServiceImpl();
+    -->
+    <bean id="SomeService" class="spring.ioc.learn01.SomeServiceImpl"></bean>
+
+</beans>
+        <!--
+            加入约束文件：
+            bean: 由spring创建和管理的java对象。叫做bean
+        -->
