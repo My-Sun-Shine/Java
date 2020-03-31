@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+    DI:给属性赋值
+
+    2.构造注入：调用类的有参数构造方法，创建对象的同时，给属性赋值
+        1）使用name属性，
+            标签是<constructor-arg>, 这个标签标示构造方法的参数。 name是他的属性
+        2）使用index属性
+            标签是<constructor-arg>, 这个标签标示构造方法的参数。 index是他的属性
+    -->
+
+    <!-- 使用name属性 -->
+    <bean id="Student" class="spring.ioc.learn03.package02.Student">
+        <!--
+        name:构造方法的形参名称
+        value:简单类型的参数值
+        ref:引用类型的参数值
+        -->
+
+        <constructor-arg name="age" value="12"/>
+        <constructor-arg name="name" value="李四"/>
+        <constructor-arg name="school" ref="School"/>
+    </bean>
+
+    <!-- 使用index属性 -->
+    <bean id="Student01" class="spring.ioc.learn03.package02.Student">
+        <!--
+        index:构造方法的形参位置，从0开始
+        value:简单类型的参数值
+        ref:引用类型的参数值
+        -->
+
+        <constructor-arg index="1" value="12"/>
+        <constructor-arg index="0" value="李四"/>
+        <constructor-arg index="2" ref="School"/>
+    </bean>
+
+    <!-- 省略index属性，默认0 1 2的顺序 -->
+    <bean id="Student02" class="spring.ioc.learn03.package02.Student">
+        <!--
+        value:简单类型的参数值
+        ref:引用类型的参数值
+        -->
+        <constructor-arg value="李四"/>
+        <constructor-arg value="12"/>
+        <constructor-arg ref="School"/>
+    </bean>
+
+    <bean id="School" class="spring.ioc.learn03.package02.School">
+        <constructor-arg name="name" value="北京大学"/>
+        <constructor-arg name="address" value="北京"/>
+    </bean>
+</beans>
+        <!--
+            加入约束文件：
+            bean: 由spring创建和管理的java对象。叫做bean
+        -->
