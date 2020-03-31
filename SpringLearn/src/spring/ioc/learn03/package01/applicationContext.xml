@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+    DI:给属性赋值
+    1.设值注入：由spring调用类的set方法，在set方法中给属性赋值。
+
+    1）简单类型的设值注入，简单类型：Spring中把java基本类型和String都叫简单类型
+    使用设值注入：
+    <bean id="xxx" class="yyy">
+        <property name="属性名" value="简单类型的属性值"> // 一个property对应一个属性
+        ...
+    </bean>
+
+    2）引用类型
+        a）使用 ref属性
+        <bean id="xx" class="yy">
+            <property name="属性名" ref="bean的id" />
+            ...
+        </bean>
+        b）使用 ref子标签
+        <bean id="xx" class="yy">
+            <property name="属性名" >
+                <ref bean="bean的id"/>
+            </property>
+            ...
+        </bean>
+    -->
+    <bean id="Student" class="spring.ioc.learn03.package01.Student">
+        <!--简单类型的设值注入-->
+        <property name="age" value="10"/>
+        <property name="name" value="詹三"/>
+        <property name="sex" value="man"/>
+        <!--<property name="school" ref="School"/>-->
+        <property name="school">
+            <ref bean="School" />
+        </property>
+    </bean>
+
+    <bean id="School" class="spring.ioc.learn03.package01.School">
+        <property name="name" value="北京大学"/>
+        <property name="address" value="北京"/>
+    </bean>
+</beans>
+        <!--
+            加入约束文件：
+            bean: 由spring创建和管理的java对象。叫做bean
+        -->
