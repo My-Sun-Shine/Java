@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!--
+    引用类型的自动注入： 让spring框架实现对引用类型的赋值。默认是不赋值的。
+        spring框架支持常用的自动注入byName, byType
+
+         1.byName:按名称注入， java类中引用类型的[属性名]和spring容器中(xml配置文件)<bean>的[id名称]一样的
+         且数据类型是一样的，这样的 bean能够赋值给引用类型
+         指定byName的语法：
+         <bean id="xx" class="yy" autowire="byName">
+             ..
+         </bean>
+
+         2.byType：安装类型注入，java类中引用类型的【数据类型】和Spring容器(xml配置文件)<bean>的class是同源
+         关系的bean，把这样的bean能够赋值到引用类型
+    -->
+
+    <bean id="Student" class="spring.ioc.learn04.package01.Student" autowire="byName">
+        <property name="name" value="张三" />
+        <property name="age" value="20"  />
+    </bean>
+
+
+    <!--去student类中找到School类型变量mySchool，与bean元素id属性一致-->
+    <bean id="mySchool" class="spring.ioc.learn04.package01.School">
+        <property name="name" value="清华大学" />
+        <property name="address" value="北京海淀" />
+    </bean>
+</beans>
+        <!--
+            加入约束文件：
+            bean: 由spring创建和管理的java对象。叫做bean
+        -->
