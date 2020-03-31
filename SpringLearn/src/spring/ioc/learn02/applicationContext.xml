@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="SomeService01" class="spring.ioc.learn02.SomeServiceImpl01"></bean>
+
+    <!--Bean对象的作用域：表示对象的存在范围和可见性-->
+    <!--1.singleton：单例模式，表示对象在Spring的容器中只有一个，单例是默认值，无论使用getBean方法获取几次-->
+    <bean id="SomeService02" class="spring.ioc.learn02.SomeServiceImpl02" scope="singleton"></bean>
+    <!--2.prototype：原型模式，每次使用getBean方法都会获取一个新的对象-->
+    <bean id="SomeService03" class="spring.ioc.learn02.SomeServiceImpl03" scope="prototype"></bean>
+
+
+
+</beans>
+        <!--
+            加入约束文件：
+            bean: 由spring创建和管理的java对象。叫做bean
+        -->
