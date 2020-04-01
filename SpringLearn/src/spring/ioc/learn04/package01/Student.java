@@ -1,6 +1,5 @@
 package spring.ioc.learn04.package01;
 
-import spring.ioc.learn04.package01.School;
 
 /**
  * @Classname Student
