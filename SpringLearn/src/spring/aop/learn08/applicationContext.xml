@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+
+
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- 为了使用aspectj的自动代理生成功能，需要加入一个新的约束文件 spring-aop.xsd -->
+    <!-- 声明目标类对象 -->
+    <bean id="someServiceTarget" class="spring.aop.learn08.SomeServiceImpl"/>
+    <!-- 声明切面类对象 -->
+    <bean id="myAspect" class="spring.aop.learn08.MyAspect"/>
+
+    <!-- 声明自动代理生成器，创建代理对象
+           作用：把Spring容器中，符合条件的目标对象，加入切面的功能后，生成代理对象
+           他的生成方式是把容器中的目标对象，进行修改，加入切面的功能，所有目标类实际就是代理对象
+        proxy-target-class="true",使用cglib动态代理
+      -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+</beans>
+        <!--
+            加入约束文件：
+            bean: 由spring创建和管理的java对象。叫做bean
+        -->
