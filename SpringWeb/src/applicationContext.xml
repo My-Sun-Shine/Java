@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--Spring配置文件，声明DAO对象，Service对象，以及其他工具对象-->
+
+    <!-- 指定属性配置文件的位置, <properties resource="jdbc.properties"/>
+        location:指定属性配置文件的位置，使用classpath:表示类路径
+    -->
+    <context:property-placeholder location="classpath:jdbc.properties"/>
+
+    <!-- 声明Druid数据源
+         DruidDataSource实现了javax.sql.DataSource，创建Connection,连接到数据库
+     -->
+    <bean id="myDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!-- 使用设值注入，给 DruidDataSource属性赋值-->
+        <!--<property name="url" value="jdbc:mysql://localhost:3306/springdb"/>&lt;!&ndash; setUrl() &ndash;&gt;
+        <property name="username" value="root"/>&lt;!&ndash; setUsername() &ndash;&gt;
+        <property name="password" value="123456"/>&lt;!&ndash; setPassword &ndash;&gt;-->
+
+        <property name="url" value="${jdbc.url}"/><!-- setUrl() -->
+        <property name="username" value="${jdbc.username}"/><!-- setUsername() -->
+        <property name="password" value="${jdbc.password}"/><!-- setPassword -->
+    </bean>
+    <!--
+        DataSource myDataSource = new com.alibaba.druid.pool.DruidDataSource();
+        myDataSource.setUrl("jdbc:mysql://localhost:3306/springdb");
+        myDataSource.setUsername("root");
+        myDataSource.setPassword("123456");
+        myDataSource.init();
+     -->
+
+    <!-- SqlSessionFactoryBean,创建SqlSessionFactory -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--指定数据源DataSource-->
+        <property name="dataSource" ref="myDataSource"/>
+        <!--指定MyBatis主配置文件 spring会读取mybatis.xml创建Resource-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+    <!--
+       SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+       bean.setDataSource(myDataSource);
+       bean.setConfigLocation(new Resource("classpath:mybatis-config.xml"));
+       SqlSessionFactory factory = bean.getObject();
+     -->
+
+    <!-- MyBatis的扫描器，创建Dao接口的实现类对象 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!-- 设置Dao接口所在的包名 -->
+        <property name="basePackage" value="dao"/>
+    </bean>
+    <!--
+    MapperScannerConfigurer会把basePackage这个包下面的所有接口，都创建出对应的Dao对象
+    创建好的Dao对象放入到spring的容器中
+
+    使用sqlSessionFactoryBeanName，获取到SqlSessionFactory对象，对象名字可以叫做factory
+    SqlSession session = factory.openSession();
+
+     for(接口：spring.mybatis.dao){
+         接口类型的Dao对象  xxDao  = session.getMapper(接口);
+     创建好的Dao对象放入到spring的容器中，
+     spring使用map存储对象 map.put(接口名的首字母小写, xxDao)
+     -->
+
+    <!-- 声明Service对象 -->
+    <bean id="studentService" class="service.impl.StudentServiceImpl">
+        <property name="studentDao" ref="studentDao"/><!-- StudentServiceImpl.setStuDao(studentDao)-->
+    </bean>
+
+</beans>
+        <!--
+            加入约束文件：
+            bean: 由spring创建和管理的java对象。叫做bean
+        -->
