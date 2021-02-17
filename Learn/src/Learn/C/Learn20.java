@@ -11,9 +11,9 @@ import java.util.ArrayList;
  */
 public class Learn20 {
     public static void main(String[] args) throws ClassNotFoundException, IllegalAccessException, NoSuchFieldException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        //m1();
-        //m2();
-        //m3();
+        m1();
+        m2();
+        m3();
         m4();
     }
 

@@ -51,7 +51,7 @@ public class Learn14 {
         int lastSlashIndex = path.lastIndexOf('/');
         int dotIndex = path.indexOf(".");
         String folder = path.substring(0, lastSlashIndex);  //  d:/Chapter04/src/com/chapter04/string/demo01/
-        String name = path.substring(lastSlashIndex + 1, dotIndex); //  Test02.java
+        String name = path.substring(lastSlashIndex + 1, dotIndex); //  Test02
         String suffix = path.substring(dotIndex + 1); // java
         System.out.println(folder);
         System.out.println(name);

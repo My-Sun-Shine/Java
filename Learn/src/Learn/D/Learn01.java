@@ -193,7 +193,7 @@ public class Learn01 {
     public static void printSet(ResultSet resultSet) throws SQLException {
         if(resultSet!=null){
             ResultSetMetaData md = resultSet.getMetaData();//获取键名
-            int columnCount = md.getColumnCount();//获取行的数量
+            int columnCount = md.getColumnCount();//获取列的数量
             while (resultSet.next()){
                 for (int i = 1; i <= columnCount; i++) {
                     System.out.print(resultSet.getString(i));

@@ -9,6 +9,8 @@ package Learn.C;
 public class Learn17 {
     /**
      * wait()/notify()必须在同步代码块中由锁对象调用
+     * notify/notifyAll() 的执行只是唤醒沉睡的线程，而不会立即释放锁，锁的释放要看代码块的具体执行情况
+     * notify和wait的顺序不能错，如果A线程先执行notify方法，B线程在执行wait方法，那么B线程是无法被唤醒的。
      * <p>
      * 创建两个线程,实现奇数偶数的交替打印
      * 线程1 : 1

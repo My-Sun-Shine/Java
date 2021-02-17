@@ -59,6 +59,7 @@ public class Learn05 {
             return i;
         } finally {
             i += 10;
+            System.out.println("i：" + i);
         }
 
         /*
