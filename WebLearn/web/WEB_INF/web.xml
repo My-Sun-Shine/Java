@@ -3,12 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+    <!--设置监听器    -->
     <listener>
         <listener-class>C.Listener01</listener-class>
     </listener>
     <listener>
         <listener-class>C.Listener02</listener-class>
     </listener>
+
+    <!--servlet请求路径    -->
     <servlet>
         <servlet-name>AServlet01</servlet-name>
         <servlet-class>A.Servlet01</servlet-class>
@@ -51,6 +54,7 @@
       Servlet实现类的4中请求路径优先级 ==> 对于同一个URL路径的匹配规则的优先级
       [具体请求路径] > [前置条件请求路径] > [通配符请求路径] > [后置条件请求路径]
    -->
+    <!--Servlet02会先于Servlet01创建，因为Servlet02的load-on-startup属性小于Servlet01-->
     <servlet>
         <servlet-name>AServlet02</servlet-name>
         <servlet-class>A.Servlet02</servlet-class>
@@ -77,7 +81,9 @@
     默认欢迎资源选择：理论来说，只要这个资源可以将一个页面推送到用户浏览器上
     那么这个资源就可以作为【默认欢迎资源】-->
 
-    <!--在项目运行之前，可以将当前网站中所有Servlet需要的【共享数据】注册web.xml
+    <!--
+    设置静态数据
+    在项目运行之前，可以将当前网站中所有Servlet需要的【共享数据】注册web.xml
     ServletContext application =  request.getServletContext();
 	共享数据=application.getInitParameter("mysqlDriver");
     -->
@@ -104,7 +110,9 @@
         <session-timeout>1</session-timeout>
     </session-config>
 
-    <!--同时通知Tomcat这个过滤器Filter对何种请求进行【拦截检查】-->
+    <!--
+    设置过滤器
+    同时通知Tomcat这个过滤器Filter对何种请求进行【拦截检查】-->
     <filter>
         <filter-name>BFilter01</filter-name>
         <filter-class>B.Filter01</filter-class>
