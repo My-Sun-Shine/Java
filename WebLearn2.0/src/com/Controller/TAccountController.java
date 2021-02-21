@@ -33,6 +33,8 @@ public class TAccountController extends HttpServlet {
         String BalanceStr = request.getParameter("Balance");//金额
 
         //普通代理
+        //TAccountServiceImpl类中实现具体的方法
+        //TAccountServiceProxy为具体的方法外层添加事务
         /*TAccountServiceImpl accountServiceImpl = new TAccountServiceImpl();
         TAccountService accountService=new TAccountServiceProxy(accountServiceImpl);
         boolean result = accountService.tAccount(outAccount, intoAccount, BalanceStr);*/
@@ -52,6 +54,8 @@ public class TAccountController extends HttpServlet {
 
         /*
         * 使用ServiceFactory
+        *
+        * 使用invocationHandler接口invoke()方法进行JDK的动态代理，重写invoke
         * */
         TAccountServiceImpl accountServiceImpl = new TAccountServiceImpl();
         //这相当于TAccountServiceProxy，但这是Object类型，需要禁止转换
