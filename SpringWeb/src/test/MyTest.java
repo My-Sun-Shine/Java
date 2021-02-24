@@ -16,7 +16,7 @@ import java.util.List;
  * @Description
  */
 public class MyTest {
-    private String configLocation = "spring/mybatis/applicationContext.xml";
+    private String configLocation = "applicationContext.xml";
 
     /**
      * 在ClassPathXmlApplicationContext的构造方法中，读取文件，也就是按文件的内容依次创建对象
