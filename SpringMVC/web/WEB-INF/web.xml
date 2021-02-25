@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         version="3.1">
+    <!--1、注册中央调度器DispatcherServlet
+
+    在启动tomcat时，创建DispatcherServlet对象时，出错，找不到文件：/WEB-INF/SpringMVC-servlet.xml
+
+    默认找的文件命名是：<servlet-name>-servlet.xml
+
+    为什么要找文件<servlet-name>-servlet.xml？
+        DispatcherServlet在他的初始方法（init）中，要创建SpringMVC的容器对象（WebApplicationContext）
+        在创建容器时，需要读取容器的配置文件（xml文件）。默认的配置文件是 /WEB-INF/<servlet-name>-servlet.xml
+    -->
+    <servlet>
+        <servlet-name>SpringMVC</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+
+        <!-- 3、 需要给DispatcherServlet提供自定义配置文件的位置 -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:SpringMVC.xml</param-value>
+        </init-param>
+
+        <!--2、在服务器（tomcat）启动的时候，创建DispatcherServlet的实例对象-->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SpringMVC</servlet-name>
+        <!--
+           4、url-pattern:把请求交给指定的Servlet处理
+           把用户的请求交给DispatcherServlet,交给了DispatcherServlet的请求，才能够通过SpringMVC框架处理，使用框架的各种功能。
+
+           设置方式：
+           1.扩展名 :  *.xxx , xxx就是自定义的扩展名，例如*.do, *.action, *.mvc等等，不能使用 *.jsp
+           2.斜杠 "/"
+         -->
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    <absolute-ordering></absolute-ordering>
+</web-app>
