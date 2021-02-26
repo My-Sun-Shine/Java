@@ -34,9 +34,11 @@
 
            设置方式：
            1.扩展名 :  *.xxx , xxx就是自定义的扩展名，例如*.do, *.action, *.mvc等等，不能使用 *.jsp
-           2.斜杠 "/"
+           2.斜杠 "/" 相当于把所有的请求交给了中央调度器，但目前中央调度器只有处理some.do的处理器对象MyControler
+  	         p1.jpg, test.html没有对应的处理器对象，所以请求不能处理，是404.
+  	         使用“/”导致的是静态资源（图片，css,js,html）不能正常访问， 动态资源可以访问。
          -->
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <absolute-ordering></absolute-ordering>
 </web-app>

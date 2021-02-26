@@ -16,11 +16,19 @@
   </head>
   <body>
     <a href="learn01/some.do">发起learn01/some.do的请求</a>
+    <br/>
     <a href="learn02/some.do">发起learn02/some.do的请求</a>
+    <br/>
     <a href="learn02/first.do">发起learn02/first.do的请求</a>
+    <br/>
     <a href="learn02/a.do">发起learn02/a.do的请求</a>
+    <br/>
     <a href="learn02/other.do">发起learn02/other.do的请求</a>
+    <br/>
     <a href="learn02/second.do">发起learn02/second.do的请求</a>
+    <br/>
     <a href="learn02/b.do">发起learn02/b.do的请求</a>
+    <br/>
+    <img alt="不能显示" src="images/p1.jpg" style="width: 100px">
   </body>
 </html>

@@ -32,4 +32,13 @@
         <!-- 指定后缀：视图文件的扩展名 -->
         <property name="suffix" value=".jsp"/>
     </bean>
+
+    <!-- 处理静态资源,把静态资源的请求交给default这个Servlet -->
+    <mvc:default-servlet-handler/>
+
+    <!--
+           default-servlet-handler 和@RequestMapping有冲突的，导致静态资源可以访问
+          但动态资源不能访问， 解决方式，加入注解驱动
+     -->
+    <mvc:annotation-driven />
 </beans>
