@@ -22,6 +22,9 @@
 
     <bean id="/learn01/some.do" class="springmvc.learn01.controller.MyController"/>
 
+    <!-- 声明组件扫描器，指定@Controller所在的奥名 -->
+    <context:component-scan base-package="springmvc.learn02.controller" />
+
     <!-- 声明视图解析器，处理视图的 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 指定前缀： 视图的路径 -->
