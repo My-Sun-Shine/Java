@@ -24,7 +24,7 @@
 
     <!-- 声明组件扫描器，指定@Controller所在的奥名 -->
     <context:component-scan base-package="springmvc.learn02.controller,springmvc.learn04.controller,
-    springmvc.learn05.controller" />
+    springmvc.learn05.controller,springmvc.learn06.controller" />
     <!-- 声明视图解析器，处理视图的 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 指定前缀： 视图的路径 -->

@@ -12,6 +12,62 @@
         String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath() + "/";
     %>
     <base href="<%=basePath%>">
+    <script type="text/javascript" src="js/jquery-1.11.1-min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#button1").click(function () {
+                $.ajax({
+                    url: "learn06/some3.do",
+                    data: {
+                        "name": "zhangsan",
+                        "age": 23
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function (resp) {
+                        alert(resp.name + "   " + resp.age)
+                    }
+                })
+            })
+            $("#button2").click(function () {
+                $.ajax({
+                    url: "learn06/some4.do",
+                    type: "post",
+                    //dataType: "json",
+                    success: function (resp) {
+                        alert(resp)
+                    }
+                })
+            })
+            $("#button3").click(function () {
+                $.ajax({
+                    url: "learn06/some5.do",
+                    data: {
+                        "name": "zhangsan",
+                        "age": 23
+                    },
+                    type: "post",
+                    dataType: "json",
+                    success: function (resp) {
+                        alert(resp.name + "   " + resp.age)
+                    }
+                })
+            })
+            $("#button4").click(function () {
+                $.ajax({
+                    url: "learn06/some6.do",
+                    type: "post",
+                    dataType: "json",
+                    success: function (resp) {
+                        $.each(resp, function (i, n) {
+                            alert(n.name + "   |   " + n.age)
+                        })
+                    }
+                })
+            })
+        })
+
+    </script>
     <title>index.jsp发起请求</title>
 </head>
 <body>
@@ -36,36 +92,56 @@
 <a href="learn04/some.do">发起learn04/some.do的get请求</a>
 <br/>
 <form action="learn04/other.do" method="post">
-  <input type="submit" value="post请求learn04/other.do">
+    <input type="submit" value="post请求learn04/other.do">
 </form>
 <br/>
 <a href="learn04/first.do">发起learn04/first.do的get请求</a>
 <br/>
 <form action="learn04/first.do" method="post">
-  <input type="submit" value="post请求learn04/first.do">
+    <input type="submit" value="post请求learn04/first.do">
 </form>
 <hr/>
 请求参数，controller方法中的入参
 <br/>
 处理器方法的形参名和请求中参数名一样，按名称对应接收参数
 <form action="learn05/form1.do" method="post">
-    姓名:<input  type="text" name="name"><br>
+    姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="提交参数">
 </form>
 <br/>
 如果请求中参数名和处理器方法的形参名不一样，需要在处理器方法形参前面加入@RequestParam(value="请求中参数名")
 <form action="learn05/form2.do" method="post">
-    姓名:<input  type="text" name="rname"><br>
+    姓名:<input type="text" name="rname"><br>
     年龄:<input type="text" name="rage"> <br>
     <input type="submit" value="提交参数">
 </form>
 <br/>
 使用java对象接收请求的多个参数
 <form action="learn05/form3.do" method="post">
-    姓名:<input  type="text" name="name"><br>
+    姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="提交参数">
 </form>
+<hr/>
+controller方法中的返回值
+<br/>
+<form action="learn06/some1.do" method="post">
+    姓名:<input type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="提交参数some1">
+</form>
+<form action="learn06/some2.do" method="post">
+    姓名:<input type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="提交参数some2">
+</form>
+<button id="button1">发起some3的请求，返回值void</button>
+<br/>
+<button id="button2">发起some4的请求，返回值object--String</button>
+<br/>
+<button id="button3">发起some6的请求，返回值object--CLass</button>
+<br/>
+<button id="button4">发起some7的请求，返回值object--List</button>
 </body>
 </html>
