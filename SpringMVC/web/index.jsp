@@ -44,5 +44,28 @@
 <form action="learn04/first.do" method="post">
   <input type="submit" value="post请求learn04/first.do">
 </form>
+<hr/>
+请求参数，controller方法中的入参
+<br/>
+处理器方法的形参名和请求中参数名一样，按名称对应接收参数
+<form action="learn05/form1.do" method="post">
+    姓名:<input  type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="提交参数">
+</form>
+<br/>
+如果请求中参数名和处理器方法的形参名不一样，需要在处理器方法形参前面加入@RequestParam(value="请求中参数名")
+<form action="learn05/form2.do" method="post">
+    姓名:<input  type="text" name="rname"><br>
+    年龄:<input type="text" name="rage"> <br>
+    <input type="submit" value="提交参数">
+</form>
+<br/>
+使用java对象接收请求的多个参数
+<form action="learn05/form3.do" method="post">
+    姓名:<input  type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="提交参数">
+</form>
 </body>
 </html>
