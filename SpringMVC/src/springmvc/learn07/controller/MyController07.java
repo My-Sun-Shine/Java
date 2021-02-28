@@ -30,7 +30,7 @@ public class MyController07 {
     @RequestMapping("/doSome.do")
     public ModelAndView doSome() {
         ModelAndView mv = new ModelAndView();
-        mv.addObject("name", "zhangsan");
+        mv.addObject("name", "zhangSan");
         mv.addObject("age", 23);
         mv.setViewName("forward:/WEB-INF/view/learn07/show.jsp");
         return mv;
@@ -52,6 +52,7 @@ public class MyController07 {
      */
     @RequestMapping("/dispatch.do")
     public ModelAndView dispatchRequest(String name, Integer age) {
+        System.out.println("============dispatch========= name:" + name + "|age:" + age);
         ModelAndView mv = new ModelAndView();
         mv.addObject("name", name);
         mv.addObject("age", age);
@@ -60,8 +61,13 @@ public class MyController07 {
     }
 
     @RequestMapping("/doProcess.do")
-    public String doProcess() {
-        System.out.println("============doProcess=========");
+    public String doProcess(String name, Integer age) {
+        System.out.println("============doProcess========= name:" + name + "|age:" + age);
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("name", name);
+        mv.addObject("age", age);
+        mv.setViewName("learn07/show");
+        //return mv;
         return "learn07/show";
     }
 }

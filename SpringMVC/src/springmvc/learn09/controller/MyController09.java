@@ -31,9 +31,9 @@ public class MyController09 {
 
         //根据请求的参数中，抛出异常，异常交给springmvc框架的中央调取器处理。
         //异常抛出后， 中央调度器会调用异常处理器类，处理异常。
-//
-//		try{
-//
+        //
+        //try{
+        //
         if (!"zs".equals(name)) {
             throw new NameException("姓名不正确，必须是zs");
         }
@@ -42,15 +42,14 @@ public class MyController09 {
             throw new AgeException("年龄比较大了！！！");
         }
 
-//		}catch(Exception e){
-//			//
-//		}
-//
+        //}catch(Exception e){
+        //	//
+        //}
 
 
         //调用Service处理业务
-        mv.addObject("myname", name);
-        mv.addObject("myage", age);
+        mv.addObject("myName", name);
+        mv.addObject("myAge", age);
         //指定视图
         mv.setViewName("learn09/show");
 

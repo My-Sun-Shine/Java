@@ -7,9 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-   /WEB-INF/view/learn06/show.jsp ，显示Model中的数据（request作用域），逻辑名称 <br>
-   <h3>myname: ${myname }</h3> 
-   <h3>myage: ${myage }</h3> 
-   <h3>mystudent：${mystudent }</h3>
+   /WEB-INF/view/learn06/show.jsp<br>
+   <h3>myName: ${myName }</h3>
+   <h3>myAge: ${myAge }</h3>
+   <h3>myStudent：${myStudent }</h3>
 </body>
 </html>

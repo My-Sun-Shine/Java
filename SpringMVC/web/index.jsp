@@ -19,7 +19,7 @@
                 $.ajax({
                     url: "learn06/some3.do",
                     data: {
-                        "name": "zhangsan",
+                        "name": "zhangSan",
                         "age": 23
                     },
                     type: "post",
@@ -43,7 +43,7 @@
                 $.ajax({
                     url: "learn06/some5.do",
                     data: {
-                        "name": "zhangsan",
+                        "name": "zhangSan",
                         "age": 23
                     },
                     type: "post",
@@ -87,21 +87,20 @@
 <br/>
 <img alt="不能显示" src="images/p1.jpg" style="width: 100px">
 <hr/>
-指定请求的方式，使用@RequestMapping的method属性
+指定请求的方式：使用@RequestMapping的method属性
 <br/>
 <a href="learn04/some.do">发起learn04/some.do的get请求</a>
 <br/>
 <form action="learn04/other.do" method="post">
     <input type="submit" value="post请求learn04/other.do">
 </form>
-<br/>
 <a href="learn04/first.do">发起learn04/first.do的get请求</a>
 <br/>
 <form action="learn04/first.do" method="post">
     <input type="submit" value="post请求learn04/first.do">
 </form>
 <hr/>
-请求参数，controller方法中的入参
+处理器的不同的请求参数：
 <br/>
 处理器方法的形参名和请求中参数名一样，按名称对应接收参数
 <form action="learn05/form1.do" method="post">
@@ -109,14 +108,12 @@
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="提交参数">
 </form>
-<br/>
 如果请求中参数名和处理器方法的形参名不一样，需要在处理器方法形参前面加入@RequestParam(value="请求中参数名")
 <form action="learn05/form2.do" method="post">
     姓名:<input type="text" name="rname"><br>
     年龄:<input type="text" name="rage"> <br>
     <input type="submit" value="提交参数">
 </form>
-<br/>
 使用java对象接收请求的多个参数
 <form action="learn05/form3.do" method="post">
     姓名:<input type="text" name="name"><br>
@@ -124,8 +121,9 @@
     <input type="submit" value="提交参数">
 </form>
 <hr/>
-controller方法中的返回值
+处理器的返回值：
 <br/>
+处理器方法返回String, 表示视图，和数据无关
 <form action="learn06/some1.do" method="post">
     姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
@@ -140,7 +138,7 @@ controller方法中的返回值
 <br/>
 <button id="button2">发起some4的请求，返回值object--String</button>
 <br/>
-<button id="button3">发起some6的请求，返回值object--CLass</button>
+<button id="button3">发起some6的请求，返回值object--Class</button>
 <br/>
 <button id="button4">发起some7的请求，返回值object--List</button>
 <hr/>

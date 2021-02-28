@@ -26,10 +26,10 @@ public class MyController12 {
         System.out.println("执行了MyController处理器的doSome()");
         //some.do的请求交给doSome()方法处理。 方法名和some.do没有关系。
         ModelAndView mv = new ModelAndView();
-        mv.addObject("myname", name);
-        mv.addObject("myage", age);
+        mv.addObject("myName", name);
+        mv.addObject("myAge", age);
         //指定视图
-        mv.setViewName("learn11/show");
+        mv.setViewName("learn12/show");
 
         return mv;
     }

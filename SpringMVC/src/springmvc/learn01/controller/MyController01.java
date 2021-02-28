@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * @Created by Falling Stars
  * @Description
  */
-public class MyController implements Controller {
+public class MyController01 implements Controller {
     /**
      * 在SpringMVC配置式开发中，需要实现接口Controller，作为处理器类使用
      * 处理器类是处理用户请求的。也叫做后端处理器（控制器）
@@ -31,7 +31,7 @@ public class MyController implements Controller {
      */
     @Override
     public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView modelAndView=new ModelAndView();
+        ModelAndView modelAndView = new ModelAndView();
         //调用Servlet，处理请求，把结果对象放入视图中显示
 
         //把数据保存起来,框架对Model中的数据是放入到request作用域。

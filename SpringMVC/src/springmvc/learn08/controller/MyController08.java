@@ -46,7 +46,7 @@ public class MyController08 {
     /**
      * 处理器方法返回String，使用redirect重定向到视图页面
      * 语法：return "redirect:视图完整路径"
-     *
+     * <p>
      * redirect:的特点是不和视图解析器一同工作。
      */
     @RequestMapping("/doOther.do")

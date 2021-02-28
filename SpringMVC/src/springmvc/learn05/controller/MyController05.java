@@ -17,7 +17,7 @@ import springmvc.learn05.beans.Student;
  */
 
 /**
- * @Controller：创建处理器类的对象，处理器能够处理用户的请求。 位置：在类定义的上面
+ * @Controller： 创建处理器类的对象，处理器能够处理用户的请求。 位置：在类定义的上面
  * 说明：创建处理器类对象， 默认是单例对象
  */
 @Controller
@@ -45,8 +45,8 @@ public class MyController05 {
         ModelAndView mv = new ModelAndView();
         //调用Service处理业务
         //添加数据
-        mv.addObject("myname", name);
-        mv.addObject("myage", age);
+        mv.addObject("myName", name);
+        mv.addObject("myAge", age);
         //指定视图
         mv.setViewName("learn05/other");
 
@@ -57,7 +57,7 @@ public class MyController05 {
      * 逐个接收请求参数：
      * 请求中参数名和形参不一样，需要使用@RequestParam
      *
-     * @RequestParam:参数绑定，把请求参数和形参对应上 属性： 1，value 请求中参数名
+     * @RequestParam: 参数绑定，把请求参数和形参对应上 属性： 1，value 请求中参数名
      * 2, required boolean 默认是true
      * true:表示请求参数必须出现
      * false:可以不出现
@@ -73,8 +73,8 @@ public class MyController05 {
         ModelAndView mv = new ModelAndView();
         //调用Service处理业务
         //添加数据
-        mv.addObject("myname", name);
-        mv.addObject("myage", age);
+        mv.addObject("myName", name);
+        mv.addObject("myAge", age);
         //指定视图
         mv.setViewName("learn05/other");
 
@@ -83,7 +83,7 @@ public class MyController05 {
 
     /**
      * 使用java 对象接收请求的多个参数：
-     *   要求： 请求中参数名和对象的属性名必须一样，按名称对应给属性赋值
+     * 要求： 请求中参数名和对象的属性名必须一样，按名称对应给属性赋值
      */
     @RequestMapping(value = "/form3.do")
     public ModelAndView doForm3(Student stu) {
@@ -92,9 +92,9 @@ public class MyController05 {
         ModelAndView mv = new ModelAndView();
         //调用Service处理业务
         //添加数据
-        mv.addObject("myname", stu.getName());
-        mv.addObject("myage", stu.getAge());
-        mv.addObject("mystudent", stu);
+        mv.addObject("myName", stu.getName());
+        mv.addObject("myAge", stu.getAge());
+        mv.addObject("myStudent", stu);
         //指定视图
         mv.setViewName("learn05/other");
 

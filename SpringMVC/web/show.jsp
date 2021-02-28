@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-   show.jsp ，显示Model中的数据（request作用域），逻辑名称 <br>
+   show.jsp <br>
    <h3>name: ${param.name }</h3>
    <h3>age: ${param.age }</h3>
 </body>

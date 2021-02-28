@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-   /WEB-INF/view/learn08/show.jsp ，显示Model中的数据（request作用域），逻辑名称 <br>
+   /WEB-INF/view/learn08/show.jsp<br>
    <h3>name: ${param.name }</h3>
    <h3>age: ${param.age }</h3>
 </body>

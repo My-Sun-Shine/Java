@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 /**
- * @Controller：创建处理器类的对象，处理器能够处理用户的请求。 位置：在类定义的上面
+ * @Controller： 创建处理器类的对象，处理器能够处理用户的请求。 位置：在类定义的上面
  * 说明：创建处理器类对象， 默认是单例对象
  */
 @Controller
@@ -35,7 +35,7 @@ public class MyController06 {
      */
     @RequestMapping(value = "/some1.do")
     public String doSome1(Student student) {
-        System.out.println("接收了some.do的请求 name:" + student.getName() + "|age:" + student.getAge());
+        System.out.println("接收了some1.do的请求 name:" + student.getName() + "|age:" + student.getAge());
 
         //指定视图逻辑名称， 需要使用视图解析器， 对视图是forward
         return "learn06/show";
@@ -47,10 +47,10 @@ public class MyController06 {
      */
     @RequestMapping(value = "/some2.do")
     public String doSome2(Student student, HttpServletRequest request) {
-        System.out.println("接收了some.do的请求 name:" + student.getName() + "|age:" + student.getAge());
-        request.setAttribute("myname", student.getName());
-        request.setAttribute("myage", student.getAge());
-        request.setAttribute("mystudent", student);
+        System.out.println("接收了some2.do的请求 name:" + student.getName() + "|age:" + student.getAge());
+        request.setAttribute("myName", student.getName());
+        request.setAttribute("myAge", student.getAge());
+        request.setAttribute("myStudent", student);
         //指定视图的完整路径，不能使用视图解析器 , 视图执行 forward
         return "/WEB-INF/view/learn06/show.jsp";
     }
@@ -110,43 +110,41 @@ public class MyController06 {
 
     /**
      * 处理器方法返对象，对象表示数据。
-     *
+     * <p>
      * 框架处理返回值是Object--Student
      * 1.检查返回值的数据类型（String）,查找HttpMessageConverter接口的实现类对象列表，从中找到一个
      * 能处理这种类型的实现类对象（处理Student类型的返回值）。Student - MappingJackson2HttpMessageConverter.
-     *
+     * <p>
      * 2.使用HttpMessageConverter接口的实现类对象（MappingJackson2HttpMessageConverter），调用canWrite(),write()
      * 方法把返回值数据，按application/json;charset=UTF-8进行转换和处理。
-     *
+     * <p>
      * 3.框架使用@ResponseBody注解把2中的结果数据，通过HttpServletResponse对象输出给浏览器
-     *
      */
 
-    @RequestMapping(value="/some5.do")
+    @RequestMapping(value = "/some5.do")
     @ResponseBody
-    public Student doSome5(String name,Integer age) {
+    public Student doSome5(String name, Integer age) {
         System.out.println("接收了some4.do的请求 ");
         Student student = new Student();
         student.setAge(age);
-        student.setName("同学:"+name);
+        student.setName("同学:" + name);
         return student;
     }
 
     /**
      * 处理器方法返对象，对象表示数据。
-     *
+     * <p>
      * 框架处理返回值是Object--List<Student>
-     * 1.检查返回值的数据类型（List）,查找HttpMessageConveter接口的实现类对象列表，从中找到一个
+     * 1.检查返回值的数据类型（List）,查找HttpMessageConverter接口的实现类对象列表，从中找到一个
      * 能处理这种类型的实现类对象（处理List类型的返回值）。List - MappingJackson2HttpMessageConverter.
-     *
+     * <p>
      * 2.使用HttpMessageConverter接口的实现类对象（MappingJackson2HttpMessageConverter），调用canWrite(),write()
      * 方法把返回值数据，按application/json;charset=UTF-8进行转换和处理。
-     *
+     * <p>
      * 3.框架使用@ResponseBody注解把2中的结果数据，通过HttpServletResponse对象输出给浏览器
-     *
      */
 
-    @RequestMapping(value="/some6.do")
+    @RequestMapping(value = "/some6.do")
     @ResponseBody
     public List<Student> doSome6() {
         System.out.println("接收了some6.do的请求 ");
@@ -154,7 +152,7 @@ public class MyController06 {
         student.setAge(20);
         student.setName("张三");
 
-        Student stu  = new Student();
+        Student stu = new Student();
         stu.setName("李四");
         stu.setAge(30);
 

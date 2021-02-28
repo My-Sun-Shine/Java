@@ -1,7 +1,7 @@
-# SpringMVC的静态资源访问
-### web.xml
-* url-pattern标签值为*.do的时候，可以访问静态资源
-* url-pattern标签值改为/之后，无法访问静态资源，下面通过设置springmvc.xml来访问静态资源
+### SpringMVC的静态资源访问
+### 配置web.xml
+* <url-pattern />标签值为*.do的时候，可以访问静态资源
+* <url-pattern />标签值改为/之后，无法访问静态资源，下面通过设置SpringMVC.xml来访问静态资源
 ```
     <!-- 在Tomcat中，有一个专门用于处理静态资源访问的 Servlet – DefaultServlet。
          其<servlet-name/>为default可以处理各种静态资源访问请求

@@ -22,12 +22,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class MyController11 {
     @RequestMapping(value = "/some.do")
     //定义方法处理请求。 这是处理器方法
-    public ModelAndView doSome(Integer age,String name){
-        System.out.println("执行了MyController处理器的doSome()");
+    public ModelAndView doSome(Integer age, String name) {
+        System.out.println("执行了MyController11处理器的doSome()");
         //some.do的请求交给doSome()方法处理。 方法名和some.do没有关系。
         ModelAndView mv = new ModelAndView();
-        mv.addObject("myname", name);
-        mv.addObject("myage", age);
+        mv.addObject("myName", name);
+        mv.addObject("myAge", age);
         //指定视图
         mv.setViewName("learn11/show");
 

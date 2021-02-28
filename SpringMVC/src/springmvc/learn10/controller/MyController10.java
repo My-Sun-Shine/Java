@@ -36,8 +36,8 @@ public class MyController10 {
             throw new AgeException("年龄比较大了！！！");
         }
         // 调用Service处理业务
-        mv.addObject("myname", name);
-        mv.addObject("myage", age);
+        mv.addObject("myName", name);
+        mv.addObject("myAge", age);
         // 指定视图
         mv.setViewName("learn10/show");
 
