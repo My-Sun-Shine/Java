@@ -192,5 +192,12 @@ redirect: 表示重定向，实现 response.sendRedirect("xxx.jsp")
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="提交参数">
 </form>
+<hr/>
+两个拦截器
+<form action="/learn12/some.do" method="post">
+    姓名:<input  type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="提交参数">
+</form>
 </body>
 </html>

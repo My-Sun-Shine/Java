@@ -26,7 +26,7 @@
     <context:component-scan base-package="springmvc.learn02.controller,springmvc.learn04.controller,
     springmvc.learn05.controller,springmvc.learn06.controller,springmvc.learn07.controller,
     springmvc.learn08.controller,springmvc.learn09.controller,springmvc.learn10.controller,
-    springmvc.learn11.controller" />
+    springmvc.learn11.controller,springmvc.learn12.controller" />
     <!-- 声明视图解析器，处理视图的 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 指定前缀： 视图的路径 -->
@@ -57,5 +57,19 @@
             <bean class="springmvc.learn11.interceptors.MyInterceptor" />
         </mvc:interceptor>
 
+        <!-- 第一个拦截器 -->
+        <mvc:interceptor>
+            <!-- 拦截的uri地址 -->
+            <mvc:mapping path="/learn12/some.do"/>
+            <!-- 指定拦截器对象 -->
+            <bean class="springmvc.learn12.interceptors.MyInterceptor" />
+        </mvc:interceptor>
+        <!-- 第二个拦截器 -->
+        <mvc:interceptor>
+            <!-- 拦截的uri地址 -->
+            <mvc:mapping path="/learn12/some.do"/>
+            <!-- 指定拦截器对象 -->
+            <bean class="springmvc.learn12.interceptors.MyInterceptor2" />
+        </mvc:interceptor>
     </mvc:interceptors>
 </beans>
