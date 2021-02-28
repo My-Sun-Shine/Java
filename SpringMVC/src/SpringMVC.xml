@@ -25,7 +25,8 @@
     <!-- 声明组件扫描器，指定@Controller所在的奥名 -->
     <context:component-scan base-package="springmvc.learn02.controller,springmvc.learn04.controller,
     springmvc.learn05.controller,springmvc.learn06.controller,springmvc.learn07.controller,
-    springmvc.learn08.controller,springmvc.learn09.controller,springmvc.learn10.controller" />
+    springmvc.learn08.controller,springmvc.learn09.controller,springmvc.learn10.controller,
+    springmvc.learn11.controller" />
     <!-- 声明视图解析器，处理视图的 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 指定前缀： 视图的路径 -->
@@ -45,4 +46,16 @@
 
     <!-- 声明自定义异常处理器 -->
     <bean class="springmvc.learn09.exceptions.CustomerExceptionResolver" />
+
+    <!-- 声明拦截器，指定拦截的请求uri地址 -->
+    <mvc:interceptors>
+        <!-- 第一个拦截器 -->
+        <mvc:interceptor>
+            <!-- 拦截的uri地址 -->
+            <mvc:mapping path="/learn11/some.do"/>
+            <!-- 指定拦截器对象 -->
+            <bean class="springmvc.learn11.interceptors.MyInterceptor" />
+        </mvc:interceptor>
+
+    </mvc:interceptors>
 </beans>
