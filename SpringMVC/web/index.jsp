@@ -154,5 +154,21 @@ forward:表示转发，实现 request.getRequestDispatcher("xx.jsp").forward()
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="转发到其他的处理器">
 </form>
+<hr/>
+<form action="/learn08/doSome.do" method="post">
+    姓名:<input  type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="处理器方法返回ModelAndView重定向到视图">
+</form>
+<form action="/learn08/doOther.do" method="post">
+    姓名:<input  type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="处理器方法返回String重定向到视图">
+</form>
+<form action="/learn08/doRedirect.do" method="post">
+    姓名:<input  type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="重定向到其他的处理器">
+</form>
 </body>
 </html>

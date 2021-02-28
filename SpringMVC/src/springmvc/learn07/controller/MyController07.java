@@ -62,6 +62,6 @@ public class MyController07 {
     @RequestMapping("/doProcess.do")
     public String doProcess() {
         System.out.println("============doProcess=========");
-        return "learn07/show.jsp";
+        return "learn07/show";
     }
 }
