@@ -155,6 +155,7 @@ forward:表示转发，实现 request.getRequestDispatcher("xx.jsp").forward()
     <input type="submit" value="转发到其他的处理器">
 </form>
 <hr/>
+redirect: 表示重定向，实现 response.sendRedirect("xxx.jsp")
 <form action="/learn08/doSome.do" method="post">
     姓名:<input  type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
@@ -169,6 +170,20 @@ forward:表示转发，实现 request.getRequestDispatcher("xx.jsp").forward()
     姓名:<input  type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="重定向到其他的处理器">
+</form>
+<hr/>
+自定义异常处理
+<form action="/learn09/some.do" method="post">
+    姓名:<input  type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="提交参数">
+</form>
+<hr/>
+自定义异常处理(注解)
+<form action="/learn10/some.do" method="post">
+    姓名:<input  type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="提交参数">
 </form>
 </body>
 </html>

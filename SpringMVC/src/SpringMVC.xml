@@ -25,7 +25,7 @@
     <!-- 声明组件扫描器，指定@Controller所在的奥名 -->
     <context:component-scan base-package="springmvc.learn02.controller,springmvc.learn04.controller,
     springmvc.learn05.controller,springmvc.learn06.controller,springmvc.learn07.controller,
-    springmvc.learn08.controller" />
+    springmvc.learn08.controller,springmvc.learn09.controller,springmvc.learn10.controller" />
     <!-- 声明视图解析器，处理视图的 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 指定前缀： 视图的路径 -->
@@ -42,4 +42,7 @@
           但动态资源不能访问， 解决方式，加入注解驱动
      -->
     <mvc:annotation-driven />
+
+    <!-- 声明自定义异常处理器 -->
+    <bean class="springmvc.learn09.exceptions.CustomerExceptionResolver" />
 </beans>
