@@ -143,5 +143,16 @@ controller方法中的返回值
 <button id="button3">发起some6的请求，返回值object--CLass</button>
 <br/>
 <button id="button4">发起some7的请求，返回值object--List</button>
+<hr/>
+forward:表示转发，实现 request.getRequestDispatcher("xx.jsp").forward()
+<br/>
+<a href="learn07/doSome.do">处理器方法返回ModelAndView转发到视图</a>
+<br/>
+<a href="learn07/doOther.do">处理器方法返回String转发到视图</a>
+<form action="/learn07/doProcess.do" method="post">
+    姓名:<input type="text" name="name"><br>
+    年龄:<input type="text" name="age"> <br>
+    <input type="submit" value="转发到其他的处理器">
+</form>
 </body>
 </html>
