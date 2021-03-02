@@ -65,6 +65,22 @@
                     }
                 })
             })
+            $.ajax({
+                url: "${pageContext.request.contextPath }/student/listStudent.do",
+                type: "post",
+                success: function (resp) {
+                    //把resp的数据添加到tbody
+                    $("#stuBody1").html("");
+                    $.each(resp, function (i, n) {
+                        $("#stuBody1").append("<tr>")
+                            .append("<td>" + n.id + "</td>")
+                            .append("<td>" + n.name + "</td>")
+                            .append("<td>" + n.age + "</td>")
+                            .append("</tr>")
+                    })
+                }
+
+            })
         })
 
     </script>
@@ -155,47 +171,63 @@ forward:表示转发，实现 request.getRequestDispatcher("xx.jsp").forward()
 <hr/>
 redirect: 表示重定向，实现 response.sendRedirect("xxx.jsp")
 <form action="/learn08/doSome.do" method="post">
-    姓名:<input  type="text" name="name"><br>
+    姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="处理器方法返回ModelAndView重定向到视图">
 </form>
 <form action="/learn08/doOther.do" method="post">
-    姓名:<input  type="text" name="name"><br>
+    姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="处理器方法返回String重定向到视图">
 </form>
 <form action="/learn08/doRedirect.do" method="post">
-    姓名:<input  type="text" name="name"><br>
+    姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="重定向到其他的处理器">
 </form>
 <hr/>
 自定义异常处理
 <form action="/learn09/some.do" method="post">
-    姓名:<input  type="text" name="name"><br>
+    姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="提交参数">
 </form>
 <hr/>
 自定义异常处理(注解)
 <form action="/learn10/some.do" method="post">
-    姓名:<input  type="text" name="name"><br>
+    姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="提交参数">
 </form>
 <hr/>
 一个拦截器
 <form action="/learn11/some.do" method="post">
-    姓名:<input  type="text" name="name"><br>
+    姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="提交参数">
 </form>
 <hr/>
 两个拦截器
 <form action="/learn12/some.do" method="post">
-    姓名:<input  type="text" name="name"><br>
+    姓名:<input type="text" name="name"><br>
     年龄:<input type="text" name="age"> <br>
     <input type="submit" value="提交参数">
 </form>
+<hr/>
+SSM整合代码一
+<div>
+    <p>浏览全部的学生</p>
+    <table>
+        <thead>
+        <tr>
+            <td>id</td>
+            <td>姓名</td>
+            <td>年龄</td>
+        </tr>
+        </thead>
+        <tbody id="stuBody1">
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
