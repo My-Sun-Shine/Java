@@ -66,16 +66,32 @@
                 })
             })
             $.ajax({
-                url: "${pageContext.request.contextPath }/student/listStudent.do",
+                url: "/student/listStudent.do",
                 type: "post",
                 success: function (resp) {
                     //把resp的数据添加到tbody
-                    $("#stuBody1").html("");
+                    $("#stuBody").html("");
                     $.each(resp, function (i, n) {
-                        $("#stuBody1").append("<tr>")
+                        $("#stuBody").append("<tr>")
                             .append("<td>" + n.id + "</td>")
                             .append("<td>" + n.name + "</td>")
                             .append("<td>" + n.age + "</td>")
+                            .append("</tr>")
+                    })
+                }
+
+            })
+            $.ajax({
+                url: "/user/listUser.do",
+                type: "post",
+                success: function (resp) {
+                    //把resp的数据添加到tbody
+                    $("#userBody").html("");
+                    $.each(resp, function (i, n) {
+                        $("#userBody").append("<tr>")
+                            .append("<td>" + n.id + "</td>")
+                            .append("<td>" + n.username + "</td>")
+                            .append("<td>" + n.email + "</td>")
                             .append("</tr>")
                     })
                 }
@@ -225,7 +241,23 @@ SSM整合代码一
             <td>年龄</td>
         </tr>
         </thead>
-        <tbody id="stuBody1">
+        <tbody id="stuBody">
+        </tbody>
+    </table>
+</div>
+<hr/>
+SSM整合代码二
+<div>
+    <p>浏览全部的用户</p>
+    <table>
+        <thead>
+        <tr>
+            <td>id</td>
+            <td>姓名</td>
+            <td>邮箱</td>
+        </tr>
+        </thead>
+        <tbody id="userBody">
         </tbody>
     </table>
 </div>

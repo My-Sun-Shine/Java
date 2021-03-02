@@ -14,6 +14,7 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+
     <!-- 注册springmvc的中央调度器 -->
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
@@ -26,7 +27,21 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcherServlet</servlet-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>/student/listStudent.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>dispatcherServlet2</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:ssm2/conf/dispatcherServlet.xml</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcherServlet2</servlet-name>
+        <url-pattern>/user/listUser.do</url-pattern>
     </servlet-mapping>
     <!--end-->
     <!--1、注册中央调度器DispatcherServlet
