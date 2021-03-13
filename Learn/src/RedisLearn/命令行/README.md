@@ -8,6 +8,7 @@ dbsize：返回当前数据库的key的数量
 select [index]：使用其它数据库，index为0-15，redis默认使用16个库，可以对conf文件中的"databases 16"配置进行修改
 flushdb：删除当前库的数据
 exit或quit：退出命令行客户端，redis服务并没有退出
+info replication：查看当前服务信息
 ```
 
 ### Redis的Ket的操作命令
