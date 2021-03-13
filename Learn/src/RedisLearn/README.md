@@ -34,3 +34,14 @@ protected-mode yes 保护模式改为 no
 ```
 * RedisClient-win32.x86_64.2.0：直接双击jar使用或者在cmd中执行java -jar redisclient-win32.x86_64.2.0.jar
  
+## 密码设置
+* 修改redis.conf，找到requirepass行去掉注释，requirepass空格后就是密码
+```
+requirepass 123456 
+```
+* 重新启动服务
+```
+redis-cli.exe -h 127.0.0.1 -p 6379
+# 进入redis交互模式之后，由于设置了密码，需要执行auth命令，不然无法执行任何命令
+127.0.0.1:6379> auth 123456
+```
