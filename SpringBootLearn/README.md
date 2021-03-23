@@ -36,11 +36,12 @@
 ````java
 /**
  * 控制器
+ * 注解@Controller和@ResponseBody可以使用@RestController代替
  */
 @Controller
+@ResponseBody
 public class HelloController {
 
-    @ResponseBody
     @RequestMapping("/hello")
     public String hello() {
         return "Hello World!";
@@ -173,9 +174,12 @@ public @interface SpringBootConfiguration {
 /**
  *  @AutoConfigurationPackage 自动配置包
  *  @Import 给容器导入一个组件
+ *
  *  @Import({AutoConfigurationImportSelector.class})
  *  AutoConfigurationImportSelector（导入组件的选择器）中执行方法getAutoConfigurationEntry，执行方法getCandidateConfigurations将所有需要导入的组件以全类名的方式返回，
  *  这些组件就会被添加到容器中，会为容器导入更多的自动配置类(xxAutoConfiguration)，这就是给容器导入该场景下所有的组件，并配置好这些组件
+ *  注意：其中方法getCandidateConfigurations中的SpringFactoriesLoader.loadFactoryNames方法会从(spring-boot-autoconfigure包下)META-INF/spring.factories中获取需要导入的配置
+ *  J2EE的整体整合解决方案和自动配置都在spring-boot-autoconfigure-1.5.9.RELEASE.jar
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -201,3 +205,10 @@ public @interface EnableAutoConfiguration {
 public @interface AutoConfigurationPackage {
 }
 ```
+
+### IDEA：使用 Spring Initializer快速创建项目
+
+* resources文件夹中目录结构
+    * static：保存所有的静态资源，包括js css images等
+    * templates：保存所有的模板页面，Spring Boot默认jar包使用嵌入式的Tomcat，默认不支持JSP页面，但是可以使用模板引擎(freemarker、thymeleaf)
+    * application.properties：Spring Boot应用的配置文件；可以修改一些默认设置
