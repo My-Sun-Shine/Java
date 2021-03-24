@@ -1,4 +1,4 @@
-package com.springbootlearn.learn001.controller;
+package com.springbootlearn.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

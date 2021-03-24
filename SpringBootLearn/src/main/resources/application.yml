@@ -1,0 +1,31 @@
+server:
+  port: 8099
+
+person:
+  last_name: 1399237176@qq.com
+  #age: ${10} 不支持${}语法
+  age: 10
+  boss: false
+  birth: 2020/01/01
+  maps: { k1: v1,k2: 12 }
+  lists:
+    - abc
+    - def
+    - hdf
+  dog:
+    name: 黑狗
+    age: 12
+
+person01:
+  last_name: 张三
+  age: 18
+  boss: false
+  birth: 2020/01/01
+  maps: { k1: v1,k2: 12 }
+  lists:
+    - abc
+    - def
+    - hdf
+  dog:
+    name: 黑狗
+    age: 12
