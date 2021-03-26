@@ -123,13 +123,13 @@ class SpringBootLearnApplicationTests {
     * 支持松散语法绑定，无论yml文件是last_name、last-name、lastName都可以匹配到
     * 支持复杂类型的封装
     * 支持JSR303数据校验
-    * 不支持${}语法
+    * 不支持#{}语法
 * @Value：person01配置，Person01类
     * 需要一个一个的指定
     * 不支持松散语法绑定，yml文件是last_name，使用lastName无法匹配到，但是可以使用last_name、last-name匹配到
     * 不支持复杂类型的封装
     * 不支持JSR303数据校验
-    * 支持${}语法
+    * 支持#{}语法，类似于#{10*2}，会自动算出
 * 如果只是在某个业务逻辑中需要获取一下配置文件中的某项值，使用@Value
 * 如果专门编写了一个javaBean来和配置文件进行映射，就直接使用@ConfigurationProperties
 * 新加依赖，新增Person01类，新增person01配置，新增注解
@@ -154,5 +154,83 @@ class SpringBootLearnApplicationTests {
 public class Person {
     @Email
     private String lastName;
+}
+```
+
+### @PropertySource：加载指定的配置文件
+
+1. 注释掉application.yml和application.properties中person涉及的配置信息
+2. 新建person.properties
+3. 在Person类上标记@PropertySource(value = {"classpath:person.properties"})
+
+```java
+/**
+ * @PropertySource 加载指定的一个或者多个配置文件，新建yml格式配置不起作用
+ */
+@Component
+@ConfigurationProperties(prefix = "person")
+@PropertySource(value = {"classpath:person.properties"})
+@Validated
+public class Person {
+}
+```
+
+### @ImportResource和@Configuration、@Bean：导入组件
+
+* @ImportResource：导入Spring的配置文件，并让配置文件里面的内容生效
+* Spring Boot里面没有Spring的配置文件，编写的配置文件，无法自动识别，如果想让Spring的配置文件生效，则需要将@ImportResource标注在一个配置类上
+
+1. 新建测试类Test01和Test02
+2. 新建Spring配置文件beans.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="Test01" class="com.springbootlearn.bean.Test01"></bean>
+</beans>
+```
+
+3. 在启动类SpringBootLearnApplication上标注@ImportResource(locations = {"classpath:beans.xml"})导入组件
+4. 新建配置类AppConfig01，来使用@Configuration和@Bean导入组件
+
+```java
+/**
+ * @Configuration 指明当前类是一个配置类，就是来替代之前的Spring配置文件，在配置文件中用<bean><bean/>标签添加组件
+ */
+@Configuration
+public class AppConfig01 {
+    /**
+     * 使用@Bean给容器中添加组件 将方法的返回值添加到容器中；容器中这个组件默认的id就是方法名
+     * @return
+     */
+    @Bean
+    public Test02 test02() {
+        System.out.println("配置类@Bean为容器添加组件Test02");
+        return new Test02();
+    }
+}
+```
+
+4. 测试是否组件导入成功
+
+```java
+
+@SpringBootTest
+class SpringBootLearnApplicationTests {
+
+    @Autowired
+    ApplicationContext ioc;
+
+    @Test
+    void TestImportResource() {
+        System.out.println(ioc.containsBean("Test01"));//true
+    }
+
+    @Test
+    void TestConfigurationBean() {
+        System.out.println(ioc.containsBean("test02"));//true
+    }
 }
 ```
