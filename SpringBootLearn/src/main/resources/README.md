@@ -234,3 +234,29 @@ class SpringBootLearnApplicationTests {
     }
 }
 ```
+
+### 配置文件占位符
+
+* 随机数
+
+```
+不知道咋回事，$前面自动有斜杠
+${random.value}、${random.int}、${random.long}、${random.uuid}
+${random.int(10)}、${random.int[1024,65536]}
+```
+
+* 修改配置person和person01，进行测试
+
+```properties
+# ${person.maps.k1}占位符获取之前配置的值，如果没有可以是用:指定默认值比如${person.hello:hello}
+person.lastName=1399237176@qq.com
+person.age=${random.int}
+person.boss=false
+person.birth=2020/01/01
+person.maps.k1=v1${person.hello:hello}
+person.maps.k2=${random.int[1024,1025]}
+person.lists=abc,def,hdf,${person.maps.k1}
+person.dog.name=黑狗${random.uuid}
+person.dog.age=${random.int(10)}
+```
+

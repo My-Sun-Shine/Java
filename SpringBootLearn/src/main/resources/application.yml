@@ -17,8 +17,8 @@ server:
 #    age: 12
 
 person01:
-  last_name: 张三
-  age: 18
+  last_name: 张三${random.uuid}
+  age: ${random.int}
   boss: false
   birth: 2020/01/01
   maps: { k1: v1,k2: 12 }
