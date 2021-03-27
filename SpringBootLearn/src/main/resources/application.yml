@@ -1,5 +1,13 @@
 server:
   port: 8099
+spring:
+  profiles:
+    active: dev2
+
+# 设置选择哪个配置文件
+#spring:
+#  profiles:
+#    active: dev
 
 #person:
 #  last_name: 1399237176@qq.com
@@ -29,3 +37,15 @@ person01:
   dog:
     name: 黑狗
     age: 12
+
+---
+server:
+  port: 8083
+spring:
+  profiles: dev2
+
+---
+server:
+  port: 8084
+spring:
+  profiles: prod2

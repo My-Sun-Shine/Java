@@ -240,7 +240,6 @@ class SpringBootLearnApplicationTests {
 * 随机数
 
 ```
-不知道咋回事，$前面自动有斜杠
 ${random.value}、${random.int}、${random.long}、${random.uuid}
 ${random.int(10)}、${random.int[1024,65536]}
 ```
@@ -260,3 +259,45 @@ person.dog.name=黑狗${random.uuid}
 person.dog.age=${random.int(10)}
 ```
 
+### 多个配置文件设置
+
+* 多个Profile文件：在主配置文件编写的时候，文件名可以说是application-{profile}.properties或者application-{profile}.yml
+
+1. 新建application-dev.properties和application-prod.properties，分别重新设置端口号
+2. 在主配置文件中设置使用哪个配置文件
+
+```properties
+spring.profiles.active=dev
+```
+
+```yaml
+spring:
+  profiles:
+    active: dev
+```
+
+* yml支持多文档块方式：在application.yml文件中编写，以---分隔，编写多个配置信息，多个Profile文件配置的优先级高于这个
+
+```yaml
+server:
+  port: 8099
+spring:
+  profiles:
+    active: dev2
+---
+server:
+  port: 8083
+spring:
+  profiles: dev2
+---
+server:
+  port: 8084
+spring:
+  profiles: prod2
+```
+
+* 激活指定profile
+
+1. 在配置文件中指定spring.profiles.active=dev
+2. 命令行：java -jar [jar包名].jar --spring.profiles.active=dev
+3. 虚拟机参数：-Dspring.profiles.active=dev
