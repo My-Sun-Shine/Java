@@ -39,7 +39,7 @@
 
 * [配置文件能配置的属性参照](https://docs.spring.io/spring-boot/docs/2.4.4/reference/htmlsingle/#common-application-properties)
 
-1. SpringBoot启动的时候加载主配置类SpringBootLearnApplication，开启了自动配置功能**@EnableAutoConfiguration**
+1. SpringBoot启动的时候加载主配置类SpringBootLearnApplication，开启了自动配置功能 **@EnableAutoConfiguration**
 2. @EnableAutoConfiguration作用：将类路径下 META-INF/spring.factories 里面配置的所有EnableAutoConfiguration的值加入到了容器中
     * 利用AutoConfigurationImportSelector给容器中导入一些组件
     * 可以查看selectImports()方法的内容(或者其中的getAutoConfigurationEntry方法)
@@ -58,7 +58,7 @@ org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\
 ```
 
 3. 每一个自动配置类进行自动配置功能
-4. 以**HttpEncodingAutoConfiguration(Http编码自动配置)**为例解释自动配置原理
+4. 以 **HttpEncodingAutoConfiguration(Http编码自动配置)** 为例解释自动配置原理
 
 ```java
 // @Configuration表示这是一个配置类，可以给容器中添加组件
@@ -97,7 +97,7 @@ public class HttpEncodingAutoConfiguration {
 }
 ```
 
-5. 所有在配置文件中能配置的属性都是在xxxxProperties类中封装者‘；配置文件能配置什么就可以参照某个功能对应的这个属性类
+5. 所有在配置文件中能配置的属性都是在xxxxProperties类中封装；配置文件能配置什么就可以参照某个功能对应的这个属性类
 
 ```java
 //从配置文件中获取指定的值和bean的属性进行绑定
