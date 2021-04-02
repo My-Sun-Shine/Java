@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>成功！</h1>
+<!--th:text 将div里面的文本内容设置为 -->
+<div th:text="${hello}">这是显示欢迎信息</div>
+Established locale country: <span th:text="${#locale.country}">US</span>.
+<div th:object="${session.user}">
+    <p>Name:<span th:text="*{firstName}">Sebastian</span>.</p>
+    <p>Surname:<span th:text="*{lastName}">Pepper</span>.</p>
+    <p>Nationality:<span th:text="*{nationality}">Saturn</span>.</p>
+</div>
+</body>
+</body>
+</html>
