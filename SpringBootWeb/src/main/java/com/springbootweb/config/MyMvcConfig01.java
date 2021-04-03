@@ -1,6 +1,9 @@
 package com.springbootweb.config;
 
 
+import com.springbootweb.component.MyLocaleResolver;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -18,6 +21,7 @@ public class MyMvcConfig01 implements WebMvcConfigurer {
 
     /**
      * 所有的WebMvcConfigurer组件都会一起起作用
+     *
      * @return
      */
     @Bean
@@ -31,4 +35,10 @@ public class MyMvcConfig01 implements WebMvcConfigurer {
         };
         return webMvcConfigurer;
     }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        return new MyLocaleResolver();
+    }
+
 }
