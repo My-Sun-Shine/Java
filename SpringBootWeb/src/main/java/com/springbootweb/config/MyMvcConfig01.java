@@ -1,11 +1,13 @@
 package com.springbootweb.config;
 
 
+import com.springbootweb.component.LoginHandlerInterceptor;
 import com.springbootweb.component.MyLocaleResolver;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -31,10 +33,19 @@ public class MyMvcConfig01 implements WebMvcConfigurer {
             public void addViewControllers(ViewControllerRegistry registry) {
                 registry.addViewController("/").setViewName("index");
                 registry.addViewController("/index.html").setViewName("index");
+                registry.addViewController("/main.html").setViewName("dashboard");
+            }
+
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                //添加自定义的拦截器，并且添加拦截路径，以及排除不需要拦截的路径
+                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**")
+                        .excludePathPatterns("/index.html", "/", "/user/login");
             }
         };
         return webMvcConfigurer;
     }
+
 
     @Bean
     public LocaleResolver localeResolver() {

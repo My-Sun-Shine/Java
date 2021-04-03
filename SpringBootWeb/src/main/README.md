@@ -159,3 +159,145 @@ public class MyMvcConfig01 implements WebMvcConfigurer {
 <a class="btn btn-sm" th:href="@{/index.html(l='zh_CN')}">中文</a>
 <a class="btn btn-sm" th:href="@{/index.html(l='en_US')}">English</a>
 ```
+
+### 登陆
+
+1. 禁用缓存
+
+```properties
+# 禁用缓存
+spring.thymeleaf.cache=false
+```
+
+2. 修改Index页面
+
+```html
+<!--th:if判断提示是否存在，存在则显示-->
+<form class="form-signin" action="dashboard.html" th:action="@{/user/login}" method="post">
+    <p style="color: red" th:text="${msg}" th:if="${not #strings.isEmpty(msg)}"></p>
+</form>
+```
+
+3. 新建控制器
+
+```java
+
+@Controller
+@RequestMapping("/user")
+public class UserController {
+    @PostMapping("/login")
+    public String login(String username, String password, Map<String, Object> map, HttpSession session) {
+        if (StringUtils.isNotEmpty(username) && StringUtils.equals("123456", password)) {
+            //登陆成功，防止表单重复提交，可以重定向到主页
+            session.setAttribute("loginUser", username);
+            return "redirect:/main.html";
+        } else {
+            //登陆失败
+            map.put("msg", "用户名密码错误");
+            return "index";
+        }
+    }
+}
+```
+
+4. 自定义拦截器
+
+```java
+public class LoginHandlerInterceptor implements HandlerInterceptor {
+    //目标方法执行之前
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        Object user = request.getSession().getAttribute("loginUser");
+        if (user == null) {
+            //未登陆，返回登陆页面
+            request.setAttribute("msg", "没有权限请先登陆");
+            request.getRequestDispatcher("/index.html").forward(request, response);
+            return false;
+        } else {
+            return true;//已登陆，放行请求
+        }
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    }
+
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+    }
+}
+```
+
+5. 添加重定向路径映射，已经注册拦截器
+
+```java
+
+@Configuration
+public class MyMvcConfig01 implements WebMvcConfigurer {
+
+    @Bean
+    public WebMvcConfigurer configurer01() {
+        WebMvcConfigurer webMvcConfigurer = new WebMvcConfigurer() {
+            @Override
+            public void addViewControllers(ViewControllerRegistry registry) {
+                registry.addViewController("/").setViewName("index");
+                registry.addViewController("/index.html").setViewName("index");
+                registry.addViewController("/main.html").setViewName("dashboard");
+            }
+
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                //添加自定义的拦截器，并且添加拦截路径，以及排除不需要拦截的路径
+                registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**")
+                        .excludePathPatterns("/index.html", "/", "/user/login");
+            }
+        };
+        return webMvcConfigurer;
+    }
+}
+```
+
+6. 在dashboard.html页面显示登陆账号
+
+```html
+<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://getbootstrap.com/docs/4.0/examples/dashboard/#"
+   th:text="${session.loginUser}">Company name</a>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
