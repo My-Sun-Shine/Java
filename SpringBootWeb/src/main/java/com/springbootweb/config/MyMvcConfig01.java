@@ -40,7 +40,7 @@ public class MyMvcConfig01 implements WebMvcConfigurer {
             public void addInterceptors(InterceptorRegistry registry) {
                 //添加自定义的拦截器，并且添加拦截路径，以及排除不需要拦截的路径
                 registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**")
-                        .excludePathPatterns("/index.html", "/", "/user/login");
+                        .excludePathPatterns("/index.html", "/", "/user/login","/error","/hello/**");
             }
         };
         return webMvcConfigurer;
