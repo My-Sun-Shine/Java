@@ -19,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @Description
  */
 @Configuration
-public class MyMvcConfig01 implements WebMvcConfigurer {
+public class MyMvcConfig implements WebMvcConfigurer {
 
     /**
      * 所有的WebMvcConfigurer组件都会一起起作用
