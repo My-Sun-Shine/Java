@@ -69,3 +69,17 @@ public class CacheAutoConfiguration {
     }
 }
 ```
+
+## 整合redis作为缓存
+
+* pom.xml中引入redis的依赖，使用的配置就会变成RedisCacheConfiguration
+* RedisCacheConfiguration会为容器添加RedisCacheManager组件
+* RedisCacheManager会创建RedisCache作为缓存组件，可以通过RedisCache来操作缓存
+* RedisCacheConfiguration还会自动注入RedisAutoConfiguration配置组件
+* RedisAutoConfiguration配置会注入StringRedisTemplate和RedisTemplate<Object, Object>的组件来操作redis
+
+#### 自定义redis
+
+* 使用RedisTemplate存储对象时，框架默认使用jdk的序列化机制，使用自定义RedisTemplate，改成Jackson2JsonRedisSerializer
+* 使用自定义RedisCacheManager，开启默认会将CacheName作为key的前缀
+
