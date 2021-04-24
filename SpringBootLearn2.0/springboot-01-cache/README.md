@@ -25,3 +25,47 @@
 * @EnableCaching 开启基于注解的缓存
 * keyGenerator：缓存数据时key生成策略
 * serialize：缓存数据时value序列化策略
+
+### 自动配置类CacheAutoConfiguration
+
+* 默认生效的配置类：SimpleCacheConfiguration
+* SimpleCacheConfiguration给容器中注册了一个CacheManager(ConcurrentMapCacheManager)
+* ConcurrentMapCacheManager可以获取和创建ConcurrentMapCache类型的缓存组件，它的作用将数据保存在ConcurrentMap中
+* 新建MyCacheConfig类，自定义keyGenerator，并在方法上指定使用该keyGenerator
+
+```java
+
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnClass(CacheManager.class)
+@ConditionalOnBean(CacheAspectSupport.class)
+@ConditionalOnMissingBean(value = CacheManager.class, name = "cacheResolver")
+@EnableConfigurationProperties(CacheProperties.class)
+@AutoConfigureAfter({CouchbaseDataAutoConfiguration.class, HazelcastAutoConfiguration.class, HibernateJpaAutoConfiguration.class, RedisAutoConfiguration.class})
+@Import({CacheConfigurationImportSelector.class, CacheManagerEntityManagerFactoryDependsOnPostProcessor.class})
+public class CacheAutoConfiguration {
+
+    static class CacheConfigurationImportSelector implements ImportSelector {
+        @Override
+        public String[] selectImports(AnnotationMetadata importingClassMetadata) {
+            CacheType[] types = CacheType.values();
+            String[] imports = new String[types.length];
+            for (int i = 0; i < types.length; i++) {
+                imports[i] = CacheConfigurations.getConfigurationClass(types[i]);
+            }
+            return imports;
+            // 返回下面的自动配置类
+            // org.springframework.boot.autoconfigure.cache.GenericCacheConfiguration
+            // org.springframework.boot.autoconfigure.cache.JCacheCacheConfiguration
+            // org.springframework.boot.autoconfigure.cache.EhCacheCacheConfiguration
+            // org.springframework.boot.autoconfigure.cache.HazelcastCacheConfiguration
+            // org.springframework.boot.autoconfigure.cache.InfinispanCacheConfiguration
+            // org.springframework.boot.autoconfigure.cache.CouchbaseCacheConfiguration
+            // org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration
+            // org.springframework.boot.autoconfigure.cache.CaffeineCacheConfiguration
+            // org.springframework.boot.autoconfigure.cache.GuavaCacheConfiguration
+            // org.springframework.boot.autoconfigure.cache.SimpleCacheConfiguration【默认】
+            // org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration
+        }
+    }
+}
+```

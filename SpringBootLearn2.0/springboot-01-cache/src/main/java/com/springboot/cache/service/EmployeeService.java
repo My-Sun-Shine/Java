@@ -37,11 +37,28 @@ public class EmployeeService {
      * unless="#a0==2"：如果第一个参数的值是2，结果不缓存
      * <p>
      * sync：是否使用异步模式，默认false
-     *
-     * @param id
-     * @return
+     * <p>
+     * <p>
+     * 运行流程：以SimpleCacheConfiguration为例
+     * <p>
+     * 1、SimpleCacheConfiguration为容器注册CacheManager组件ConcurrentMapCacheManager
+     * <p>
+     * 2、方法运行之前
+     * ConcurrentMapCacheManager使用getCache()先获取相应的缓存，第一次获取缓存如果没有Cache组件会自动创建
+     * 然后再去查询Cache（缓存组件ConcurrentMapCache），使用lookup()按照cacheNames指定的名字获取
+     * <p>
+     * 3、去Cache中查找缓存的内容，使用一个key，默认就是方法的参数，generateKey()
+     * key是按照某种策略生成的；默认是使用keyGenerator生成的，默认使用SimpleKeyGenerator生成key
+     * SimpleKeyGenerator生成key的默认策略：
+     * 如果没有参数；key=new SimpleKey()
+     * 如果有一个参数：key=参数的值
+     * 如果有多个参数：key=new SimpleKey(params)
+     * <p>
+     * 7、没有查到缓存就调用目标方法；
+     * 5、将目标方法返回的结果，放进缓存中
      */
     @Cacheable(value = {"employee"}, key = "#id")
+    //@Cacheable(value = {"employee"}, keyGenerator = "myKeyGenerator")//指定自定义KeyGenerator
     public Employee getEmp(Integer id) {
         System.out.println("查询" + id + "号员工");
         Employee emp = employeeMapper.getEmpById(id);
