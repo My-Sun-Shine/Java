@@ -1,0 +1,35 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: cloud-sentinel
+  cloud:
+    # 指定nacos控制台地址,配置注册ip:端口，注意即使是80端口也不可能省略
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    sentinel:
+      transport:
+        dashboard: 192.168.110.206:8099 # sentinel服务端地址
+      eager: true # 取消延迟加载
+      # sentiel 持久化到nacos
+      datasource:
+        ds1:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: sentinel-flow
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow # 限流
+        ds2:
+          nacos:
+            server-addr: ${spring.cloud.nacos.discovery.server-addr}
+            dataId: sentinel-degrade
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: degrade # 熔断
+feign:
+  hystrix:
+    enabled: true #打开feign对hustrix的支持,FeignClient 中的 fallback不起任何作用
+# 因为Fallback是通过Hystrix实现的
+# 所以需要开启Hystrix，spring boot application.properties文件配置feign.hystrix.enabled=true，这样就开启了Fallback

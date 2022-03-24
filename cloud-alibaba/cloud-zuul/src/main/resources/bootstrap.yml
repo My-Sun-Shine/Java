@@ -1,0 +1,57 @@
+server:
+  port: 7766
+spring:
+  application:
+    name: cloud-zuul
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        enabled: true
+        server-addr: 127.0.0.1:8848
+        extension-configs[0]:
+          data-id: cloud-config-zuul.yml
+          group: DEFAULT_GROUP
+          refresh: true
+  main:
+    allow-bean-definition-overriding: true
+
+zuul:
+  # Zuul网关的限流保护
+  ratelimit:
+    enabled: true # 开启限流保护
+    default-policy:
+      # 60s内请求超过3次，服务端就抛出异常，60s后可以恢复正常请求
+      limit: 3
+      refresh-interval: 60
+      type: origin #针对IP进行限流，不影响其他IP
+    policies:
+      cloud-account:
+        limit: 3
+        refresh-interval: 60
+        type: origin #针对IP进行限流，不影响其他IP
+  # 开启zuul网关的重试机制
+  retryable: true
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 8000
+
+# ribbon超时时间设置：建议设置比Hystrix小
+ribbon:
+  ConnectTimeout: 5000 # 请求连接的超时时间: 默认5000ms
+  ReadTimeout: 5000 # 请求处理的超时时间: 默认5000ms
+  # 重试次数：MaxAutoRetries表示访问服务集群下原节点（同路径访问）；MaxAutoRetriesNextServer表示访问服务集群下其余节点（换台服务器）
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+  OkToRetryOnAllOperations: true # 开启重试
+
+
+
+
+
+

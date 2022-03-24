@@ -1,0 +1,11 @@
+server:
+  port: 8082
+spring:
+  #服务应用名字
+  application:
+    name: cloud-consumer
+  cloud:
+    # 指定nacos控制台地址,配置注册ip:端口，注意即使是80端口也不可能省略
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848

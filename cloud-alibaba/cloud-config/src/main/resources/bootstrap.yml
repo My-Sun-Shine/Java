@@ -1,0 +1,20 @@
+server:
+  port: 8084
+spring:
+  # 服务应用名称
+  application:
+    name: cloud-config
+  cloud:
+    # 指定nacos控制台地址,配置注册ip:端口，注意即使是80端口也不可能省略
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+      config:
+        enabled: true
+        server-addr: 127.0.0.1:8848
+        prefix: cloud-config
+        file-extension: yml
+  profiles:
+    active: dev
+# 配置文件的规则为
+# ${spring.cloud.nacos.config.prefix}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
